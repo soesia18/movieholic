@@ -8,5 +8,5 @@ import java.util.List;
 public class User {
     private String email;
     private String password;
-    private List<Movie> userMovies;
+    //private List<Movie> userMovies;
 }
