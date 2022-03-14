@@ -1,0 +1,31 @@
+ul.top-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+ul.top-nav li {
+    margin: 2px;
+}
+
+ul.top-nav .right {
+    float: right;
+}
+ul.top-nav .left {
+    float: left;
+}
+
+ul.top-nav .item {
+    text-decoration: none;
+    color: #e1e1e1;
+}
+
+ul.top-nav .item:hover {
+    color: white;
+}
+
+ul.top-nav #icon {
+    width: 5%;
+}
