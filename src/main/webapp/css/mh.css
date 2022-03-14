@@ -29,3 +29,26 @@ ul.top-nav .item:hover {
 ul.top-nav #icon {
     width: 5%;
 }
+
+.searchbar {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    border-radius: 5px;
+    background-color:  darkgray;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.searchbar #searchInput {
+    width: 92%;
+    background-color: darkgray;
+    border-radius: 5px;
+    border: none;
+}
+
+.searchbar img {
+    margin: 2px;
+    width: 4%;
+}
