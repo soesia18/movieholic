@@ -5,12 +5,12 @@ function searchMovie (searchString, page) {
                 value.json().then(data => {
                     console.log(data);
 
-                    var table = '';
+                    let table = '';
 
                     data.results.forEach(movie => {
                         table += '<tr>';
                         table += '<td>' + movie.original_title + '</td>';
-                        table += '<td><img src="https://image.tmdb.org/t/p/original' + movie.poster_path + '" width="10%"></td>';
+                        table += '<td><img onclick="getTMDBInformation(' + movie.id + ')" src="https://image.tmdb.org/t/p/original' + movie.poster_path + '" width="10%" alt="IMG"></td>';
                         table += '</tr>';
                     })
 
@@ -18,4 +18,13 @@ function searchMovie (searchString, page) {
                 })
             })
     }
+}
+
+function getTMDBInformation (tmdbID) {
+    fetch('./api/search/' + tmdbID)
+        .then(result => {
+            result.json().then(data => {
+                console.log(data);
+            })
+        })
 }

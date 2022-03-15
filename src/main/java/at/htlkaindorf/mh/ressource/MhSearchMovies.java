@@ -3,6 +3,7 @@ package at.htlkaindorf.mh.ressource;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
@@ -19,6 +20,18 @@ public class MhSearchMovies {
         searchString = searchString.replace(" ", "%20");
         URI uri = URI.create("http://api.themoviedb.org/3/search/movie?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE&query=" + searchString + "&page=" + page);
 
+        return getResponse(uri);
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response getTMDBMovieInformation(@PathParam("id") int movieID) {
+        URI uri = URI.create("http://api.themoviedb.org/3/movie/" + movieID + "?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE");
+
+        return getResponse(uri);
+    }
+
+    private Response getResponse(URI uri) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
