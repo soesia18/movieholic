@@ -1,3 +1,5 @@
+let _jwt;
+
 function searchMovie(searchString, page) {
     if (searchString !== "") {
         fetch('./api/search/' + searchString + '/' + page)
@@ -63,4 +65,31 @@ function login(){
 
 function closeLogin(){
     document.querySelector(".popup").classList.remove("active");
+}
+
+function checkLogin(tfEmail, tfPassword){
+    if (tfEmail === '' || tfPassword === ''){
+        alert("Bitte füllen Sie alle Login Felder aus");
+        return;
+    }
+
+    let d = {
+        "email": tfEmail,
+        "password": tfPassword
+    }
+
+    fetch("./api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(d)
+    }).then(response => {
+        if (response.status !== 200) {
+            alert(response.status + " " + response.statusText);
+            return;
+        }
+        _jwt = response.headers.get("Authorization");
+        document.querySelector(".popup").classList.remove("active");
+    });
 }

@@ -57,7 +57,6 @@
 
 <div class="popup">
     <div class="close-login" onclick="closeLogin()">&times;</div>
-    <form action="">
         <div class="form">
             <h2>Anmelden</h2>
             <div class="form-element">
@@ -73,13 +72,12 @@
                 <label for="remember-me">Remember me</label>
             </div>
             <div class="form-element">
-                <button type="submit">Login</button>
+                <button type="submit" onclick="checkLogin(email.value, password.value)">Login</button>
             </div>
             <div class="form-element">
                 <a href="#">Passwort vergessen?</a>
             </div>
         </div>
-    </form>
 </div>
 </body>
 </html>
