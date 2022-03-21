@@ -24,7 +24,7 @@ function searchMovie(searchString, page) {
                                 '  <div class="card-body">\n' +
                                 '    <h4 class="card-title">' + movie.original_title + '</h4>\n' +
                                 '    <p class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                                '    <a href="#" class="btn btn-primary">See More</a>\n' +
+                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
                                 '  </div>\n' +
                                 '</div>';
                             let item = '<li class="list-group-item">' + card + '</li>';
