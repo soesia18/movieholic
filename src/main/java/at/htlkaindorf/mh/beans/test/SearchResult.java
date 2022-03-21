@@ -1,10 +1,8 @@
-package at.htlkaindorf.mh.beans;
+package at.htlkaindorf.mh.beans.test;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Arrays;
 
 @Data
 @AllArgsConstructor
