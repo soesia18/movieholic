@@ -56,3 +56,11 @@ function getIMDBInformation(imdbID) {
         })
 
 }
+
+function login(){
+    document.querySelector(".popup").classList.add("active");
+}
+
+function closeLogin(){
+    document.querySelector(".popup").classList.remove("active");
+}
