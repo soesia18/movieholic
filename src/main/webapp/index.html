@@ -57,27 +57,29 @@
 
 <div class="popup">
     <div class="close-login" onclick="closeLogin()">&times;</div>
-    <div class="form">
-        <h2>Anmelden</h2>
-        <div class="form-element">
-        <label for="email">Email</label>
-        <input type="text" id="email" placeholder="E-Mail Adresse" required>
+    <form action="">
+        <div class="form">
+            <h2>Anmelden</h2>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="E-Mail Adresse" required>
+            </div>
+            <div class="form-element">
+                <label for="password">Passwort</label>
+                <input type="password" id="password" placeholder="Passwort" required>
+            </div>
+            <div class="form-element">
+                <input type="checkbox" id="remember-me">
+                <label for="remember-me">Remember me</label>
+            </div>
+            <div class="form-element">
+                <button type="submit">Login</button>
+            </div>
+            <div class="form-element">
+                <a href="#">Passwort vergessen?</a>
+            </div>
         </div>
-        <div class="form-element">
-            <label for="password">Passwort</label>
-            <input type="password" id="password" placeholder="Passwort" required>
-        </div>
-        <div class="form-element">
-            <input type="checkbox" id="remember-me">
-            <label for="remember-me">Remember me</label>
-        </div>
-        <div class="form-element">
-            <button>Anmelden</button>
-        </div>
-        <div class="form-element">
-            <a href="#">Passwort vergessen?</a>
-        </div>
-    </div>
+    </form>
 </div>
 </body>
 </html>
