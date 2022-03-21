@@ -1,6 +1,13 @@
 let _jwt;
 
-function searchMovie(searchString, page) {
+function searchMovie(searchString, page, genre) {
+
+    _genres.forEach(genres => {
+        if (genres.name === genre) {
+            /*alert(genres.id);*/
+        }
+    })
+
     if (searchString !== "") {
         fetch('./api/search/' + searchString + '/' + page)
             .then(value => {
@@ -56,7 +63,25 @@ function getIMDBInformation(imdbID) {
                 console.log(data);
             })
         })
+}
 
+let _genres;
+
+function loadGenres() {
+    fetch('./api/genres')
+        .then(result => {
+            result.json().then(data => {
+                console.log(data);
+                let genres = '<option value="Alle">Alle</option>';
+                _genres = data.genres;
+
+                data.genres.forEach(genre => {
+                    genres += '<option value="' + genre.name + '">' + genre.name + '</option>';
+                })
+
+                document.getElementById('search_param').innerHTML = genres;
+            })
+        })
 }
 
 function login(){

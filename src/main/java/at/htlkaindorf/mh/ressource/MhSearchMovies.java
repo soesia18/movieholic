@@ -48,7 +48,7 @@ public class MhSearchMovies {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getIMDBInformation(@PathParam("id") String imdbID) {
         URI uri = URI.create("http://imdb-api.com/de/API/Title/k_gjl52lcn/" + imdbID + "/FullActor,FullCast,Posters,Images,Trailer,Ratings,Wikipedia,");
-
+        //http://api.themoviedb.org/3/search/movie?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE&page=1&query=saw&include_adult=false&with_genres=horror
         return getResponse(uri);
     }
 

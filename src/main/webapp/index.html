@@ -14,45 +14,27 @@
     <link rel="stylesheet" href="css/login.css">
     <script src="js/mh.js"></script>
 </head>
-<body>
+<body onload="loadGenres()">
 <ul class="top-nav">
     <li class="item left"><a>Watchlist</a></li>
     <li class="item left"><a>Genre</a></li>
     <li class="item right"><a onclick="login()">Login</a></li>
 </ul>
-<div class="searchbar">
+<!--<div class="searchbar">
     <img src="images/1200px-OOjs_UI_icon_search-ltr.svg.png" alt="">
     <label for="searchInput"></label><input type="text" id="searchInput" onkeyup="searchMovie(searchInput.value, 1)">
+</div>-->
+
+<div class="searchbar">
+    <img src="images/1200px-OOjs_UI_icon_search-ltr.svg.png" alt="">
+   <input id="searchInput" onkeyup="searchMovie(searchInput.value, 1, search_param.value)" type="text" placeholder="Search term...">
+    <select style="width: 20%;" name="search_param" id="search_param" class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown">
+        <option value="all">All</option>
+    </select>
 </div>
 
-<div class="col-md-9 col-md-push-1">
-    <h3 class="text-center">Manage Users</h3>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-8 col-xs-offset-2">
-                <form action="#" method="get" id="searchForm" class="input-group">
-
-                    <div class="input-group-btn search-panel">
-                        <select name="search_param" id="search_param" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <option value="all">All</option>
-                            <option value="username">Username</option>
-                            <option value="email">Email</option>
-                            <option value="studentcode">Student Code</option>
-                        </select>
-                    </div>
-                    <input type="text" class="form-control" name="x" placeholder="Search term...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
-                           <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-                </form><!-- end form -->
-            </div><!-- end col-xs-8 -->
-        </div><!-- end row -->
-    </div><!-- end container -->
-</div><!-- end col-md-9 -->
-
-<ul style="text-align: center" id="list" class="list-group list-group-horizontal">
+<ul style="text-align: center; margin-top: 25px" id="list" class="list-group list-group-horizontal">
 </ul>
 
 <div class="popup">

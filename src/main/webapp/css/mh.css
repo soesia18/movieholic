@@ -36,19 +36,26 @@ ul.top-nav #icon {
     margin-right: auto;
     margin-top: 5px;
     border-radius: 5px;
-    background-color:  darkgray;
+    background-color: #89cff0;
     overflow: hidden;
     padding: 5px;
+
+    text-align: center;
 }
 
 .searchbar #searchInput {
-    width: 92%;
-    background-color: darkgray;
+    width: 70%;
+    background-color: #89cff0;
     border-radius: 5px;
     border: none;
+    border-bottom-color: #89cff0;
 }
 
 .searchbar img {
     margin: 2px;
     width: 4%;
+}
+
+textarea:focus, input:focus{
+    outline: none;
 }
