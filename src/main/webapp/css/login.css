@@ -1,6 +1,5 @@
 .popup {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
     box-sizing: border-box;
 
     position: absolute;
@@ -44,12 +43,12 @@
 .popup .form {
     text-align: center;
     color: #222;
-    margin: 10px 0px 20px;
+    margin: 10px 0 20px;
     font-size: 25px;
 }
 
 .popup .form-element {
-    margin: 15px 0px;
+    margin: 15px 0;
 }
 
 .popup .form .form-element label {

@@ -14,6 +14,14 @@ function searchMovie(searchString, page, genre) {
                 console.log(value);
                 value.json().then(data => {
                     console.log(data);
+                    document.getElementById('searchResult').innerHTML = '<a id="leftSlide" href="#">\n' +
+                        '        <span class="glyphicon glyphicon-chevron-left"></span>\n' +
+                        '    </a>\n' +
+                        '    <ul style="text-align: center; margin-top: 25px" id="list" class="list-group list-group-horizontal">\n' +
+                        '    </ul>\n' +
+                        '    <a id="rightSlide" href="#">\n' +
+                        '        <span class="glyphicon glyphicon-chevron-right"></span>\n' +
+                        '    </a>';
                     document.getElementById('list').innerHTML = '';
                     let counter = 0;
 
@@ -29,7 +37,9 @@ function searchMovie(searchString, page, genre) {
 
 
                             let card = '<div class="card" style="width:250px">\n' +
-                                '  <img class="card-img-top" src="' + img + '" width="250px" alt="Card image">\n' +
+                                '  <div style="height: 400px">\n' +
+                                '  <img style="height: 100%" class="card-img-top" src="' + img + '" width="250px" alt="Card image">\n' +
+                                '  </div>\n' +
                                 '  <div class="card-body">\n' +
                                 '    <h4 class="card-title">' + movie.original_title + '</h4>\n' +
                                 '    <p class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +

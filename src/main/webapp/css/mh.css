@@ -59,3 +59,11 @@ ul.top-nav #icon {
 textarea:focus, input:focus{
     outline: none;
 }
+
+#leftSlide, #rightSlide {
+    padding: 50px;
+}
+
+.glyphicon {
+    font-size: 50px;
+}
