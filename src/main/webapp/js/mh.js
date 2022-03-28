@@ -61,7 +61,7 @@ function getTMDBInformation(tmdbID) {
         .then(result => {
             result.json().then(data => {
                 console.log(data);
-                //getIMDBInformation(data.imdb_id);
+                getIMDBInformation(data.imdb_id);
             })
         })
 }
@@ -94,18 +94,31 @@ function loadGenres() {
         })
 }
 
-/* function initLogin(){
-    var loginModal = document.getElementById('loginModal');
-    loginModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget
-        var recipient = button.getAttribute('data-bs-whatever')
-        var modalTitle = loginModal.querySelector('.modal-title')
-        var modalBodyInput = loginModal.querySelector('.modal-body input')
+function login(tfEmail, tfPassword){
+    if (tfEmail === '' || tfPassword === ''){
+        alert("Bitte füllen Sie alle Login Felder aus");
+        return;
+    }
 
-        modalTitle.textContent = 'New message to ' + recipient
-        modalBodyInput.value = recipient
-    })
-} */
+    let d = {
+        "email": tfEmail,
+        "password": tfPassword
+    }
+
+    fetch("./api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(d)
+    }).then(response => {
+        if (response.status !== 200) {
+            alert(response.status + " " + response.statusText);
+            return;
+        }
+        _jwt = response.headers.get("Authorization");
+    });
+}
 
 
 
