@@ -20,12 +20,13 @@
 
 <div class="searchbar">
     <img src="images/1200px-OOjs_UI_icon_search-ltr.svg.png" alt="">
-    <input id="searchInput" onkeyup="searchMovie(searchInput.value, 1, search_param.value)" type="text"
+    <input id="searchInput" onkeyup="searchMovie(searchInput.value, 1)" type="text"
            placeholder="Search term...">
-    <select style="width: 20%;" name="search_param" id="search_param" class="btn btn-default dropdown-toggle"
+   <!-- <select style="width: 20%;" name="search_param" id="search_param" class="btn btn-default dropdown-toggle"
             data-toggle="dropdown">
         <option value="all">All</option>
-    </select>
+    </select>-->
+    <button type="button" class="btn btn-outline-light">Discover</button>
 </div>
 
 <div class="d-flex justify-content-center d-flex align-items-center" id="searchResult">
