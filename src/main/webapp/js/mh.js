@@ -93,7 +93,7 @@ function loadGenres() {
                     genres += '<option value="' + genre.name + '">' + genre.name + '</option>';
                 })
 
-                /*document.getElementById('search_param').innerHTML = genres;*/
+                document.getElementById('search_param').innerHTML = genres;
             })
         })
 }
