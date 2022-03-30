@@ -2,11 +2,11 @@ let _jwt;
 
 function searchMovie(searchString, page) {
 
-/*    _genres.forEach(genres => {
-        if (genres.name === genre) {
-            /!*alert(genres.id);*!/
-        }
-    })*/
+    /*    _genres.forEach(genres => {
+            if (genres.name === genre) {
+                /!*alert(genres.id);*!/
+            }
+        })*/
 
     if (searchString !== "") {
         fetch('./api/search/' + searchString + '/' + page)
@@ -39,14 +39,14 @@ function searchMovie(searchString, page) {
                                 img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
                             }
 
-
-                            let card = '<div class="card" style="width:250px">\n' +
-                                '  <div style="height: 400px">\n' +
-                                '  <img style="height: 100%" class="card-img-top" src="' + img + '" width="250px" alt="Card image">\n' +
+                            let card = '<div class="card" style="width:200px">\n' +
+                                '  <div style="height: 300px">\n' +
+                                '  <img class="card-img mx-auto d-block" src="' + img + '" alt="Card image">\n' +
                                 '  </div>\n' +
                                 '  <div class="card-body">\n' +
-                                '    <h4 class="card-title">' + movie.original_title + '</h4>\n' +
-                                '    <p class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
+                                '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4>\n' +
+                                '<hr>' +
+                                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
                                 '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
                                 '  </div>\n' +
                                 '</div>';
@@ -98,8 +98,8 @@ function loadGenres() {
         })
 }
 
-function login(tfEmail, tfPassword){
-    if (tfEmail === '' || tfPassword === ''){
+function login(tfEmail, tfPassword) {
+    if (tfEmail === '' || tfPassword === '') {
         alert("Bitte füllen Sie alle Login Felder aus");
         return;
     }

@@ -13,6 +13,7 @@ ul.top-nav li {
 ul.top-nav .right {
     float: right;
 }
+
 ul.top-nav .left {
     float: left;
 }
@@ -56,7 +57,7 @@ ul.top-nav #icon {
     width: 4%;
 }
 
-textarea:focus, input:focus{
+textarea:focus, input:focus {
     outline: none;
 }
 
