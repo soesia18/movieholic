@@ -45,23 +45,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-grid gap-3">
-                    <div class="form-group row">
-                        <label for="tfYear" class="col-sm-2 col-form-label">Erscheinungsjahr</label>
-                        <div class="col">
-                            <input type="number" placeholder="2020" id="tfYear">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="search_param" class="col-sm-2 col-form-label">Genre</label>
-                        <div class="col">
-                            <select style="width: 20%;" name="search_param" id="search_param"
-                                    class="btn btn-default dropdown-toggle"
-                                    data-toggle="dropdown">
-                                <option value="all">All</option></select>
-                    </label>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="focusedInput">Focused</label>
+                    <input class="form-control" id="focusedInput" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="search_param">Genre</label>
+                    <select name="search_param" id="search_param"
+                            class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown">
+                        <option value="all">All</option>
+                    </select>
+                </div>
+                <div class="form-group has-success has-feedback">
+                    <label for="inputSuccess2">Input with success</label>
+                    <input type="text" class="form-control" id="inputSuccess2">
+                    <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                </div>
+                <div class="form-group has-warning has-feedback">
+                    <label for="inputWarning2">Input with warning</label>
+                    <input type="text" class="form-control" id="inputWarning2">
+                    <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                </div>
+                <div class="form-group has-error has-feedback">
+                    <label for="inputError2">Input with error</label>
+                    <input type="text" class="form-control" id="inputError2">
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                 </div>
             </div>
             <div class="modal-footer">

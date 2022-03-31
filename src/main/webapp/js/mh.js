@@ -57,6 +57,8 @@ function searchMovie(searchString, page) {
                     })
                 })
             })
+    } else {
+        document.getElementById('searchResult').innerHTML = '';
     }
 }
 
