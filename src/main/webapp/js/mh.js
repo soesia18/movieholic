@@ -146,7 +146,7 @@ function getTMDBInformation(tmdbID) {
 
                 document.getElementById('singleMovie').innerHTML = card;
 
-                getIMDBInformation(data.imdb_id);
+                //getIMDBInformation(data.imdb_id);
             })
         })
 }
