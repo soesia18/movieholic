@@ -44,6 +44,22 @@ public class MhSearchMovies {
     }
 
     @GET
+    @Path("/video/{id}")
+    public Response getVideo(@PathParam("id") int movieID) {
+        URI uri = URI.create("http://api.themoviedb.org/3/movie/" + movieID + "/videos?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE");
+
+        return getResponse(uri);
+    }
+
+    @GET
+    @Path("/provider/{id}")
+    public Response getProvider(@PathParam("id") int movieID) {
+        URI uri = URI.create("http://api.themoviedb.org/3/movie/" + movieID + "/watch/provider?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE");
+
+        return getResponse(uri);
+    }
+
+    @GET
     @Path("/imdb/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getIMDBInformation(@PathParam("id") String imdbID) {

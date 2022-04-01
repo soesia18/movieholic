@@ -137,13 +137,11 @@ function getTMDBInformation(tmdbID) {
                     '  </div>\n' +
                     '</div>';
 
-                let backgroundDiv = '<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5"\n' +
+                document.getElementById('singleMovieDiv').innerHTML = '<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5"\n' +
                     '        style="background-image: url(\'' + imgbg + '\');">\n' +
-                   '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
-                        '    </div>\n' +
+                    '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
+                    '    </div>\n' +
                     '</div>';
-
-                document.getElementById('singleMovieDiv').innerHTML = backgroundDiv;
 
 
                 document.getElementById('singleMovie').innerHTML = card;
@@ -183,6 +181,58 @@ function loadGenres() {
                 })
 
                 document.getElementById('search_param').innerHTML = genres;
+            })
+        })
+}
+
+function loadTrending () {
+    fetch('./api/trending/movies')
+        .then(result => {
+            result.json().then(data => {
+                console.log(data);
+
+                document.getElementById('trendingResult').innerHTML = '<button class="btn bg-transparent" id="leftSlide" onclick="previousMovie()">\n' +
+                    '        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">\n' +
+                    '  <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>\n' +
+                    '</svg>\n' +
+                    '    </button>\n' +
+                    '    <ul style="text-align: center; margin-top: 25px" id="listTrending" class="list-group list-group-horizontal">\n' +
+                    '    </ul>\n' +
+                    '    <button class="btn bg-transparent" id="rightSlide" onclick="nextMovie()">\n' +
+                    '        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">\n' +
+                    '  <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>\n' +
+                    '</svg>\n' +
+                    '    </button>';
+
+                document.getElementById('listTrending').innerHTML = '';
+                let counter = 0;
+
+                data.results.forEach(movie => {
+                    if (counter >= 0 && counter < 5) {
+
+                        let img = '';
+                        if (movie.poster_path == null) {
+                            img = 'images/notAvailable.jpg'
+                        } else {
+                            img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
+                        }
+
+                        let card = '<div class="card" style="width:200px">\n' +
+                            '  <div style="height: 300px">\n' +
+                            '  <img class="card-img mx-auto d-block" src="' + img + '" alt="Card image">\n' +
+                            '  </div>\n' +
+                            '  <div class="card-body">\n' +
+                            '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4>\n' +
+                            '<hr>' +
+                            '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
+                            '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                            '  </div>\n' +
+                            '</div>';
+                        let item = '<li class="list-group-item">' + card + '</li>';
+                        document.getElementById('listTrending').innerHTML += item;
+                    }
+                    counter++;
+                })
             })
         })
 }
