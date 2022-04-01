@@ -68,3 +68,7 @@ textarea:focus, input:focus {
 .glyphicon {
     font-size: 50px;
 }
+
+#singleMovieDiv {
+    margin-top: 25px;
+}

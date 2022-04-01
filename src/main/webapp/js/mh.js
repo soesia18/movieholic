@@ -25,11 +25,12 @@ function searchMovie(searchString, page) {
                     _movies = data;
                     _endMax = data.total_results > 20 ? 20 : data.total_results;
                     console.log(data);
-                   loadMovies();
+                    loadMovies();
                 })
             })
     } else {
         document.getElementById('searchResult').innerHTML = '';
+        document.getElementById('singleMovieDiv').innerHTML = '';
     }
 }
 
@@ -42,7 +43,7 @@ function nextMovie() {
     }
 }
 
-function previousMovie () {
+function previousMovie() {
     if (_startCounter > 0) {
         _startCounter--;
         _endCounter--;
@@ -51,7 +52,9 @@ function previousMovie () {
     }
 }
 
-function loadMovies () {
+function loadMovies() {
+    document.getElementById('singleMovieDiv').innerHTML = '';
+
     document.getElementById('searchResult').innerHTML = '<button class="btn bg-transparent" id="leftSlide" onclick="previousMovie()">\n' +
         '        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">\n' +
         '  <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>\n' +
@@ -101,6 +104,50 @@ function getTMDBInformation(tmdbID) {
         .then(result => {
             result.json().then(data => {
                 console.log(data);
+
+                document.getElementById('searchResult').innerHTML = '';
+
+                let img = '';
+                if (data.poster_path == null) {
+                    img = 'images/notAvailable.jpg'
+                } else {
+                    img = 'https://image.tmdb.org/t/p/original' + data.poster_path;
+                }
+
+                let imgbg = '';
+                if (data.backdrop_path == null) {
+                    imgbg = 'images/notAvailable.jpg'
+                } else {
+                    imgbg = 'https://image.tmdb.org/t/p/original' + data.backdrop_path;
+                }
+
+
+                let card = '<div class="card mb-3" style="max-width: 540px;">\n' +
+                    '  <div class="row g-0">\n' +
+                    '    <div class="col-md-4">\n' +
+                    '      <img src="' + img + '" class="img-fluid rounded-start" alt="...">\n' +
+                    '    </div>\n' +
+                    '    <div class="col-md-8">\n' +
+                    '      <div class="card-body">\n' +
+                    '        <h5 class="card-title">' + data.original_title + '</h5>\n' +
+                    '        <p class="card-text">' + data.overview + '</p>\n' +
+                    '        <p class="card-text"><small class="text-muted"><button onclick="loadMovies()" type="button" class="btn btn-dark">Back</button></small></p>\n' +
+                    '      </div>\n' +
+                    '    </div>\n' +
+                    '  </div>\n' +
+                    '</div>';
+
+                let backgroundDiv = '<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5"\n' +
+                    '        style="background-image: url(\'' + imgbg + '\');">\n' +
+                   '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
+                        '    </div>\n' +
+                    '</div>';
+
+                document.getElementById('singleMovieDiv').innerHTML = backgroundDiv;
+
+
+                document.getElementById('singleMovie').innerHTML = card;
+
                 getIMDBInformation(data.imdb_id);
             })
         })
