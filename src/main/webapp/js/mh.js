@@ -2,6 +2,8 @@ let _jwt;
 let _startCounter;
 let _endCounter;
 
+let _endMax;
+
 let _movies;
 
 function searchMovie(searchString, page) {
@@ -21,6 +23,7 @@ function searchMovie(searchString, page) {
                 console.log(value);
                 value.json().then(data => {
                     _movies = data;
+                    _endMax = data.total_results > 20 ? 20 : data.total_results;
                     console.log(data);
                    loadMovies();
                 })
@@ -31,7 +34,7 @@ function searchMovie(searchString, page) {
 }
 
 function nextMovie() {
-    if (_endCounter < 19) {
+    if (_endCounter < _endMax - 1) {
         _startCounter++;
         _endCounter++;
 
