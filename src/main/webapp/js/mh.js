@@ -243,6 +243,8 @@ function login(tfEmail, tfPassword) {
         return;
     }
 
+    $('#loginModal').modal('hide');
+
     let d = {
         "email": tfEmail,
         "password": tfPassword
@@ -263,7 +265,25 @@ function login(tfEmail, tfPassword) {
     });
 }
 
+function register(tfEmail, tfPassword1, tfPassword2){
+    if (tfPassword2 === tfPassword1){
+        if (!validatePassword(tfPassword1)){
+            document.getElementById("registerInfo").innerHTML = "Password must be a minimum of 8 characters including number, upper, lower And \n" +
+                "one special character";
+            return;
+        }
+        document.getElementById("registerInfo").innerHTML = "";
+        $('#registerModal').modal('hide');
+    }else{
+        document.getElementById("registerInfo").innerHTML = "Not the same password";
+        return;
+    }
+}
 
+function validatePassword(password) {
+    var regularExpression = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    return regularExpression.test(password);
+}
 
 
 

@@ -15,9 +15,6 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
-
-
-
     <link rel="stylesheet" href="css/mh.css">
     <script src="js/mh.js"></script>
 </head>
@@ -25,7 +22,7 @@
 <ul class="top-nav">
     <li class="item left"><a>Watchlist</a></li>
     <li class="item left"><a>Genre</a></li>
-    <li class="item right"><a data-bs-toggle="modal" data-bs-target="#exampleModal">Login</a></li>
+    <li class="item right"><a data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
 </ul>
 
 <div class="searchbar">
@@ -86,32 +83,66 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="d-grid gap-3">
-                    <label for="tfEmail">
-                        Mail <br>
-                        <input type="text" placeholder="e-mail" id="tfEmail" required>
+                    <label for="tfLoginEmail">
+                        E-Mail <br>
+                        <input type="text" class="form-control" placeholder="E-Mail" id="tfLoginEmail" required>
                     </label>
-                    <label for="tfPassword">
+                    <label for="tfLoginPassword">
                         Password <br>
-                        <input type="password" placeholder="password" id="tfPassword" required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword" required>
                     </label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Register</button>
-                <button type="button" class="btn btn-primary" onclick="login(tfEmail.value, tfPassword.value)">Login
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                <button type="button" class="btn btn-primary" onclick="login(tfLoginEmail.value, tfRegisterPassword.value)">Login
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-grid gap-3">
+                    <label for="tfRegisterEmail">
+                        E-Mail <br>
+                        <input type="text" class="form-control" placeholder="E-Mail" id="tfRegisterEmail" required>
+                    </label>
+                    <label for="tfRegisterPassword1">
+                        Password <br>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1" required>
+                    </label>
+                    <label for="tfRegisterPassword2">
+                        Repeat password <br>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2" required>
+                    </label>
+                </div>
+            </div>
+            <div id="registerInfo" style="color: red">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
