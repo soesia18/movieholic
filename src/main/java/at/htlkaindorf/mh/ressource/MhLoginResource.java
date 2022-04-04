@@ -1,6 +1,7 @@
 package at.htlkaindorf.mh.ressource;
 
 import at.htlkaindorf.mh.beans.User;
+import at.htlkaindorf.mh.database.UserDB;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;
@@ -11,6 +12,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import javax.management.openmbean.KeyAlreadyExistsException;
 
 /**
  *
@@ -30,6 +33,7 @@ public class MhLoginResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/login")
     public Response login(User user) {
         try {
             if (user.getEmail().equals("admin") && user.getPassword().equals("admin")){
@@ -42,5 +46,23 @@ public class MhLoginResource {
             e.printStackTrace();
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/register")
+    public Response register(User user){
+        try {
+            User u = UserDB.getInstance().register(user);
+
+            ObjectMapper om = new ObjectMapper();
+            String uStr = om.writeValueAsString(u.getRights());
+            String jwt = createJWT(uStr);
+
+            return Response.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
+        }catch(Exception e){
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 }

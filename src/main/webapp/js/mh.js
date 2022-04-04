@@ -228,11 +228,6 @@ function loadTrending () {
 }
 
 function login(tfEmail, tfPassword) {
-    if (tfEmail === '' || tfPassword === '') {
-        alert("Bitte füllen Sie alle Login Felder aus");
-        return;
-    }
-
     $('#loginModal').modal('hide');
 
     let d = {
@@ -240,7 +235,7 @@ function login(tfEmail, tfPassword) {
         "password": tfPassword
     }
 
-    fetch("./api/login", {
+    fetch("./api/login/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -256,16 +251,39 @@ function login(tfEmail, tfPassword) {
 }
 
 function register(tfEmail, tfPassword1, tfPassword2){
+    let info = document.getElementById("registerInfo");
     if (tfPassword2 === tfPassword1){
         if (!validatePassword(tfPassword1)){
             document.getElementById("registerInfo").innerHTML = "Password must be a minimum of 8 characters including number, upper, lower And \n" +
                 "one special character";
             return;
         }
-        document.getElementById("registerInfo").innerHTML = "";
-        $('#registerModal').modal('hide');
+       info.innerHTML = "";
+
+        var d = {
+            "email": tfEmail,
+            "password": tfPassword1
+        }
+
+        fetch("./api/login/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(d)
+        }).then(response => {
+            if (response.status !== 200) {
+                if (response.status === 400){
+                    info.innerHTML = "Einen User mit der E-Mail gibt es bereits! Bitte melden Sie sich an.";
+                }
+                return;
+            }
+            _jwt = response.headers.get("Authorization");
+            $('#registerModal').modal('hide');
+        });
+
     }else{
-        document.getElementById("registerInfo").innerHTML = "Not the same password";
+        info.innerHTML = "Not the same password";
         return;
     }
 }

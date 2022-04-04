@@ -130,17 +130,13 @@
                     </label>
                     <label for="tfLoginPassword">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword"
-                               required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword" required>
                     </label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                        data-bs-target="#registerModal">Register
-                </button>
-                <button type="button" class="btn btn-primary"
-                        onclick="login(tfLoginEmail.value, tfRegisterPassword.value)">Login
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                <button type="button" class="btn btn-primary" onclick="login(tfLoginEmail.value, tfRegisterPassword.value)">Login
                 </button>
             </div>
         </div>
@@ -162,13 +158,11 @@
                     </label>
                     <label for="tfRegisterPassword1">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1"
-                               required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1" required>
                     </label>
                     <label for="tfRegisterPassword2">
                         Repeat password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2"
-                               required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2" required>
                     </label>
                 </div>
             </div>
@@ -176,10 +170,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary"
-                        onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">
-                    Register
-                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                <button type="button" class="btn btn-primary" onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">Register</button>
             </div>
         </div>
     </div>
