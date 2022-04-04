@@ -82,7 +82,7 @@ function loadMovies() {
 
             let card = '<div class="card" style="width:200px">\n' +
                 '  <div style="height: 300px">\n' +
-                '  <img class="card-img mx-auto d-block" src="' + img + '" alt="Card image">\n' +
+                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
                 '  </div>\n' +
                 '  <div class="card-body">\n' +
                 '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4>\n' +
@@ -125,7 +125,7 @@ function getTMDBInformation(tmdbID) {
                 let card = '<div class="card mb-3" style="max-width: 540px;">\n' +
                     '  <div class="row g-0">\n' +
                     '    <div class="col-md-4">\n' +
-                    '      <img src="' + img + '" class="img-fluid rounded-start" alt="...">\n' +
+                    '      <img style="border-radius: 15px;" src="' + img + '" class="img-fluid rounded-start border-0" alt="...">\n' +
                     '    </div>\n' +
                     '    <div class="col-md-8">\n' +
                     '      <div class="card-body">\n' +
@@ -191,18 +191,8 @@ function loadTrending () {
             result.json().then(data => {
                 console.log(data);
 
-                document.getElementById('trendingResult').innerHTML = '<button class="btn bg-transparent" id="leftSlide" onclick="previousMovie()">\n' +
-                    '        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">\n' +
-                    '  <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>\n' +
-                    '</svg>\n' +
-                    '    </button>\n' +
-                    '    <ul style="text-align: center; margin-top: 25px" id="listTrending" class="list-group list-group-horizontal">\n' +
-                    '    </ul>\n' +
-                    '    <button class="btn bg-transparent" id="rightSlide" onclick="nextMovie()">\n' +
-                    '        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">\n' +
-                    '  <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>\n' +
-                    '</svg>\n' +
-                    '    </button>';
+                document.getElementById('trendingResult').innerHTML = '<ul style="text-align: center; margin-top: 25px" id="listTrending" class="list-group list-group-horizontal">\n' +
+                    '    </ul>\n';
 
                 document.getElementById('listTrending').innerHTML = '';
                 let counter = 0;
@@ -219,7 +209,7 @@ function loadTrending () {
 
                         let card = '<div class="card" style="width:200px">\n' +
                             '  <div style="height: 300px">\n' +
-                            '  <img class="card-img mx-auto d-block" src="' + img + '" alt="Card image">\n' +
+                            '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
                             '  </div>\n' +
                             '  <div class="card-body">\n' +
                             '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4>\n' +

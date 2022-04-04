@@ -7,7 +7,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
+          rel="stylesheet"/>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -18,14 +19,31 @@
     <link rel="stylesheet" href="css/mh.css">
     <script src="js/mh.js"></script>
 </head>
-<body onload="loadGenres();loadTrending()">
-<ul class="top-nav">
-    <li class="item left"><a>Watchlist</a></li>
-    <li class="item left"><a>Genre</a></li>
-    <li class="item right"><a data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
-</ul>
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" onload="loadGenres();loadTrending()">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-between fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+<!--                <li class="item left"><a>Watchlist</a></li>
+                <li class="item left"><a>Genre</a></li>-->
+                <li class="nav-item"><a class="nav-link" href="#searchSection">Search</a></li>
+                <li class="nav-item"><a class="nav-link" href="#trendingResult">Trending</a></li>
+            </ul>
+        </div>
+        <form class="d-flex">
+            <input class="form-control me-2" type="text" placeholder="Search">
+            <button class="btn btn-primary" type="button">Search</button>
+        </form>
 
-<div class="searchbar">
+        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+    </div>
+</nav>
+
+<div style="margin-top: 5%" id="searchSection" class="searchbar">
     <img src="images/1200px-OOjs_UI_icon_search-ltr.svg.png" alt="">
     <input id="searchInput" onkeyup="searchMovie(searchInput.value, 1)" type="text"
            placeholder="Search term...">
@@ -33,16 +51,30 @@
              data-toggle="dropdown">
          <option value="all">All</option>
      </select>-->
-    <button type="button" data-bs-toggle="modal" data-bs-target="#discoverModal" class="btn btn-outline-light" data-toggle="tooltip" data-placement="bottom" title="To find your film without the title!">
+    <button type="button" data-bs-toggle="modal" data-bs-target="#discoverModal" class="btn btn-outline-light"
+            data-toggle="tooltip" data-placement="bottom" title="To find your film without the title!">
         Discover
     </button>
 </div>
+
+<hr>
+
 <div class="d-flex justify-content-center d-flex align-items-center" id="searchResult">
 
 </div>
 
 <div id="singleMovieDiv">
 
+</div>
+
+<div class="row">
+    <div class="col">
+        <hr class="bg-danger border-2 border-top border-danger">
+    </div>
+    <div class="col-auto">Movie-Trends of the Week</div>
+    <div class="col">
+        <hr class="bg-danger border-2 border-top border-danger">
+    </div>
 </div>
 
 <div class="d-flex justify-content-center d-flex align-items-center" id="trendingResult">
@@ -98,13 +130,17 @@
                     </label>
                     <label for="tfLoginPassword">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword" required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword"
+                               required>
                     </label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
-                <button type="button" class="btn btn-primary" onclick="login(tfLoginEmail.value, tfRegisterPassword.value)">Login
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
+                        data-bs-target="#registerModal">Register
+                </button>
+                <button type="button" class="btn btn-primary"
+                        onclick="login(tfLoginEmail.value, tfRegisterPassword.value)">Login
                 </button>
             </div>
         </div>
@@ -126,11 +162,13 @@
                     </label>
                     <label for="tfRegisterPassword1">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1" required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1"
+                               required>
                     </label>
                     <label for="tfRegisterPassword2">
                         Repeat password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2" required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2"
+                               required>
                     </label>
                 </div>
             </div>
@@ -138,7 +176,10 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">Register</button>
+                <button type="button" class="btn btn-primary"
+                        onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">
+                    Register
+                </button>
             </div>
         </div>
     </div>

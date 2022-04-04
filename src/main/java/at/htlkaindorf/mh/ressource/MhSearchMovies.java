@@ -1,5 +1,6 @@
 package at.htlkaindorf.mh.ressource;
 
+import io.github.rctcwyvrn.blake3.Blake3;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -31,6 +32,7 @@ public class MhSearchMovies {
     public Response searchMovie(@PathParam("searchString") String searchString, @PathParam("page") int page) {
         searchString = searchString.replace(" ", "%20");
         URI uri = URI.create("http://api.themoviedb.org/3/search/movie?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE&query=" + searchString + "&page=" + page);
+
 
         return getResponse(uri);
     }
