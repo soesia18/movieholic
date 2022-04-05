@@ -227,9 +227,13 @@ function loadTrending () {
         })
 }
 
-function login(tfEmail, tfPassword) {
-    $('#loginModal').modal('hide');
+function clearLoginModal (){
+    document.getElementById("tfLoginEmail").value = "";
+    document.getElementById("tfLoginPassword").value = "";
+}
 
+function login(tfEmail, tfPassword) {
+    let info = document.getElementById("loginInfo");
     let d = {
         "email": tfEmail,
         "password": tfPassword
@@ -242,12 +246,22 @@ function login(tfEmail, tfPassword) {
         },
         body: JSON.stringify(d)
     }).then(response => {
+        info.innerHTML = "";
         if (response.status !== 200) {
-            alert(response.status + " " + response.statusText);
+            if (response.status === 401){
+                info.innerHTML = "No user with the given credentials found";
+            }
             return;
         }
+        $('#loginModal').modal('hide');
         _jwt = response.headers.get("Authorization");
     });
+}
+
+function clearRegisterModal(){
+    document.getElementById("tfRegisterEmail").value = "";
+    document.getElementById("tfRegisterPassword1").value = "";
+    document.getElementById("tfRegisterPassword2").value = "";
 }
 
 function register(tfEmail, tfPassword1, tfPassword2){

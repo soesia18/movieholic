@@ -45,27 +45,14 @@
     </div>
 </nav>
 
-<!--<div style="margin-top: 5%" id="searchSection" class="searchbar">
-    <img src="images/1200px-OOjs_UI_icon_search-ltr.svg.png" alt="">
-    <select style="width: 20%;" name="search_param" id="search_param" class="btn btn-default dropdown-toggle"
-             data-toggle="dropdown">
-         <option value="all">All</option>
-     </select>
     <button type="button" data-bs-toggle="modal" data-bs-target="#discoverModal" class="btn btn-outline-light"
             data-toggle="tooltip" data-placement="bottom" title="To find your film without the title!">
         Discover
     </button>
 </div>-->
 
-<div class="row" id="searchSection">
-    <div class="col">
-        <hr class="bg-danger border-2 border-top border-danger">
-    </div>
-    <div class="col-auto">Movie Search</div>
-    <div class="col">
-        <hr class="bg-danger border-2 border-top border-danger">
-    </div>
-</div>
+
+<hr>
 
 <div class="d-flex justify-content-center d-flex align-items-center" id="searchResult">
 
@@ -138,17 +125,16 @@
                     </label>
                     <label for="tfLoginPassword">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword"
-                               required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword" required>
                     </label>
+                </div>
+                <div id="loginInfo" style="color: red" class="d-grid gap-3">
+
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                        data-bs-target="#registerModal">Register
-                </button>
-                <button type="button" class="btn btn-primary"
-                        onclick="login(tfLoginEmail.value, tfLoginPassword.value)">Login
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                <button type="button" class="btn btn-primary" onclick="login(tfLoginEmail.value, tfLoginPassword.value)">Login
                 </button>
             </div>
         </div>
@@ -170,13 +156,11 @@
                     </label>
                     <label for="tfRegisterPassword1">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1"
-                               required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1" required>
                     </label>
                     <label for="tfRegisterPassword2">
                         Repeat password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2"
-                               required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2" required>
                     </label>
                 </div>
                 <div id="registerInfo" style="color: red" class="d-grid gap-3">
@@ -185,13 +169,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                        data-bs-target="#loginModal">Login
-                </button>
-                <button type="button" class="btn btn-primary"
-                        onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">
-                    Register
-                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                <button type="button" class="btn btn-primary" onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">Register</button>
             </div>
         </div>
     </div>
