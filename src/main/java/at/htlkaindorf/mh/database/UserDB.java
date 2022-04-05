@@ -40,7 +40,7 @@ public class UserDB {
 
     public User register(User user){
         Optional<User> u = findUserByEmail(user.getEmail());
-        User rUser = null;
+        User rUser;
         if (u.isPresent()){
             throw new KeyAlreadyExistsException();
         }else{
