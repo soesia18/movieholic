@@ -73,3 +73,6 @@ textarea:focus, input:focus {
     margin-top: 25px;
 }
 
+#searchSection {
+    margin-top: 75px;
+}
