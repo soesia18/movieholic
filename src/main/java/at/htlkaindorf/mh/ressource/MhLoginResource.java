@@ -36,12 +36,11 @@ public class MhLoginResource {
     @Path("/login")
     public Response login(User user) {
         try {
-            if (user.getEmail().equals("admin") && user.getPassword().equals("admin")){
-                ObjectMapper om = new ObjectMapper();
-                String u = om.writeValueAsString(user);
-                String jwt = createJWT(u);
-                return Response.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
-            }
+            User u = UserDB.getInstance().login(user);
+            ObjectMapper om = new ObjectMapper();
+            String uStr = om.writeValueAsString(u.getRights());
+            String jwt = createJWT(uStr);
+            return Response.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +50,7 @@ public class MhLoginResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/register")
-    public Response register(User user){
+    public Response register(User user) {
         try {
             User u = UserDB.getInstance().register(user);
 
@@ -60,7 +59,7 @@ public class MhLoginResource {
             String jwt = createJWT(uStr);
 
             return Response.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

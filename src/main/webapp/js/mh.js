@@ -254,7 +254,7 @@ function register(tfEmail, tfPassword1, tfPassword2){
     let info = document.getElementById("registerInfo");
     if (tfPassword2 === tfPassword1){
         if (!validatePassword(tfPassword1)){
-            document.getElementById("registerInfo").innerHTML = "Password must be a minimum of 8 characters including number, upper, lower And \n" +
+            document.getElementById("registerInfo").innerHTML = "Password must be a minimum of 8 characters including number, upper, lower and \n" +
                 "one special character";
             return;
         }
