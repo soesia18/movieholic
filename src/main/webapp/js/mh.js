@@ -158,7 +158,6 @@ function getTMDBInformation(tmdbID) {
                     '    </div>\n' +
                     '</div>';
 
-
                 document.getElementById('singleMovie').innerHTML = card;
 
                 //getIMDBInformation(data.imdb_id);

@@ -23,10 +23,8 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
     <div style="width: 100%" class="d-flex justify-content-between">
         <ul class="navbar-nav">
-            <!--                <li class="item left"><a>Watchlist</a></li>
-                            <li class="item left"><a>Genre</a></li>-->
             <li class="nav-item"><a class="navbar-brand" href="javascript:void(0)"><img src="images/logo.png" alt=""
-                                                                                        style="width: 30px"></a>
+                                                                                        id="logo"></a>
             </li>
             <li class="nav-item"><a class="nav-link" href="#searchSection">Search</a></li>
             <li class="nav-item"><a class="nav-link" href="#trendingResult">Trending</a></li>
@@ -45,7 +43,7 @@
     </div>
 </nav>
 
-    <button type="button" data-bs-toggle="modal" data-bs-target="#discoverModal" class="btn btn-outline-light"
+    <button type="button" class="btn btn-light btn-rounded" data-bs-toggle="modal" data-bs-target="#discoverModal"
             data-toggle="tooltip" data-placement="bottom" title="To find your film without the title!">
         Discover
     </button>
@@ -54,9 +52,7 @@
 
 <hr>
 
-<div class="d-flex justify-content-center d-flex align-items-center" id="searchResult">
-
-</div>
+<div class="d-flex justify-content-center d-flex align-items-center" id="searchResult"></div>
 
 <div id="singleMovieDiv">
 
@@ -135,8 +131,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
-                <button type="button" class="btn btn-primary" onclick="login(tfLoginEmail.value, tfLoginPassword.value)">Login
-                </button>
+                <button type="button" class="btn btn-primary" onclick="login(tfLoginEmail.value, tfLoginPassword.value)">Login</button>
             </div>
         </div>
     </div>
