@@ -38,10 +38,10 @@ public class UserDB {
         return userList.contains(user);
     }
 
-    public User register(User user){
-        Optional<User> u = findUserByEmail(user.getEmail());
+    public User register(User user) throws Exception {
+        User u = DBAccess.getInstance().findUserByEmail(user.getEmail());
         User rUser;
-        if (u.isPresent()){
+        if (u != null){
             throw new KeyAlreadyExistsException();
         }else{
             Blake3 hasher = Blake3.newInstance();
@@ -49,12 +49,13 @@ public class UserDB {
             String hexhash = hasher.hexdigest();
 
             rUser = new User(user.getEmail(), hexhash, 'u');
-            userList.add(rUser);
+            DBAccess.getInstance().addUser(rUser);
         }
         return rUser;
     }
 
-    public Optional<User> findUserByEmail(String email){
+    public Optional<User> findUserByEmail(String email) throws Exception {
+        DBAccess.getInstance().findUserByEmail(email);
         return userList.stream().filter(user -> user.getEmail().equals(email)).findFirst();
     }
 }
