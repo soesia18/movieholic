@@ -1,8 +1,7 @@
-package at.htlkaindorf.mh.ressource;
+package at.htlkaindorf.mh.resource;
 
 import at.htlkaindorf.mh.beans.User;
 import at.htlkaindorf.mh.database.UserDB;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -12,8 +11,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import javax.management.openmbean.KeyAlreadyExistsException;
 
 /**
  *

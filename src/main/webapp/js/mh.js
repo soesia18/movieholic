@@ -153,7 +153,7 @@ function getTMDBInformation(tmdbID) {
                     '</div>';
 
                 document.getElementById('singleMovieDiv').innerHTML = '<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5"\n' +
-                    '        style="background-image: url(\'' + imgbg + '\');">\n' +
+                    '        style="background-image: url(\'' + imgbg + '\');width: 100%">\n' +
                     '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
                     '    </div>\n' +
                     '</div>';

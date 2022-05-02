@@ -43,10 +43,10 @@
     </div>
 </nav>
 
-    <button type="button" class="btn btn-light btn-rounded" data-bs-toggle="modal" data-bs-target="#discoverModal"
-            data-toggle="tooltip" data-placement="bottom" title="To find your film without the title!">
-        Discover
-    </button>
+<button type="button" class="btn btn-light btn-rounded" data-bs-toggle="modal" data-bs-target="#discoverModal"
+        data-toggle="tooltip" data-placement="bottom" title="To find your film without the title!">
+    Discover
+</button>
 </div>-->
 
 
@@ -63,7 +63,17 @@
     <div class="col">
         <hr class="bg-danger border-2 border-top border-danger">
     </div>
-    <div class="col-auto">Movie-Trends of the Week</div>
+    <div class="col-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-lightning-charge" viewBox="0 0 16 16">
+            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z"/>
+        </svg>
+        Movie-Trends of the Week
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-lightning-charge" viewBox="0 0 16 16">
+            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z"/>
+        </svg>
+    </div>
     <div class="col">
         <hr class="bg-danger border-2 border-top border-danger">
     </div>
@@ -122,7 +132,8 @@
                     </label>
                     <label for="tfLoginPassword">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword" required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfLoginPassword"
+                               required>
                     </label>
                 </div>
                 <div id="loginInfo" style="color: red" class="d-grid gap-3">
@@ -130,8 +141,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
-                <button type="button" class="btn btn-primary" onclick="login(tfLoginEmail.value, tfLoginPassword.value)">Login</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
+                        data-bs-target="#registerModal">Register
+                </button>
+                <button type="button" class="btn btn-primary"
+                        onclick="login(tfLoginEmail.value, tfLoginPassword.value)">Login
+                </button>
             </div>
         </div>
     </div>
@@ -152,11 +167,13 @@
                     </label>
                     <label for="tfRegisterPassword1">
                         Password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1" required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword1"
+                               required>
                     </label>
                     <label for="tfRegisterPassword2">
                         Repeat password <br>
-                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2" required>
+                        <input type="password" class="form-control" placeholder="Password" id="tfRegisterPassword2"
+                               required>
                     </label>
                 </div>
                 <div id="registerInfo" style="color: red" class="d-grid gap-3">
@@ -165,8 +182,13 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                <button type="button" class="btn btn-primary" onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">Register</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Login
+                </button>
+                <button type="button" class="btn btn-primary"
+                        onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">
+                    Register
+                </button>
             </div>
         </div>
     </div>

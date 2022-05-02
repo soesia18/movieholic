@@ -1,4 +1,4 @@
-package at.htlkaindorf.mh.ressource;
+package at.htlkaindorf.mh.resource;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

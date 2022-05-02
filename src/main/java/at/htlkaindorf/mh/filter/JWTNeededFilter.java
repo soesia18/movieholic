@@ -1,6 +1,6 @@
 package at.htlkaindorf.mh.filter;
 
-import at.htlkaindorf.mh.ressource.MhLoginResource;
+import at.htlkaindorf.mh.resource.MhLoginResource;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.crypto.MACVerifier;
 import jakarta.annotation.Priority;
