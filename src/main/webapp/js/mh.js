@@ -82,17 +82,17 @@ function loadMovies() {
             let card;
             if (movie.original_title.length > 25) {
 
-            card = '<div class="card" style="width:200px">\n' +
-                '  <div style="height: 300px">\n' +
-                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                '  </div>\n' +
-                '  <div class="card-body">\n' +
-                '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
-                '<hr>' +
-                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
-                '  </div>\n' +
-                '</div>';
+                card = '<div class="card" style="width:200px">\n' +
+                    '  <div style="height: 300px">\n' +
+                    '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
+                    '  </div>\n' +
+                    '  <div class="card-body">\n' +
+                    '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
+                    '<hr>' +
+                    '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
+                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                    '  </div>\n' +
+                    '</div>';
             } else {
                 card = '<div class="card" style="width:200px">\n' +
                     '  <div style="height: 300px">\n' +
@@ -177,7 +177,6 @@ function getIMDBInformation(imdbID) {
 let _genres;
 
 function loadGenres() {
-
     $("#releaseYear").datepicker({
         format: "yyyy",
         viewMode: "years",
@@ -199,7 +198,7 @@ function loadGenres() {
         })
 }
 
-function loadTrending () {
+function loadTrending() {
     fetch('./api/trending/movies')
         .then(result => {
             result.json().then(data => {
@@ -241,7 +240,7 @@ function loadTrending () {
         })
 }
 
-function clearLoginModal (){
+function clearLoginModal() {
     document.getElementById("tfLoginEmail").value = "";
     document.getElementById("tfLoginPassword").value = "";
 }
@@ -262,7 +261,7 @@ function login(tfEmail, tfPassword) {
     }).then(response => {
         info.innerHTML = "";
         if (response.status !== 200) {
-            if (response.status === 401){
+            if (response.status === 401) {
                 info.innerHTML = "No user with the given credentials found";
             }
             return;
@@ -272,21 +271,21 @@ function login(tfEmail, tfPassword) {
     });
 }
 
-function clearRegisterModal(){
+function clearRegisterModal() {
     document.getElementById("tfRegisterEmail").value = "";
     document.getElementById("tfRegisterPassword1").value = "";
     document.getElementById("tfRegisterPassword2").value = "";
 }
 
-function register(tfEmail, tfPassword1, tfPassword2){
+function register(tfEmail, tfPassword1, tfPassword2) {
     let info = document.getElementById("registerInfo");
-    if (tfPassword2 === tfPassword1){
-        if (!validatePassword(tfPassword1)){
+    if (tfPassword2 === tfPassword1) {
+        if (!validatePassword(tfPassword1)) {
             document.getElementById("registerInfo").innerHTML = "Password must be a minimum of 8 characters including number, upper, lower and \n" +
                 "one special character";
             return;
         }
-       info.innerHTML = "";
+        info.innerHTML = "";
 
         var d = {
             "email": tfEmail,
@@ -301,7 +300,7 @@ function register(tfEmail, tfPassword1, tfPassword2){
             body: JSON.stringify(d)
         }).then(response => {
             if (response.status !== 200) {
-                if (response.status === 400){
+                if (response.status === 400) {
                     info.innerHTML = "Einen User mit der E-Mail gibt es bereits! Bitte melden Sie sich an.";
                 }
                 return;
@@ -309,10 +308,21 @@ function register(tfEmail, tfPassword1, tfPassword2){
             _jwt = response.headers.get("Authorization");
             $('#registerModal').modal('hide');
 
-            document.getElementById("")
+            var navbarContent = document.getElementById("navbarContent");
+            var child = document.getElementById("loginSector");
+            navbarContent.removeChild(child);
+            navbarContent.innerHTML += '<div class="nav-item navLogin" data-bs-toggle="modal" data-bs-target="#" id="loginSector">\n' +
+                '            <span id="loginSpan">' + tfEmail + '</span>\n' +
+                '            <svg id="loginImg" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">\n' +
+                '  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>\n' +
+                '  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>\n' +
+                '</svg>' + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">\n' +
+                '  <path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>\n' +
+                '</svg>' + '</div>';
+
         });
 
-    }else {
+    } else {
         info.innerHTML = "Not the same password";
         return;
     }
