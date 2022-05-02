@@ -48,3 +48,26 @@ textarea:focus, input:focus {
     width: 30px;
     margin-left: 10px;
 }
+
+.navLogin {
+    margin-right: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+
+    display: flex;
+    align-items: center;
+}
+
+.navLogin #loginSpan {
+    margin: 0 auto;
+    display: block;
+
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.navLogin #loginImg {
+    margin: 0 auto;
+    display: block;
+}

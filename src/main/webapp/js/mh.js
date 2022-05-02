@@ -308,9 +308,11 @@ function register(tfEmail, tfPassword1, tfPassword2){
             }
             _jwt = response.headers.get("Authorization");
             $('#registerModal').modal('hide');
+
+            document.getElementById("")
         });
 
-    }else{
+    }else {
         info.innerHTML = "Not the same password";
         return;
     }

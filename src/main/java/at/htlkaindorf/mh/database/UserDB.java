@@ -20,7 +20,7 @@ public class UserDB {
         return theInstance;
     }
 
-    public User login(User user){
+    public User login(User user) throws Exception {
         Blake3 hasher = Blake3.newInstance();
         hasher.update(user.getPassword().getBytes());
         String hexhash = hasher.hexdigest();
@@ -34,8 +34,8 @@ public class UserDB {
         return loginUser;
     }
 
-    public boolean validateUser(User user){
-        return userList.contains(user);
+    public boolean validateUser(User user) throws Exception {
+        return DBAccess.getInstance().validateUser(user);
     }
 
     public User register(User user) throws Exception {

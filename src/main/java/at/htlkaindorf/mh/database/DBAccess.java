@@ -53,12 +53,11 @@ public class DBAccess {
         return user;
     }
 
-    public static void main(String[] args) {
-        try {
-            DBAccess.getInstance().addUser(new User("bradaa18@htl-kaindorf.at", "187", 'u'));
-            System.out.println(DBAccess.getInstance().findUserByEmail("bradaa18@htl-kaindorf.at"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public boolean validateUser(User user) throws SQLException {
+        User u = findUserByEmail(user.getEmail());
+        if (u.getPassword().equals(user.getPassword())){
+            return true;
         }
+        return false;
     }
 }
