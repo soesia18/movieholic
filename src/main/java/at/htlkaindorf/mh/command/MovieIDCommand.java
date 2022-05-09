@@ -9,8 +9,4 @@ public abstract class MovieIDCommand extends ApiCommand {
         this.movieID = movieID;
     }
 
-    @Override
-    public Response execute() {
-        return super.execute();
-    }
 }

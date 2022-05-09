@@ -7,7 +7,5 @@ import java.net.URI;
 public abstract class ApiCommand {
 
     protected URI command;
-    public Response execute() {
-        return Response.noContent().build();
-    }
+    protected abstract Response execute();
 }

@@ -2,7 +2,7 @@ package at.htlkaindorf.mh.command;
 
 import jakarta.ws.rs.core.Response;
 
-public class CommandController extends ApiCommand {
+public class CommandController {
 
     private static CommandController instance;
 
@@ -23,7 +23,6 @@ public class CommandController extends ApiCommand {
         this.apiCommand = apiCommand;
     }
 
-    @Override
     public Response execute() {
         return apiCommand.execute();
     }

@@ -18,6 +18,11 @@ function searchMovie(searchString, page) {
     _endCounter = 5;
 
     if (searchString !== "") {
+        document.getElementById('searchResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+            '  <div class="spinner-border" role="status">\n' +
+            '    <span class="visually-hidden">Loading...</span>\n' +
+            '  </div>\n' +
+            '</div>'
         fetch('./api/search/' + searchString + '/' + page)
             .then(value => {
                 console.log(value);
@@ -30,6 +35,7 @@ function searchMovie(searchString, page) {
             })
     } else {
         document.getElementById('searchResult').innerHTML = '';
+        _movies = null;
         document.getElementById('singleMovieDiv').innerHTML = '';
     }
 }
@@ -70,6 +76,12 @@ function loadMovies() {
     document.getElementById('list').innerHTML = '';
     let counter = 0;
 
+
+    if (_movies == null) {
+        document.getElementById('searchResult').innerHTML = '';
+        return;
+    }
+
     _movies.results.forEach(movie => {
         if (counter >= _startCounter && counter < _endCounter) {
 
@@ -80,7 +92,7 @@ function loadMovies() {
                 img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
             }
             let card;
-            if (movie.original_title.length > 25) {
+            if (movie.original_title.length > 20) {
 
                 card = '<div class="card" style="width:200px">\n' +
                     '  <div style="height: 300px">\n' +
@@ -111,10 +123,47 @@ function loadMovies() {
         }
         counter++;
     })
+
 }
 
+function discover(year, monetization, language, region, sort, adult, genres) {
+    genres = genres === 'Alle' ? ' ' : genres;
+    document.getElementById('searchResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+        '  <div class="spinner-border" role="status">\n' +
+        '    <span class="visually-hidden">Loading...</span>\n' +
+        '  </div>\n' +
+        '</div>'
+    fetch('./api/search/discover?year=' + year +
+        '&monetization=' + monetization +
+        '&language=' + language +
+        '&region=' + region +
+        '&sort=' + sort +
+        '&adult=' + adult +
+        '&genres=' + genres)
+        .then(result => {
+            if (result.status === 200) {
+                $('#discoverModal').modal('hide');
+                _startCounter = 0;
+                _endCounter = 5;
+
+                result.json().then(data => {
+                    console.log(data);
+                    _movies = data;
+                    _endMax = data.total_results > 20 ? 20 : data.total_results;
+                    console.log(data);
+                    loadMovies();
+                })
+            }
+
+        })
+}
 
 function getTMDBInformation(tmdbID) {
+    document.getElementById('searchResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+        '  <div class="spinner-border" role="status">\n' +
+        '    <span class="visually-hidden">Loading...</span>\n' +
+        '  </div>\n' +
+        '</div>'
     fetch('./api/search/' + tmdbID)
         .then(result => {
             result.json().then(data => {
@@ -136,31 +185,51 @@ function getTMDBInformation(tmdbID) {
                     imgbg = 'https://image.tmdb.org/t/p/original' + data.backdrop_path;
                 }
 
+                let video = '';
 
-                let card = '<div class="card mb-3" style="max-width: 540px;">\n' +
-                    '  <div class="row g-0">\n' +
-                    '    <div class="col-md-4">\n' +
-                    '      <img style="border-radius: 15px;" src="' + img + '" class="img-fluid rounded-start border-0" alt="...">\n' +
-                    '    </div>\n' +
-                    '    <div class="col-md-8">\n' +
-                    '      <div class="card-body">\n' +
-                    '        <h5 class="card-title">' + data.original_title + '</h5>\n' +
-                    '        <p class="card-text">' + data.overview + '</p>\n' +
-                    '        <p class="card-text"><small class="text-muted"><button onclick="loadMovies()" type="button" class="btn btn-dark">Back</button></small></p>\n' +
-                    '      </div>\n' +
-                    '    </div>\n' +
-                    '  </div>\n' +
-                    '</div>';
+                fetch('./api/search/video/' + data.id)
+                    .then(videoResult => {
+                        videoResult.json().then(videoData => {
+                            console.log(videoData);
 
-                document.getElementById('singleMovieDiv').innerHTML = '<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5"\n' +
-                    '        style="background-image: url(\'' + imgbg + '\');width: 100%">\n' +
-                    '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
-                    '    </div>\n' +
-                    '</div>';
+                            if (videoData.results.length > 0) {
 
-                document.getElementById('singleMovie').innerHTML = card;
+                                let key = videoData.results[0].key;
 
-                //getIMDBInformation(data.imdb_id);
+                                video = '<iframe style="margin-bottom: 25px" width="560" height="315" src="https://www.youtube.com/embed/' + key + '" title="YouTube video player"\n' +
+                                    '        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"\n' +
+                                    '        allowfullscreen>\n' +
+                                    '</iframe>';
+                            }
+                            let card = '<div class="card mb-3" style="max-width: 540px;">\n' +
+                                '  <div class="row g-0">\n' +
+                                '    <div class="col-md-4">\n' +
+                                '      <img style="border-radius: 15px;" src="' + img + '" class="img-fluid rounded-start border-0" alt="...">\n' +
+                                '    </div>\n' +
+                                '    <div class="col-md-8">\n' +
+                                '      <div class="card-body">\n' +
+                                '        <h5 class="card-title">' + data.original_title + '</h5>\n' +
+                                '        <p class="card-text" style="text-align: justify">' + data.overview + '</p>\n' +
+                                '        <p class="card-text"><small class="text-muted"><button onclick="loadMovies()" type="button" class="btn btn-dark">Back</button></small></p>\n' +
+                                '      </div>\n' +
+                                '    </div>\n' +
+                                '  </div>\n' +
+                                '</div>';
+
+                            document.getElementById('singleMovieDiv').innerHTML = '<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5"\n' +
+                                '        style="background-image: url(\'' + imgbg + '\');width: 100%">\n' +
+                                '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
+                                '    </div>\n' +
+                                '</div>\n' +
+                                '<div class="d-flex justify-content-around">' + video + '</div>';
+
+                            document.getElementById('singleMovie').innerHTML = card;
+
+                            //getIMDBInformation(data.imdb_id);
+                        })
+                    })
+
+
             })
         })
 }
@@ -177,6 +246,7 @@ function getIMDBInformation(imdbID) {
 let _genres;
 
 function loadGenres() {
+
     $("#releaseYear").datepicker({
         format: "yyyy",
         viewMode: "years",
@@ -199,6 +269,11 @@ function loadGenres() {
 }
 
 function loadTrending() {
+    document.getElementById('trendingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+        '  <div class="spinner-border" role="status">\n' +
+        '    <span class="visually-hidden">Loading...</span>\n' +
+        '  </div>\n' +
+        '</div>'
     fetch('./api/trending/movies')
         .then(result => {
             result.json().then(data => {
@@ -220,17 +295,33 @@ function loadTrending() {
                             img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
                         }
 
-                        let card = '<div class="card" style="width:200px">\n' +
-                            '  <div style="height: 300px">\n' +
-                            '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                            '  </div>\n' +
-                            '  <div class="card-body">\n' +
-                            '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4>\n' +
-                            '<hr>' +
-                            '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                            '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
-                            '  </div>\n' +
-                            '</div>';
+                        let card = '';
+                        if (movie.original_title.length > 20) {
+
+                            card = '<div class="card" style="width:200px">\n' +
+                                '  <div style="height: 300px">\n' +
+                                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
+                                '  </div>\n' +
+                                '  <div class="card-body">\n' +
+                                '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
+                                '<hr>' +
+                                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
+                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                                '  </div>\n' +
+                                '</div>';
+                        } else {
+                            card = '<div class="card" style="width:200px">\n' +
+                                '  <div style="height: 300px">\n' +
+                                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
+                                '  </div>\n' +
+                                '  <div class="card-body">\n' +
+                                '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
+                                '<hr>' +
+                                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
+                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                                '  </div>\n' +
+                                '</div>';
+                        }
                         let item = '<li class="list-group-item">' + card + '</li>';
                         document.getElementById('listTrending').innerHTML += item;
                     }

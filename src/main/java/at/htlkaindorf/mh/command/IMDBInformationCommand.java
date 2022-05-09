@@ -13,7 +13,7 @@ public class IMDBInformationCommand extends ApiCommand {
     }
 
     @Override
-    public Response execute() {
+    protected Response execute() {
         super.command = URI.create("https://imdb-api.com/de/API/Title/k_gjl52lcn/" + imdbID + "/FullActor,FullCast,Posters,Images,Trailer,Ratings,Wikipedia,");
         return IO_Response.getResponse(super.command);
     }

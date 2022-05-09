@@ -1,10 +1,7 @@
 package at.htlkaindorf.mh.resource;
 
 import at.htlkaindorf.mh.command.*;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -21,11 +18,12 @@ import java.net.http.HttpResponse;
 @Path("/search")
 public class MhSearchMovies {
 
-    private SearchMovieCommand searchMovieCommand = new SearchMovieCommand();
-    private TMDBMovieInformationCommand tmdbMovieInformationCommand = new TMDBMovieInformationCommand();
-    private VideoCommand videoCommand = new VideoCommand();
-    private ProviderCommand providerCommand = new ProviderCommand();
-    private IMDBInformationCommand imdbInformationCommand = new IMDBInformationCommand();
+    private final SearchMovieCommand searchMovieCommand = new SearchMovieCommand();
+    private final TMDBMovieInformationCommand tmdbMovieInformationCommand = new TMDBMovieInformationCommand();
+    private final VideoCommand videoCommand = new VideoCommand();
+    private final ProviderCommand providerCommand = new ProviderCommand();
+    private final IMDBInformationCommand imdbInformationCommand = new IMDBInformationCommand();
+    private final DiscoverCommand discoverCommand = new DiscoverCommand();
 
     public MhSearchMovies() {
 
@@ -59,6 +57,24 @@ public class MhSearchMovies {
         tmdbMovieInformationCommand.setMovieID(movieID);
 
         CommandController.getInstance().setApiCommand(tmdbMovieInformationCommand);
+        return CommandController.getInstance().execute();
+    }
+
+    @GET
+    @Path("/discover")
+    public Response getDiscover (@QueryParam("year") String year, @QueryParam("monetization") String monetization,
+                                 @QueryParam("language") String language, @QueryParam("region") String region,
+                                 @QueryParam("sort") String sort, @QueryParam("adult") boolean adult,
+                                 @QueryParam("genres") String genres) {
+        discoverCommand.setYear(year);
+        discoverCommand.setWith_watch_monetization_types(monetization);
+        discoverCommand.setLanguage(language);
+        discoverCommand.setRegion(region);
+        discoverCommand.setSort_by(sort);
+        discoverCommand.setIncludeAdult(adult);
+        discoverCommand.setWith_genres(genres);
+
+        CommandController.getInstance().setApiCommand(discoverCommand);
         return CommandController.getInstance().execute();
     }
 
