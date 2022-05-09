@@ -12,7 +12,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 /**
- * API Resource Class
+ * <b>API Resource</b>  <br>
+ * [GET] /api/search/{searchString}/{page} - Search a Movie via String <br>
+ * [GET] /api/search/{id} - Can get tmdbMovie Information <br>
+ * [GET] /api/search/video/{id} - Can get the key to a Trailer <br>
+ * [GET] /api/search/imdb/{id} - Can get IMDB Information <br>
+ * [GET] /api/search/provider/{id} - Can get Provider Information <br>
+ * [GET] /api/search/discover - Can get discover Information <br>
+ *
  */
 
 @Path("/search")
@@ -48,8 +55,10 @@ public class MhSearchMovies {
 
     /**
      *
-     * @param movieID
-     * @return
+     * @param movieID id from the movie
+     * @return @{@link Response} with json data from a Movie<br>
+     *      * If the content is ok, it will give back a json with the 200 Status <br>
+     *      * If the content is not ok, it will give back no data with the 204 Status
      */
     @GET
     @Path("/{id}")
@@ -60,6 +69,17 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute();
     }
 
+    /**
+     *
+     * @param year
+     * @param monetization
+     * @param language
+     * @param region
+     * @param sort
+     * @param adult
+     * @param genres
+     * @return
+     */
     @GET
     @Path("/discover")
     public Response getDiscover (@QueryParam("year") String year, @QueryParam("monetization") String monetization,
@@ -78,6 +98,11 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute();
     }
 
+    /**
+     *
+     * @param movieID
+     * @return
+     */
     @GET
     @Path("/video/{id}")
     public Response getVideo(@PathParam("id") int movieID) {
@@ -87,6 +112,11 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute();
     }
 
+    /**
+     *
+     * @param movieID
+     * @return
+     */
     @GET
     @Path("/provider/{id}")
     public Response getProvider(@PathParam("id") int movieID) {
@@ -96,6 +126,11 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute();
     }
 
+    /**
+     *
+     * @param imdbID imdb id from a movie
+     * @return
+     */
     @GET
     @Path("/imdb/{id}")
     @Produces(MediaType.APPLICATION_JSON)
