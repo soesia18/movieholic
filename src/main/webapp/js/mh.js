@@ -226,7 +226,7 @@ function getTMDBInformation(tmdbID) {
                                 '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
                                 '    </div>\n' +
                                 '</div>\n' +
-                                '<div class="d-flex justify-content-around">' +  + '</div>';
+                                '<div class="d-flex justify-content-around">' +  video + '</div>';
 
                             document.getElementById('singleMovie').innerHTML = card;
 
