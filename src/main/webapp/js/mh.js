@@ -6,6 +6,8 @@ let _endMax;
 
 let _movies;
 
+
+
 function searchMovie(searchString, page) {
 
     /*    _genres.forEach(genres => {
@@ -439,6 +441,7 @@ firebase.auth().onAuthStateChanged((user) => {
     }
 });
 
+/*
 function login(userEmail, userPassword) {
     firebase.auth().signInWithEmailAndPassword(userEmail, userPassword)
         .then((userCredential) => {
@@ -454,8 +457,6 @@ function login(userEmail, userPassword) {
             window.alert("Error: " + errorCode + " " + errorMessage);
         });
 
-
-    /*
     let info = document.getElementById("loginInfo");
     let d = {
         "email": tfEmail,
@@ -478,7 +479,7 @@ function login(userEmail, userPassword) {
         }
         $('#loginModal').modal('hide');
         _jwt = response.headers.get("Authorization");
-    }); */
+    });
 }
 
 function clearRegisterModal() {
@@ -542,6 +543,4 @@ function validatePassword(password) {
     var regularExpression = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     return regularExpression.test(password);
 }
-
-
-
+*/
