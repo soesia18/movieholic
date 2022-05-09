@@ -14,6 +14,8 @@ function searchMovie(searchString, page) {
             }
         })*/
 
+    window.scrollTo(0, 0);
+
     _startCounter = 0;
     _endCounter = 5;
 
@@ -102,7 +104,7 @@ function loadMovies() {
                     '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
                     '<hr>' +
                     '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
                     '  </div>\n' +
                     '</div>';
             } else {
@@ -114,7 +116,7 @@ function loadMovies() {
                     '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
                     '<hr>' +
                     '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
                     '  </div>\n' +
                     '</div>';
             }
@@ -222,7 +224,7 @@ function getTMDBInformation(tmdbID) {
                                 '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
                                 '    </div>\n' +
                                 '</div>\n' +
-                                '<div class="d-flex justify-content-around">' + video + '</div>';
+                                '<div class="d-flex justify-content-around">' +  + '</div>';
 
                             document.getElementById('singleMovie').innerHTML = card;
 
@@ -235,11 +237,87 @@ function getTMDBInformation(tmdbID) {
                         providerResult.json().then(providerData => {
                             console.log(providerData);
 
-                            providerData.results.US.buy.forEach(buyData => {
-                                document.getElementById('singleMovieDiv').innerHTML +=
-                                    '<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500'+ buyData.logo_path + '">\n' +
-                                    '<p>' + buyData.provider_name + '</p>';
-                            })
+                            let us = providerData.results.US;
+
+                            let buyArr = [];
+
+                            if (us.buy != null) {
+                                buyArr.push('<p>Buy</p>');
+                                us.buy.forEach(buyData => {
+                                        buyArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '">\n' +
+                                            '<span>' + buyData.provider_name + '</span>');
+                                    }
+                                )
+                            }
+
+                            let flatrateArr = [];
+
+                            if (us.flatrate != null) {
+                                flatrateArr.push('<p>Flatrate</p>');
+                                us.flatrate.forEach(buyData => {
+                                        flatrateArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '">\n' +
+                                            '<span>' + buyData.provider_name + '</span>');
+                                    }
+                                )
+                            }
+
+                            let rentArr = [];
+
+                            if (us.rent != null) {
+                                rentArr.push('<p>Rent</p>');
+                                us.rent.forEach(buyData => {
+                                        rentArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '">\n' +
+                                            '<span>' + buyData.provider_name + '</span>');
+                                    }
+                                )
+                            }
+
+                            let maxRows = buyArr.length;
+
+                            if (maxRows < flatrateArr.length) {
+                                maxRows = flatrateArr.length;
+                            }
+
+                            if (maxRows < rentArr.length) {
+                                maxRows = rentArr.length;
+                            }
+
+                            let table = '<table>';
+
+                            for (let i = 0; i < maxRows; i++) {
+                                table += '<tr>';
+                                if (i < buyArr.length) {
+                                    if (i === 0) {
+                                        table += '<th>' + buyArr[i] + '</th>';
+                                    } else {
+                                        table += '<td>' + buyArr[i] + '</td>';
+                                    }
+                                } else {
+                                    table += '<td></td>';
+                                }
+                                if (i < flatrateArr.length) {
+                                    if (i === 0) {
+                                        table += '<th>' + flatrateArr[i] + '</th>';
+                                    } else {
+                                        table += '<td>' + flatrateArr[i] + '</td>';
+                                    }
+                                } else {
+                                    table += '<td></td>';
+                                }
+                                if (i < rentArr.length) {
+                                    if (i === 0) {
+                                        table += '<th>' + rentArr[i] + '</th>';
+                                    } else {
+                                        table += '<td>' + rentArr[i] + '</td>';
+                                    }
+                                } else {
+                                    table += '<td></td>';
+                                }
+                                table += '</tr>';
+                            }
+                            table += '</table>';
+                            document.getElementById('singleMovieDiv').innerHTML +=
+                                '<div style="margin-bottom: 25px" class="d-flex justify-content-around">' + table + '</div>';
                         })
                     })
 
@@ -319,7 +397,7 @@ function loadTrending() {
                                 '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
                                 '<hr>' +
                                 '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
                                 '  </div>\n' +
                                 '</div>';
                         } else {
@@ -331,7 +409,7 @@ function loadTrending() {
                                 '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
                                 '<hr>' +
                                 '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-primary">See More</a>\n' +
+                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
                                 '  </div>\n' +
                                 '</div>';
                         }
