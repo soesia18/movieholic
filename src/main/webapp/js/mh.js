@@ -351,118 +351,20 @@ function clearLoginModal() {
     document.getElementById("tfLoginPassword").value = "";
 }
 
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        var uid = user.uid;
-        // ...
-    } else {
-        // User is signed out
-        // ...
-    }
-});
 
-/*
-function login(userEmail, userPassword) {
-    firebase.auth().signInWithEmailAndPassword(userEmail, userPassword)
-        .then((userCredential) => {
-            // Signed in
-            var user = userCredential.user;
+function showUserOptions(){
+    document.getElementById("userDropdown").classList.toggle('show');
+}
 
-            window.alert(user);
-        })
-        .catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-
-            window.alert("Error: " + errorCode + " " + errorMessage);
-        });
-
-    let info = document.getElementById("loginInfo");
-    let d = {
-        "email": tfEmail,
-        "password": tfPassword
-    }
-
-    fetch("./api/login/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(d)
-    }).then(response => {
-        info.innerHTML = "";
-        if (response.status !== 200) {
-            if (response.status === 401) {
-                info.innerHTML = "No user with the given credentials found";
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
             }
-            return;
         }
-        $('#loginModal').modal('hide');
-        _jwt = response.headers.get("Authorization");
-    });
-}
-
-function clearRegisterModal() {
-    document.getElementById("tfRegisterEmail").value = "";
-    document.getElementById("tfRegisterPassword1").value = "";
-    document.getElementById("tfRegisterPassword2").value = "";
-}
-
-function register(tfEmail, tfPassword1, tfPassword2) {
-    let info = document.getElementById("registerInfo");
-    if (tfPassword2 === tfPassword1) {
-        if (!validatePassword(tfPassword1)) {
-            document.getElementById("registerInfo").innerHTML = "Password must be a minimum of 8 characters including number, upper, lower and \n" +
-                "one special character";
-            return;
-        }
-        info.innerHTML = "";
-
-        var d = {
-            "email": tfEmail,
-            "password": tfPassword1
-        }
-
-        fetch("./api/login/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(d)
-        }).then(response => {
-            if (response.status !== 200) {
-                if (response.status === 400) {
-                    info.innerHTML = "Einen User mit der E-Mail gibt es bereits! Bitte melden Sie sich an.";
-                }
-                return;
-            }
-            _jwt = response.headers.get("Authorization");
-            $('#registerModal').modal('hide');
-
-            var navbarContent = document.getElementById("navbarContent");
-            var child = document.getElementById("loginSector");
-            navbarContent.removeChild(child);
-            navbarContent.innerHTML += '<div class="nav-item navLogin" data-bs-toggle="modal" data-bs-target="#" id="loginSector">\n' +
-                '            <span id="loginSpan">' + tfEmail + '</span>\n' +
-                '            <svg id="loginImg" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">\n' +
-                '  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>\n' +
-                '  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>\n' +
-                '</svg>' + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">\n' +
-                '  <path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>\n' +
-                '</svg>' + '</div>';
-
-        });
-
-    } else {
-        info.innerHTML = "Not the same password";
-        return;
     }
 }
-
-function validatePassword(password) {
-    var regularExpression = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    return regularExpression.test(password);
-}
-*/
