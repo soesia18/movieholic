@@ -187,6 +187,7 @@ function getTMDBInformation(tmdbID) {
 
                 let video = '';
 
+
                 fetch('./api/search/video/' + data.id)
                     .then(videoResult => {
                         videoResult.json().then(videoData => {
@@ -226,9 +227,21 @@ function getTMDBInformation(tmdbID) {
                             document.getElementById('singleMovie').innerHTML = card;
 
                             //getIMDBInformation(data.imdb_id);
+
                         })
                     })
+                fetch('./api/search/provider/' + data.id)
+                    .then(providerResult => {
+                        providerResult.json().then(providerData => {
+                            console.log(providerData);
 
+                            providerData.results.US.buy.forEach(buyData => {
+                                document.getElementById('singleMovieDiv').innerHTML +=
+                                    '<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500'+ buyData.logo_path + '">\n' +
+                                    '<p>' + buyData.provider_name + '</p>';
+                            })
+                        })
+                    })
 
             })
         })

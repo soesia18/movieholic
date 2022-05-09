@@ -12,7 +12,7 @@ public class ProviderCommand extends MovieIDCommand {
 
     @Override
     protected Response execute() {
-        super.command = URI.create("http://api.themoviedb.org/3/movie/" + movieID + "/watch/provider?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE");
+        super.command = URI.create("http://api.themoviedb.org/3/movie/" + movieID + "/watch/providers?api_key=e2b8d803a857305a89319b778145cfa0");
         return IO_Response.getResponse(super.command);
     }
 }
