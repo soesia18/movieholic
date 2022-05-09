@@ -178,9 +178,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
                         data-bs-target="#registerModal">Register
                 </button>
-                <button type="button" class="btn btn-primary"
-                        onclick="login(tfLoginEmail.value, tfLoginPassword.value)">Login
-                </button>
+                <button type="button" class="btn btn-primary" id="signIn">Login</button>
             </div>
         </div>
     </div>
@@ -219,31 +217,11 @@
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
                         data-bs-target="#loginModal">Login
                 </button>
-                <button type="button" class="btn btn-primary"
-                        onclick="register(tfRegisterEmail.value, tfRegisterPassword1.value, tfRegisterPassword2.value)">
-                    Register
-                </button>
+                <button type="button" class="btn btn-primary" id="signUp">Register</button>
             </div>
         </div>
     </div>
 </div>
-
-<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-<script>
-    import firebase from "firebase/app";
-    import "firebase/auth";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyAtg-YhuQoaMygUzd3fMMj6GKJrumn1kx0",
-        authDomain: "movieholic-bd46f.firebaseapp.com",
-        projectId: "movieholic-bd46f",
-        storageBucket: "movieholic-bd46f.appspot.com",
-        messagingSenderId: "314767373028",
-        appId: "1:314767373028:web:2b96076d3315e40ea7b2f1",
-        measurementId: "G-LW8X0LKQ29"
-    };
-    firebase.initializeApp(firebaseConfig);
-</script>
 
 </body>
 <footer style="margin-top: 100px" class="bg-dark text-center text-white">
@@ -255,5 +233,61 @@
     </div>
     <!-- Copyright -->
 </footer>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js";
+    import { getDatabase } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js";
 
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAUOrSjeSbS44wdOAl-4vrR-4C9gGVmxNQ",
+        authDomain: "movieholic-72a5e.firebaseapp.com",
+        databaseURL: "https://movieholic-72a5e-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "movieholic-72a5e",
+        storageBucket: "movieholic-72a5e.appspot.com",
+        messagingSenderId: "822798284403",
+        appId: "1:822798284403:web:ac600428a2cd52cfebdc06"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+
+    signUp.addEventListener("click", (e) => {
+        let email = document.getElementById("tfRegisterEmail").value;
+        let password1 = document.getElementById("tfRegisterPassword1").value;
+        let password2 = document.getElementById("tfRegisterPassword2").value;
+
+        if (password1 === password2){
+            createUserWithEmailAndPassword(auth, email, password1)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("User created");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log("Error: " + errorMessage);
+                });
+        }
+    });
+
+    signIn.addEventListener("click", (e) => {
+        let email = document.getElementById("tfLoginEmail").value;
+        let password = document.getElementById("tfLoginPassword").value;
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log("logged in");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                console.log("Error: " + errorMessage);
+            });
+    });
+</script>
 </html>
