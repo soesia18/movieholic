@@ -228,6 +228,23 @@
     </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+<script>
+    import firebase from "firebase/app";
+    import "firebase/auth";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAtg-YhuQoaMygUzd3fMMj6GKJrumn1kx0",
+        authDomain: "movieholic-bd46f.firebaseapp.com",
+        projectId: "movieholic-bd46f",
+        storageBucket: "movieholic-bd46f.appspot.com",
+        messagingSenderId: "314767373028",
+        appId: "1:314767373028:web:2b96076d3315e40ea7b2f1",
+        measurementId: "G-LW8X0LKQ29"
+    };
+    firebase.initializeApp(firebaseConfig);
+</script>
+
 </body>
 <footer style="margin-top: 100px" class="bg-dark text-center text-white">
 
@@ -238,4 +255,5 @@
     </div>
     <!-- Copyright -->
 </footer>
+
 </html>
