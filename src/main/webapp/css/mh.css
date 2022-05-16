@@ -117,3 +117,18 @@ textarea:focus, input:focus {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+/*
+#streamProvider {
+    border: black solid 5px;
+}
+
+iframe {
+    border: black solid 5px;
+}*/
+
+#videoProvider {
+    background: #f5f5f7 url(loading.gif) no-repeat center center;
+    padding: 25px;
+    margin-bottom: 25px;
+}

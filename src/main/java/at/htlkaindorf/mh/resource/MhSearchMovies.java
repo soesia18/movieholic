@@ -19,7 +19,7 @@ import java.net.http.HttpResponse;
  * [GET] /api/search/imdb/{id} - Can get IMDB Information <br>
  * [GET] /api/search/provider/{id} - Can get Provider Information <br>
  * [GET] /api/search/discover - Can get discover Information <br>
- *
+ * [GET] /api/search/similar/{id}
  */
 
 @Path("/search")
@@ -31,6 +31,7 @@ public class MhSearchMovies {
     private final ProviderCommand providerCommand = new ProviderCommand();
     private final IMDBInformationCommand imdbInformationCommand = new IMDBInformationCommand();
     private final DiscoverCommand discoverCommand = new DiscoverCommand();
+    private final SimilarCommand similarCommand = new SimilarCommand();
 
     public MhSearchMovies() {
 
@@ -139,6 +140,16 @@ public class MhSearchMovies {
         //http://api.themoviedb.org/3/search/movie?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE&page=1&query=saw&include_adult=false&with_genres=horror
 
         CommandController.getInstance().setApiCommand(imdbInformationCommand);
+        return CommandController.getInstance().execute();
+    }
+
+    @GET
+    @Path("/similar/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSimilarMovie (@PathParam("id") int movieID) {
+        similarCommand.setMovieID(movieID);
+
+        CommandController.getInstance().setApiCommand(similarCommand);
         return CommandController.getInstance().execute();
     }
 }
