@@ -7,6 +7,7 @@ let _endMax;
 let _movies;
 
 
+
 function searchMovie(searchString, page) {
 
     /*    _genres.forEach(genres => {
