@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class UserDB {
     private static UserDB theInstance;
-    private List<User> userList = new ArrayList<>();
+    private final List<User> userList = new ArrayList<>();
 
     public static UserDB getInstance(){
         if (theInstance == null){

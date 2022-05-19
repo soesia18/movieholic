@@ -7,7 +7,6 @@ let _endMax;
 let _movies;
 
 
-
 function searchMovie(searchString, page) {
 
     /*    _genres.forEach(genres => {
@@ -63,6 +62,7 @@ function previousMovie() {
 }
 
 function loadMovies() {
+    window.scrollTo(0, 0);
     document.getElementById('singleMovieDiv').innerHTML = '';
 
     document.getElementById('searchResult').innerHTML = '<button class="btn bg-transparent" id="leftSlide" onclick="previousMovie()">\n' +
@@ -131,6 +131,7 @@ function loadMovies() {
 }
 
 function discover(year, monetization, language, region, sort, adult, genres) {
+    window.scrollTo(0, 0);
     genres = genres === 'Alle' ? ' ' : genres;
     document.getElementById('searchResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
         '  <div class="spinner-border" role="status">\n' +
@@ -194,7 +195,7 @@ function getTMDBInformation(tmdbID) {
 
                 fetch('./api/search/video/' + data.id)
                     .then(videoResult => {
-                        videoResult.json().then(videoData => {
+                        videoResult.json().then(async videoData => {
                             console.log(videoData);
 
                             if (videoData.results.length > 0) {
@@ -226,102 +227,181 @@ function getTMDBInformation(tmdbID) {
                                 '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
                                 '    </div>\n' +
                                 '</div>\n' +
-                                '<div class="d-flex justify-content-around">' +  video + '</div>';
+                                '<div class="d-flex justify-content-around">' + video + '</div>';
 
                             document.getElementById('singleMovie').innerHTML = card;
 
                             //getIMDBInformation(data.imdb_id);
+                            let table = '';
+                            await fetch('./api/search/provider/' + data.id)
+                                .then(providerResult => {
+                                    providerResult.json().then(providerData => {
+                                        console.log(providerData);
+                                        if (providerData.results.length !== null) {
+                                            let us = providerData.results.US;
+
+                                            let buyArr = [];
+
+                                            if (us.buy != null) {
+                                                buyArr.push('<p>Buy</p>');
+                                                us.buy.forEach(buyData => {
+                                                        buyArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '" alt="">\n' +
+                                                            '<span>' + buyData.provider_name + '</span>');
+                                                    }
+                                                )
+                                            }
+
+                                            let flatrateArr = [];
+
+                                            if (us.flatrate != null) {
+                                                flatrateArr.push('<p>Flatrate</p>');
+                                                us.flatrate.forEach(buyData => {
+                                                        flatrateArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '" alt="">\n' +
+                                                            '<span>' + buyData.provider_name + '</span>');
+                                                    }
+                                                )
+                                            }
+
+                                            let rentArr = [];
+
+                                            if (us.rent != null) {
+                                                rentArr.push('<p>Rent</p>');
+                                                us.rent.forEach(buyData => {
+                                                        rentArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '" alt="">\n' +
+                                                            '<span>' + buyData.provider_name + '</span>');
+                                                    }
+                                                )
+                                            }
+
+                                            let maxRows = buyArr.length;
+
+                                            if (maxRows < flatrateArr.length) {
+                                                maxRows = flatrateArr.length;
+                                            }
+
+                                            if (maxRows < rentArr.length) {
+                                                maxRows = rentArr.length;
+                                            }
+
+                                            table = '<table>';
+
+                                            for (let i = 0; i < maxRows; i++) {
+                                                table += '<tr>';
+                                                if (i < buyArr.length) {
+                                                    if (i === 0) {
+                                                        table += '<th>' + buyArr[i] + '</th>';
+                                                    } else {
+                                                        table += '<td>' + buyArr[i] + '</td>';
+                                                    }
+                                                } else {
+                                                    table += '<td></td>';
+                                                }
+                                                if (i < flatrateArr.length) {
+                                                    if (i === 0) {
+                                                        table += '<th>' + flatrateArr[i] + '</th>';
+                                                    } else {
+                                                        table += '<td>' + flatrateArr[i] + '</td>';
+                                                    }
+                                                } else {
+                                                    table += '<td></td>';
+                                                }
+                                                if (i < rentArr.length) {
+                                                    if (i === 0) {
+                                                        table += '<th>' + rentArr[i] + '</th>';
+                                                    } else {
+                                                        table += '<td>' + rentArr[i] + '</td>';
+                                                    }
+                                                } else {
+                                                    table += '<td></td>';
+                                                }
+                                                table += '</tr>';
+                                            }
+                                            table += '</table>';
+                                            /*document.getElementById('singleMovieDiv').innerHTML +=
+                                                '<div style="margin-bottom: 25px" class="d-flex justify-content-around">' + table + '</div>';*/
+                                        }
+                                    })
+
+                                    let trailerProvider = '<div id="videoProvider" class="d-flex justify-content-around">' + video + '<div class="d-flex justify-content-around" id="streamProvider" style="width: 560px">' + table + '</div></div>\n';
+
+                                    if (table === '') {
+                                        trailerProvider = '<div id="videoProvider" class="d-flex justify-content-around">' + video + '</div>';
+                                    }
+
+                                    document.getElementById('singleMovieDiv').innerHTML = '<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5"\n' +
+                                        '        style="background-image: url(\'' + imgbg + '\');width: 100%">\n' +
+                                        '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
+                                        '    </div>\n' +
+                                        '</div>\n' +
+                                        +trailerProvider + '<div id="similarVideos"></div>';
+
+                                    document.getElementById('singleMovie').innerHTML = card;
+
+                                    document.getElementById('similarVideos').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                                        '  <div class="spinner-border" role="status">\n' +
+                                        '    <span class="visually-hidden">Loading...</span>\n' +
+                                        '  </div>\n' +
+                                        '</div>'
+                                    fetch('./api/search/similar/' + data.id)
+                                        .then(resultSimilarMovie => {
+                                            resultSimilarMovie.json().then(dataSimilarMovie => {
+                                                console.log(dataSimilarMovie);
+                                                document.getElementById('similarVideos').innerHTML = '<div class="d-flex justify-content-center"><ul style="text-align: center; margin-top: 25px" id="listSimilar" class="list-group list-group-horizontal">\n' +
+                                                    '    </ul></div>\n';
+
+                                                document.getElementById('listSimilar').innerHTML = '';
+                                                let counter = 0;
+
+                                                dataSimilarMovie.results.forEach(movie => {
+                                                    if (counter >= 0 && counter < 5) {
+
+                                                        let img = '';
+                                                        if (movie.poster_path == null) {
+                                                            img = 'images/notAvailable.jpg'
+                                                        } else {
+                                                            img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
+                                                        }
+
+                                                        let card = '';
+                                                        if (movie.original_title.length > 20) {
+
+                                                            card = '<div class="card" style="width:200px">\n' +
+                                                                '  <div style="height: 300px">\n' +
+                                                                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
+                                                                '  </div>\n' +
+                                                                '  <div class="card-body">\n' +
+                                                                '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
+                                                                '<hr>' +
+                                                                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
+                                                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
+                                                                '  </div>\n' +
+                                                                '</div>';
+                                                        } else {
+                                                            card = '<div class="card" style="width:200px">\n' +
+                                                                '  <div style="height: 300px">\n' +
+                                                                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
+                                                                '  </div>\n' +
+                                                                '  <div class="card-body">\n' +
+                                                                '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
+                                                                '<hr>' +
+                                                                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
+                                                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
+                                                                '  </div>\n' +
+                                                                '</div>';
+                                                        }
+                                                        let item = '<li class="list-group-item">' + card + '</li>';
+                                                        document.getElementById('listSimilar').innerHTML += item;
+                                                    }
+                                                    counter++;
+
+                                                })
+                                            })
+                                        })
+                                })
 
                         })
                     })
-                fetch('./api/search/provider/' + data.id)
-                    .then(providerResult => {
-                        providerResult.json().then(providerData => {
-                            console.log(providerData);
 
-                            let us = providerData.results.US;
-
-                            let buyArr = [];
-
-                            if (us.buy != null) {
-                                buyArr.push('<p>Buy</p>');
-                                us.buy.forEach(buyData => {
-                                        buyArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '">\n' +
-                                            '<span>' + buyData.provider_name + '</span>');
-                                    }
-                                )
-                            }
-
-                            let flatrateArr = [];
-
-                            if (us.flatrate != null) {
-                                flatrateArr.push('<p>Flatrate</p>');
-                                us.flatrate.forEach(buyData => {
-                                        flatrateArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '">\n' +
-                                            '<span>' + buyData.provider_name + '</span>');
-                                    }
-                                )
-                            }
-
-                            let rentArr = [];
-
-                            if (us.rent != null) {
-                                rentArr.push('<p>Rent</p>');
-                                us.rent.forEach(buyData => {
-                                        rentArr.push('<img height="25px" width="25px" src="https://image.tmdb.org/t/p/w500' + buyData.logo_path + '">\n' +
-                                            '<span>' + buyData.provider_name + '</span>');
-                                    }
-                                )
-                            }
-
-                            let maxRows = buyArr.length;
-
-                            if (maxRows < flatrateArr.length) {
-                                maxRows = flatrateArr.length;
-                            }
-
-                            if (maxRows < rentArr.length) {
-                                maxRows = rentArr.length;
-                            }
-
-                            let table = '<table>';
-
-                            for (let i = 0; i < maxRows; i++) {
-                                table += '<tr>';
-                                if (i < buyArr.length) {
-                                    if (i === 0) {
-                                        table += '<th>' + buyArr[i] + '</th>';
-                                    } else {
-                                        table += '<td>' + buyArr[i] + '</td>';
-                                    }
-                                } else {
-                                    table += '<td></td>';
-                                }
-                                if (i < flatrateArr.length) {
-                                    if (i === 0) {
-                                        table += '<th>' + flatrateArr[i] + '</th>';
-                                    } else {
-                                        table += '<td>' + flatrateArr[i] + '</td>';
-                                    }
-                                } else {
-                                    table += '<td></td>';
-                                }
-                                if (i < rentArr.length) {
-                                    if (i === 0) {
-                                        table += '<th>' + rentArr[i] + '</th>';
-                                    } else {
-                                        table += '<td>' + rentArr[i] + '</td>';
-                                    }
-                                } else {
-                                    table += '<td></td>';
-                                }
-                                table += '</tr>';
-                            }
-                            table += '</table>';
-                            document.getElementById('singleMovieDiv').innerHTML +=
-                                '<div style="margin-bottom: 25px" class="d-flex justify-content-around">' + table + '</div>';
-                        })
-                    })
 
             })
         })
@@ -428,23 +508,3 @@ function clearLoginModal() {
     document.getElementById("tfLoginEmail").value = "";
     document.getElementById("tfLoginPassword").value = "";
 }
-() => {
-    const auth = getAuth();
-    signOut(auth).then(() => {
-        let navbarContent = document.getElementById(`navbarContent`);
-        let child = document.getElementById(`loginSector`);
-        navbarContent.removeChild(child);
-
-        navbarContent.innerHTML += `<div class="nav-item navLogin" data-bs-toggle="modal" data-bs-target="#loginModal" id="loginSector">\n' +
-            '            <span id="loginSpan">Login</span>\n' +
-            '            <svg id="loginImg" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"\n' +
-            '                 class="bi bi-person-plus" viewBox="0 0 16 16">\n' +
-            '                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>\n' +
-            '                <path fill-rule="evenodd"\n' +
-            '                      d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>\n' +
-            '            </svg>\n' +
-            '        </div>`;
-    }).catch((error) => {
-        console.log(error);
-    });
-};
