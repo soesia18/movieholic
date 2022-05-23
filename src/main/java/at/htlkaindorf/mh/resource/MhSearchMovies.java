@@ -30,8 +30,12 @@ public class MhSearchMovies {
     private final VideoCommand videoCommand = new VideoCommand();
     private final ProviderCommand providerCommand = new ProviderCommand();
     private final IMDBInformationCommand imdbInformationCommand = new IMDBInformationCommand();
-    private final DiscoverCommand discoverCommand = new DiscoverCommand();
     private final SimilarCommand similarCommand = new SimilarCommand();
+    private final NowPlayingCommand nowPlayingCommand = new NowPlayingCommand();
+    private final TopRatedCommand topRatedCommand = new TopRatedCommand();
+    private final UpcomingCommand upcomingCommand = new UpcomingCommand();
+
+    private DiscoverCommand discoverCommand;
 
     public MhSearchMovies() {
 
@@ -55,11 +59,10 @@ public class MhSearchMovies {
     }
 
     /**
-     *
      * @param movieID id from the movie
      * @return @{@link Response} with json data from a Movie<br>
-     *      * If the content is ok, it will give back a json with the 200 Status <br>
-     *      * If the content is not ok, it will give back no data with the 204 Status
+     * * If the content is ok, it will give back a json with the 200 Status <br>
+     * * If the content is not ok, it will give back no data with the 204 Status
      */
     @GET
     @Path("/{id}")
@@ -71,7 +74,6 @@ public class MhSearchMovies {
     }
 
     /**
-     *
      * @param year
      * @param monetization
      * @param language
@@ -83,24 +85,28 @@ public class MhSearchMovies {
      */
     @GET
     @Path("/discover")
-    public Response getDiscover (@QueryParam("year") String year, @QueryParam("monetization") String monetization,
-                                 @QueryParam("language") String language, @QueryParam("region") String region,
-                                 @QueryParam("sort") String sort, @QueryParam("adult") boolean adult,
-                                 @QueryParam("genres") String genres) {
-        discoverCommand.setYear(year);
-        discoverCommand.setWith_watch_monetization_types(monetization);
-        discoverCommand.setLanguage(language);
-        discoverCommand.setRegion(region);
-        discoverCommand.setSort_by(sort);
-        discoverCommand.setIncludeAdult(adult);
-        discoverCommand.setWith_genres(genres);
+    public Response getDiscover(@QueryParam("year") String year, @QueryParam("monetization") String monetization,
+                                @QueryParam("language") String language, @QueryParam("region") String region,
+                                @QueryParam("sort") String sort, @QueryParam("adult") boolean adult,
+                                @QueryParam("genres") String genres) {
+
+        discoverCommand =
+                DiscoverCommand
+                        .builder()
+                        .year(year)
+                        .with_watch_monetization_types(monetization)
+                        .language(language)
+                        .sort_by(sort)
+                        .region(region)
+                        .with_genres(genres)
+                        .includeAdult(adult)
+                        .build();
 
         CommandController.getInstance().setApiCommand(discoverCommand);
         return CommandController.getInstance().execute();
     }
 
     /**
-     *
      * @param movieID
      * @return
      */
@@ -114,7 +120,6 @@ public class MhSearchMovies {
     }
 
     /**
-     *
      * @param movieID
      * @return
      */
@@ -128,7 +133,6 @@ public class MhSearchMovies {
     }
 
     /**
-     *
      * @param imdbID imdb id from a movie
      * @return
      */
@@ -146,10 +150,34 @@ public class MhSearchMovies {
     @GET
     @Path("/similar/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSimilarMovie (@PathParam("id") int movieID) {
+    public Response getSimilarMovie(@PathParam("id") int movieID) {
         similarCommand.setMovieID(movieID);
 
         CommandController.getInstance().setApiCommand(similarCommand);
+        return CommandController.getInstance().execute();
+    }
+
+    @GET
+    @Path("/nowplaying")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getNowPlaying() {
+        CommandController.getInstance().setApiCommand(nowPlayingCommand);
+        return CommandController.getInstance().execute();
+    }
+
+    @GET
+    @Path("/toprated")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTopRated() {
+        CommandController.getInstance().setApiCommand(topRatedCommand);
+        return CommandController.getInstance().execute();
+    }
+
+    @GET
+    @Path("/upcoming")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUpcoming() {
+        CommandController.getInstance().setApiCommand(upcomingCommand);
         return CommandController.getInstance().execute();
     }
 }

@@ -93,3 +93,11 @@ iframe {
 .loginDropdown {
     margin-right: 10px;
 }
+
+#similarVideos {
+    margin-bottom: 25px;
+}
+
+#trendingResult, #nowPlayingResult, #topRatedResult {
+    margin-bottom: 25px;
+}
