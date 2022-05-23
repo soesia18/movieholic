@@ -27,12 +27,13 @@ public class DBAccess {
     public void addFavoriteToUser(String uid, int movieId) throws ExecutionException, InterruptedException {
         DatabaseReference favRef = ref.child(uid + "/favorites");
 
-        favRef.push().setValueAsync(movieId);
+        ApiFuture<Void> apiFuture =  favRef.push().setValueAsync(movieId);
+        apiFuture.get();
     }
 
     public static void main(String[] args) throws Exception {
         System.setProperty("log4j.configurationFile","./path_to_the_log4j2_config_file/log4j2.xml");
 
-        DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453395);
+        DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);
     }
 }
