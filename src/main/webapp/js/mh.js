@@ -633,3 +633,7 @@ function clearLoginModal() {
 function openSettings() {
     $("#userSettingModal").modal('show');
 }
+
+function updateHomePage() {
+
+}
