@@ -23,7 +23,8 @@
     <script src="js/mh.js"></script>
     <script type="module" src="js/login.js"></script>
 </head>
-<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" onload="loadGenres();loadTrending();loadNowPlaying();loadTopRated();loadUpcoming()">
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50"
+      onload="loadGenres();loadTrending();loadNowPlaying();loadTopRated();loadUpcoming()">
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
     <div style="width: 100%" class="d-flex justify-content-between" id="navbarContent">
         <ul class="navbar-nav">
@@ -304,6 +305,43 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="userSettingModal" tabindex="-1" aria-labelledby="modalUserSetting" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lblUserSetting">User Setting</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>HomePage</h3>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="trendingMovie" checked/>
+                    <label class="form-check-label" for="trendingMovie">Trending Movies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="nowPlayingMovie" checked/>
+                    <label class="form-check-label" for="nowPlayingMovie">Now Playing Movies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="topRatedMovie" checked/>
+                    <label class="form-check-label" for="topRatedMovie">Top Rated Movies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="upcomingMovie" checked/>
+                    <label class="form-check-label" for="upcomingMovie">Upcoming Movies</label>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-primary" style="background-color: #0091ff;" href="#" role="button">
+                        <i class="bi bi-arrow-repeat"></i>
+                        Update
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <footer style="margin-top: 100px" class="bg-dark text-center text-white">
 

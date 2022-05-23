@@ -1,6 +1,12 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js";
-import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js";
+import {getDatabase, set, ref, update} from "https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,7 +29,7 @@ signUp.addEventListener("click", (e) => {
     let password1 = document.getElementById("tfRegisterPassword1").value;
     let password2 = document.getElementById("tfRegisterPassword2").value;
 
-    if (password1 === password2){
+    if (password1 === password2) {
         createUserWithEmailAndPassword(auth, email, password1)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -63,7 +69,7 @@ signIn.addEventListener("click", (e) => {
             const errorMessage = error.message;
             console.log("Error: " + errorMessage);
 
-            if (errorCode === 'auth/invalid-email'){
+            if (errorCode === 'auth/invalid-email') {
 
             }
         });
@@ -78,12 +84,12 @@ onAuthStateChanged(auth, (user) => {
         let child = document.getElementById("loginSector");
         navbarContent.removeChild(child);
         navbarContent.innerHTML += '<div class="dropdown loginDropdown" id="loginSector">\n' +
-            '  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">\n'+
+            '  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">\n' +
             user.email + '\n' +
             '  </button>\n' +
             '  <ul class="dropdown-menu">\n' +
             '    <li><a class="dropdown-item" href="#">Account</a></li>\n' +
-            '    <li><a class="dropdown-item" href="#">Settings</a></li>\n' +
+            '    <li><a class="dropdown-item btn" onclick="openSettings();">Settings</a></li>\n' +
             '    <li id="logout"><a class="dropdown-item" href="#">Logout</a></li>\n' +
             '  </ul>\n' +
             '</div>';

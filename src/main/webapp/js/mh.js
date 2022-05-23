@@ -629,3 +629,7 @@ function clearLoginModal() {
     document.getElementById("tfLoginEmail").value = "";
     document.getElementById("tfLoginPassword").value = "";
 }
+
+function openSettings() {
+    $("#userSettingModal").modal('show');
+}
