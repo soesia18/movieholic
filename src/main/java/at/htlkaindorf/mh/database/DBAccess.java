@@ -1,7 +1,6 @@
 package at.htlkaindorf.mh.database;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
-import com.google.firebase.database.*;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -11,11 +10,11 @@ public class DBAccess {
     private static DBAccess instance;
 
     private Firestore db;
-    private CollectionReference ref;
+    private CollectionReference userRef;
 
     private DBAccess() throws IOException {
         db = FirebaseService.getFireBaseDatabase();
-        ref = db.collection("users");
+        userRef = db.collection("users");
     }
 
     public synchronized static DBAccess getInstance() throws Exception {
@@ -26,13 +25,13 @@ public class DBAccess {
     }
 
     public void addFavoriteToUser(String uid, int movieId) throws ExecutionException, InterruptedException {
-        DocumentReference docRef = ref.document(uid);
+        DocumentReference docRef = userRef.document(uid);
         ApiFuture<WriteResult> arrayUnion = docRef.update("favorites", FieldValue.arrayUnion(movieId));
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
     public void removeFavoriteFromUser(String uid, int movieId) throws ExecutionException, InterruptedException {
-        DocumentReference docRef = ref.document(uid);
+        DocumentReference docRef = userRef.document(uid);
         ApiFuture<WriteResult> arrayUnion = docRef.update("favorites", FieldValue.arrayRemove(movieId));
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }

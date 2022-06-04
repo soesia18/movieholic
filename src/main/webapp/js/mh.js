@@ -624,8 +624,15 @@ function loadUpcoming() {
         })
 }
 
-
 function clearLoginModal() {
     document.getElementById("tfLoginEmail").value = "";
     document.getElementById("tfLoginPassword").value = "";
+}
+
+function addToFavorite(){
+
+}
+
+function removeFromFavorite(){
+
 }
