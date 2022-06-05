@@ -492,7 +492,7 @@ function loadGenres() {
         viewMode: "years",
         minViewMode: "years"
     });
-    fetch('./api/genres')
+    fetch('./api/data/genres')
         .then(result => {
             result.json().then(data => {
                 console.log(data);

@@ -12,7 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 /**
- * <b>API Resource</b>  <br>
+ * <b>API Resource Class</b>  <br>
  * [GET] /api/search/{searchString}/{page} - Search a Movie via String <br>
  * [GET] /api/search/{id} - Can get tmdbMovie Information <br>
  * [GET] /api/search/video/{id} - Can get the key to a Trailer <br>
