@@ -3,6 +3,10 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class DBAccess {
@@ -11,6 +15,11 @@ public class DBAccess {
 
     private Firestore db;
     private CollectionReference userRef;
+
+    private static String TRENDING = "trending";
+    private static String NOW_PLAYING = "nowplaying";
+    private static String TOP_RATED = "toprated";
+    private static String UPCOMING = "upcoming";
 
     private DBAccess() throws IOException {
         db = FirebaseService.getFireBaseDatabase();
@@ -36,10 +45,47 @@ public class DBAccess {
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
+    public void createUserHomePageItems (String uid) {
+        DocumentReference docRef = userRef.document(uid);
+
+        Map<String, Boolean> homepage = new HashMap<>();
+        homepage.put(TRENDING, true);
+        homepage.put(NOW_PLAYING, true);
+        homepage.put(TOP_RATED, true);
+        homepage.put(UPCOMING, true);
+
+        db.collection("homepage").document().set(homepage);
+
+
+        System.out.println("created");
+    }
+    public void updateUserHomePageItems (String uid, boolean trending, boolean nowplaying,
+                                         boolean toprated, boolean upcoming) {
+        DocumentReference docRef = userRef.document(uid);
+
+        docRef.update(TRENDING, trending);
+        docRef.update(NOW_PLAYING, nowplaying);
+        docRef.update(TOP_RATED, toprated);
+        docRef.update(UPCOMING, upcoming);
+
+        System.out.println("updated");
+    }
+
+    public List<Boolean> getUserHomePageItems (String uid) throws ExecutionException, InterruptedException {
+        List<Boolean> homePageItems = new ArrayList<>();
+        DocumentReference docRef = userRef.document(uid);
+
+
+        return homePageItems;
+    }
+
     public static void main(String[] args) throws Exception {
         System.setProperty("log4j.configurationFile","./path_to_the_log4j2_config_file/log4j2.xml");
 
-        DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453394);
-        DBAccess.getInstance().removeFavoriteFromUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);
+        DBAccess.getInstance().createUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
+        DBAccess.getInstance().getUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
+
+        /*DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453394);
+        DBAccess.getInstance().removeFavoriteFromUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);*/
     }
 }

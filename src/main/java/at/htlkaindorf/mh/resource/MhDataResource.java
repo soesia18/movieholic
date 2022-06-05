@@ -16,6 +16,9 @@ import java.net.http.HttpResponse;
  * [GET] /api/data/genres - Return a List of all genres <br>
  * [PUT] /api/data/homepage - set the HomePage item for an account <br>
  * [GET] /api/data/homepage - return the HomePage Items for an account <br>
+ *
+ * @author Simon
+ * @version 1.0
  */
 @Path("/data")
 public class MhDataResource {
@@ -41,6 +44,13 @@ public class MhDataResource {
             @QueryParam("toprated") boolean toprated,
             @QueryParam("upcoming") boolean upcoming) {
 
+
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/homepage")
+    public Response getHomePageItems(@QueryParam("uid") String uid) {
 
         return Response.ok().build();
     }
