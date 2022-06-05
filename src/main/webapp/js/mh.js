@@ -630,6 +630,14 @@ function clearLoginModal() {
     document.getElementById("tfLoginPassword").value = "";
 }
 
+function addToFavorite(){
+
+}
+
+function removeFromFavorite(){
+
+}
+
 function openSettings() {
     $("#userSettingModal").modal('show');
 }

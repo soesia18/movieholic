@@ -1,27 +1,20 @@
 package at.htlkaindorf.mh.database;
-
-import at.htlkaindorf.mh.beans.User;
-import jakarta.validation.constraints.Email;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
 
 public class DBAccess {
 
     private static DBAccess instance;
 
-    private Database db;
-    private Connection con;
+    private Firestore db;
+    private CollectionReference userRef;
 
-    private final String SQL_INSERT_USER = "INSERT INTO userdata (id, email, password, rights) VALUES (DEFAULT, ?, ?, ?)";
-    private final String SQL_GET_USER = "SELECT email, password, rights FROM userdata WHERE email = ?";
-
-    private DBAccess() throws ClassNotFoundException, IOException, SQLException, Exception {
-        db = Database.getInstance();
-        con = db.getConnection();
+    private DBAccess() throws IOException {
+        db = FirebaseService.getFireBaseDatabase();
+        userRef = db.collection("users");
     }
 
     public synchronized static DBAccess getInstance() throws Exception {
@@ -31,33 +24,22 @@ public class DBAccess {
         return instance;
     }
 
-    public void addUser(User user) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(SQL_INSERT_USER);
-        ps.setString(1, user.getEmail());
-        ps.setString(2, user.getPassword());
-        ps.setString(3, String.valueOf(user.getRights()));
-
-        ps.execute();
+    public void addFavoriteToUser(String uid, int movieId) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = userRef.document(uid);
+        ApiFuture<WriteResult> arrayUnion = docRef.update("favorites", FieldValue.arrayUnion(movieId));
+        System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
-    public User findUserByEmail(String email) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(SQL_GET_USER);
-        ps.setString(1, email);
-        ResultSet rs = ps.executeQuery();
-
-        User user = null;
-        while (rs.next()) {
-            user = new User(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0));
-        }
-
-        return user;
+    public void removeFavoriteFromUser(String uid, int movieId) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = userRef.document(uid);
+        ApiFuture<WriteResult> arrayUnion = docRef.update("favorites", FieldValue.arrayRemove(movieId));
+        System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
-    public boolean validateUser(User user) throws SQLException {
-        User u = findUserByEmail(user.getEmail());
-        if (u.getPassword().equals(user.getPassword())){
-            return true;
-        }
-        return false;
+    public static void main(String[] args) throws Exception {
+        System.setProperty("log4j.configurationFile","./path_to_the_log4j2_config_file/log4j2.xml");
+
+        DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453394);
+        DBAccess.getInstance().removeFavoriteFromUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);
     }
 }
