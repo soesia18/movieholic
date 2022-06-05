@@ -45,36 +45,35 @@ public class DBAccess {
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
-    public void createUserHomePageItems (String uid) {
-        DocumentReference docRef = userRef.document(uid);
-
+    public void createUserHomePageItems (String uid) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homepage = new HashMap<>();
         homepage.put(TRENDING, true);
         homepage.put(NOW_PLAYING, true);
         homepage.put(TOP_RATED, true);
         homepage.put(UPCOMING, true);
 
-        db.collection("homepage").document().set(homepage);
 
-
-        System.out.println("created");
+        ApiFuture<WriteResult> future = db.collection("users").document(uid).update("homepage", homepage);
+        System.out.println("Update time : " + future.get().getUpdateTime());
     }
     public void updateUserHomePageItems (String uid, boolean trending, boolean nowplaying,
-                                         boolean toprated, boolean upcoming) {
-        DocumentReference docRef = userRef.document(uid);
+                                         boolean toprated, boolean upcoming) throws ExecutionException, InterruptedException {
+        Map<String, Boolean> homepage = new HashMap<>();
+        homepage.put(TRENDING, true);
+        homepage.put(NOW_PLAYING, true);
+        homepage.put(TOP_RATED, true);
+        homepage.put(UPCOMING, true);
 
-        docRef.update(TRENDING, trending);
-        docRef.update(NOW_PLAYING, nowplaying);
-        docRef.update(TOP_RATED, toprated);
-        docRef.update(UPCOMING, upcoming);
-
-        System.out.println("updated");
+        ApiFuture<WriteResult> future = db.collection("users").document(uid).update("homepage", homepage);
+        System.out.println("Update time : " + future.get().getUpdateTime());
     }
 
     public List<Boolean> getUserHomePageItems (String uid) throws ExecutionException, InterruptedException {
         List<Boolean> homePageItems = new ArrayList<>();
         DocumentReference docRef = userRef.document(uid);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
 
+        System.out.println(future.get().getData().get("homepage"));
 
         return homePageItems;
     }

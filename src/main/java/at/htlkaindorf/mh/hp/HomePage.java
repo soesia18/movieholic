@@ -24,27 +24,27 @@ public class HomePage {
         private int amountMovies;
         private List<String> homePageItems = new ArrayList<>();
 
-        public HomePageBuilder userUID (String userUID){
+        public HomePageBuilder userUID(String userUID) {
             this.userUID = userUID;
             return this;
         }
 
-        public HomePageBuilder amountMovies (int amountMovies){
+        public HomePageBuilder amountMovies(int amountMovies) {
             this.amountMovies = amountMovies;
             return this;
         }
 
-        public HomePageBuilder homePageItems (List<String> homePageItems){
+        public HomePageBuilder homePageItems(List<String> homePageItems) {
             this.homePageItems = homePageItems;
             return this;
         }
 
-        public HomePageBuilder addHomePageItems (String ... homePageItems){
+        public HomePageBuilder addHomePageItems(String... homePageItems) {
             this.homePageItems.addAll(Arrays.asList(homePageItems));
             return this;
         }
 
-        public HomePage build () {
+        public HomePage build() {
             return new HomePage(this.userUID, this.amountMovies, this.homePageItems);
         }
     }
