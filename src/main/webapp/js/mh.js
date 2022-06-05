@@ -630,11 +630,11 @@ function clearLoginModal() {
     document.getElementById("tfLoginPassword").value = "";
 }
 
-function addToFavorite(){
+function addToFavorite() {
 
 }
 
-function removeFromFavorite(){
+function removeFromFavorite() {
 
 }
 
@@ -643,5 +643,5 @@ function openSettings() {
 }
 
 function updateHomePage() {
-
+    let uid = document.getElementById('userSetting').attributes[1].value;
 }
