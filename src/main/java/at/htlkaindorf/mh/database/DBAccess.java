@@ -59,10 +59,10 @@ public class DBAccess {
     public void updateUserHomePageItems (String uid, boolean trending, boolean nowplaying,
                                          boolean toprated, boolean upcoming) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homepage = new HashMap<>();
-        homepage.put(TRENDING, true);
-        homepage.put(NOW_PLAYING, true);
-        homepage.put(TOP_RATED, true);
-        homepage.put(UPCOMING, true);
+        homepage.put(TRENDING, trending);
+        homepage.put(NOW_PLAYING, nowplaying);
+        homepage.put(TOP_RATED, toprated);
+        homepage.put(UPCOMING, upcoming);
 
         ApiFuture<WriteResult> future = db.collection("users").document(uid).update("homepage", homepage);
         System.out.println("Update time : " + future.get().getUpdateTime());
@@ -74,7 +74,6 @@ public class DBAccess {
         ApiFuture<DocumentSnapshot> future = docRef.get();
 
         System.out.println(future.get().getData().get("homepage"));
-
         return homePageItems;
     }
 
@@ -83,6 +82,7 @@ public class DBAccess {
 
         DBAccess.getInstance().createUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
         DBAccess.getInstance().getUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
+        DBAccess.getInstance().updateUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1", true, true, true, false);
 
         /*DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453394);
         DBAccess.getInstance().removeFavoriteFromUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);*/

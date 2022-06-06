@@ -21,6 +21,12 @@ const db = getFirestore(app);
 
 
 signUp.addEventListener("click", (e) => {
+    let registerEmailInfo = document.getElementById("registerEmailInfo");
+    let registerPasswordInfo = document.getElementById("registerPasswordInfo");
+
+    registerEmailInfo.innerHTML = "";
+    registerPasswordInfo.innerHTML = "";
+
     let email = document.getElementById("tfRegisterEmail").value;
     let password1 = document.getElementById("tfRegisterPassword1").value;
     let password2 = document.getElementById("tfRegisterPassword2").value;
@@ -41,14 +47,29 @@ signUp.addEventListener("click", (e) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log("Error: " + errorMessage);
+
                 console.log(errorCode);
+
+                if (errorCode === "auth/email-already-in-use"){
+                    registerEmailInfo.innerHTML = "Email already in use";
+                }else if(errorCode === "auth/invalid-email"){
+                    registerEmailInfo.innerHTML = "Invalid email";
+                }else if(errorCode === "auth/weak-password"){
+                    registerPasswordInfo.innerHTML = "Password is too weak";
+                }
             });
     }
 });
 
 signIn.addEventListener("click", (e) => {
+    let loginEmailInfo = document.getElementById("loginEmailInfo");
+    let loginPasswordInfo = document.getElementById("loginPasswordInfo");
+
     let email = document.getElementById("tfLoginEmail").value;
     let password = document.getElementById("tfLoginPassword").value;
+
+    loginEmailInfo.innerHTML = "";
+    loginPasswordInfo.innerHTML = "";
 
     signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
@@ -68,7 +89,13 @@ signIn.addEventListener("click", (e) => {
             console.log("Error: " + errorMessage);
 
             if (errorCode === 'auth/invalid-email'){
-
+                loginEmailInfo.innerHTML = 'Invalid email';
+            } else if (errorCode === 'auth/user-not-found'){
+                loginEmailInfo.innerHTML = 'User not found';
+            }else if(errorCode === 'auth/wrong-password'){
+                loginPasswordInfo.innerHTML = 'Wrong password';
+            }else if(errorCode === 'auth/user-disabled'){
+                loginEmailInfo.innerHTML = 'User disabled';
             }
         });
 });
