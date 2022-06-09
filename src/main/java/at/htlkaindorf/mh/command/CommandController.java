@@ -17,13 +17,7 @@ public class CommandController {
         return instance;
     }
 
-    private ApiCommand apiCommand;
-
-    public void setApiCommand(ApiCommand apiCommand) {
-        this.apiCommand = apiCommand;
-    }
-
-    public Response execute() {
+    public synchronized Response execute(ApiCommand apiCommand) {
         return apiCommand.execute();
     }
 }

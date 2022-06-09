@@ -3,10 +3,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class DBAccess {
@@ -68,19 +65,27 @@ public class DBAccess {
         System.out.println("Update time : " + future.get().getUpdateTime());
     }
 
-    public List<Boolean> getUserHomePageItems (String uid) throws ExecutionException, InterruptedException {
-        List<Boolean> homePageItems = new ArrayList<>();
+    public Map<String, Boolean> getUserHomePageItems (String uid) throws ExecutionException, InterruptedException {
+        Map<String, Boolean> homePageItems = new HashMap<>();
         DocumentReference docRef = userRef.document(uid);
         ApiFuture<DocumentSnapshot> future = docRef.get();
 
-        System.out.println(future.get().getData().get("homepage"));
+        Object o = Objects.requireNonNull(future.get().getData()).get("homepage");
+        String homepageItemsStr = o.toString().substring(1, o.toString().length() - 1);
+        String[] items = homepageItemsStr.split(",");
+
+        for (String item:items) {
+            String[] split = item.split("=");
+            homePageItems.put(split[0].trim(), Boolean.valueOf(split[1].trim()));
+        }
+
+        System.out.println(homePageItems);
         return homePageItems;
     }
 
     public static void main(String[] args) throws Exception {
         System.setProperty("log4j.configurationFile","./path_to_the_log4j2_config_file/log4j2.xml");
 
-        DBAccess.getInstance().createUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
         DBAccess.getInstance().getUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
         DBAccess.getInstance().updateUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1", true, true, true, false);
 

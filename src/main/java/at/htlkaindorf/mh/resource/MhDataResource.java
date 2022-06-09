@@ -2,6 +2,7 @@ package at.htlkaindorf.mh.resource;
 
 import at.htlkaindorf.mh.command.CommandController;
 import at.htlkaindorf.mh.command.GenreCommand;
+import at.htlkaindorf.mh.command.UpdateHomePageItems;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
@@ -23,6 +24,7 @@ import java.net.http.HttpResponse;
 @Path("/data")
 public class MhDataResource {
     private final GenreCommand genreCommand = new GenreCommand();
+    private final UpdateHomePageItems updateHomePageItems = new UpdateHomePageItems();
 
     /**
      * To get all The Internet Movie DataBase genres
@@ -31,8 +33,7 @@ public class MhDataResource {
     @GET
     @Path("/genres")
     public Response getGenres() {
-        CommandController.getInstance().setApiCommand(genreCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(genreCommand);
     }
 
     @PUT
@@ -44,8 +45,13 @@ public class MhDataResource {
             @QueryParam("toprated") boolean toprated,
             @QueryParam("upcoming") boolean upcoming) {
 
+        updateHomePageItems.setUid(uid);
+        updateHomePageItems.setTrending(trending);
+        updateHomePageItems.setNowplaying(nowplaying);
+        updateHomePageItems.setToprated(toprated);
+        updateHomePageItems.setUpcoming(upcoming);
 
-        return Response.ok().build();
+        return CommandController.getInstance().execute(updateHomePageItems);
     }
 
     @GET

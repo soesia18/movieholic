@@ -25,7 +25,7 @@ public class FirebaseService {
         assert is != null;
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(is))
-                .setDatabaseUrl("https://movieholic-72a5e-default-rtdb.europe-west1.firebasedatabase.app/")
+                .setDatabaseUrl("http://movieholic-72a5e-default-rtdb.europe-west1.firebasedatabase.app/")
                 .build();
 
         FirebaseApp.initializeApp(options);

@@ -19,8 +19,7 @@ public class MhFavoriteResource {
         addFavMovieCommand.setUid(uid);
         addFavMovieCommand.setMovieID(movieId);
 
-        CommandController.getInstance().setApiCommand(addFavMovieCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(addFavMovieCommand);
     }
 
     @POST
@@ -29,7 +28,6 @@ public class MhFavoriteResource {
         removeFavMovieCommand.setUid(uid);
         removeFavMovieCommand.setMovieID(movieId);
 
-        CommandController.getInstance().setApiCommand(removeFavMovieCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(removeFavMovieCommand);
     }
 }

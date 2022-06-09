@@ -54,8 +54,7 @@ public class MhSearchMovies {
         searchMovieCommand.setSearchString(searchString);
         searchMovieCommand.setPage(page);
 
-        CommandController.getInstance().setApiCommand(searchMovieCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(searchMovieCommand);
     }
 
     /**
@@ -69,8 +68,7 @@ public class MhSearchMovies {
     public Response getTMDBMovieInformation(@PathParam("id") int movieID) {
         tmdbMovieInformationCommand.setMovieID(movieID);
 
-        CommandController.getInstance().setApiCommand(tmdbMovieInformationCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(tmdbMovieInformationCommand);
     }
 
     /**
@@ -102,8 +100,7 @@ public class MhSearchMovies {
                         .includeAdult(adult)
                         .build();
 
-        CommandController.getInstance().setApiCommand(discoverCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(discoverCommand);
     }
 
     /**
@@ -115,8 +112,7 @@ public class MhSearchMovies {
     public Response getVideo(@PathParam("id") int movieID) {
         videoCommand.setMovieID(movieID);
 
-        CommandController.getInstance().setApiCommand(videoCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(videoCommand);
     }
 
     /**
@@ -128,8 +124,7 @@ public class MhSearchMovies {
     public Response getProvider(@PathParam("id") int movieID) {
         providerCommand.setMovieID(movieID);
 
-        CommandController.getInstance().setApiCommand(providerCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(providerCommand);
     }
 
     /**
@@ -143,8 +138,7 @@ public class MhSearchMovies {
         imdbInformationCommand.setImdbID(imdbID);
         //http://api.themoviedb.org/3/search/movie?api_key=e2b8d803a857305a89319b778145cfa0&language=de-DE&page=1&query=saw&include_adult=false&with_genres=horror
 
-        CommandController.getInstance().setApiCommand(imdbInformationCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(imdbInformationCommand);
     }
 
     @GET
@@ -153,31 +147,27 @@ public class MhSearchMovies {
     public Response getSimilarMovie(@PathParam("id") int movieID) {
         similarCommand.setMovieID(movieID);
 
-        CommandController.getInstance().setApiCommand(similarCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(similarCommand);
     }
 
     @GET
     @Path("/nowplaying")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNowPlaying() {
-        CommandController.getInstance().setApiCommand(nowPlayingCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(nowPlayingCommand);
     }
 
     @GET
     @Path("/toprated")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopRated() {
-        CommandController.getInstance().setApiCommand(topRatedCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(topRatedCommand);
     }
 
     @GET
     @Path("/upcoming")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUpcoming() {
-        CommandController.getInstance().setApiCommand(upcomingCommand);
-        return CommandController.getInstance().execute();
+        return CommandController.getInstance().execute(upcomingCommand);
     }
 }

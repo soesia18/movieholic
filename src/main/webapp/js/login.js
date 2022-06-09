@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js";
 import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -34,10 +34,18 @@ signUp.addEventListener("click", (e) => {
     if (password1 === password2){
         createUserWithEmailAndPassword(auth, email, password1)
             .then(async (userCredential) => {
+
                 const user = userCredential.user;
 
+
                 await setDoc(doc(db, "users", user.uid), {
-                    email: user.email
+                    email: user.email,
+                    homepage: {
+                        trending: true,
+                        nowplaying: true,
+                        toprated: true,
+                        upcoming: true,
+                    }
                 });
 
                 $('#registerModal').modal('hide');
@@ -101,15 +109,19 @@ signIn.addEventListener("click", (e) => {
 });
 
 const user = auth.currentUser;
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
         const uid = user.uid;
+
+
+        showRightHomePage(uid);
+
 
         let navbarContent = document.getElementById("navbarContent");
         let child = document.getElementById("loginSector");
         navbarContent.removeChild(child);
         navbarContent.innerHTML += '<div class="dropdown loginDropdown" id="loginSector">\n' +
-            '  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">\n'+
+            '  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">\n' +
             user.email + '\n' +
             '  </button>\n' +
             '  <ul class="dropdown-menu">\n' +
@@ -143,3 +155,115 @@ onAuthStateChanged(auth, (user) => {
             '        </div>';
     }
 });
+
+async function showRightHomePage(uid) {
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+
+        if (!docSnap.data().homepage.nowplaying) {
+            document.getElementById('nowPlayingMovie').checked = false;
+            document.getElementById('nowPlayingResult').innerHTML = '';
+        } else {
+            document.getElementById('nowPlayingMovie').checked = false;
+            document.getElementById('nowPlayingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/search/nowplaying')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
+
+                        loadSpecialMovies(data, 'nowPlayingResult', 'listNowPlaying');
+                    })
+                })
+        }
+
+        if (!docSnap.data().homepage.toprated) {
+            document.getElementById('topRatedMovie').checked = false;
+            document.getElementById('topRatedResult').innerHTML = '';
+        } else {
+            document.getElementById('topRatedMovie').checked = true;
+            document.getElementById('topRatedResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/search/toprated')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
+
+                        loadSpecialMovies(data, 'topRatedResult', 'listTopRated');
+                    })
+                })
+        }
+
+        if (!docSnap.data().homepage.trending) {
+            document.getElementById('trendingMovie').checked = false;
+            document.getElementById('trendingResult').innerHTML = '';
+        } else {
+            document.getElementById('trendingMovie').checked = true;
+            document.getElementById('trendingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/trending/movies')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
+
+                        loadSpecialMovies(data, 'trendingResult', 'listTrending');
+                    })
+                })
+        }
+
+        if (!docSnap.data().homepage.upcoming) {
+            document.getElementById('upcomingMovie').checked = false;
+            document.getElementById('upcomingResult').innerHTML = '';
+        } else {
+            document.getElementById('upcomingMovie').checked = true;
+            document.getElementById('upcomingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/search/upcoming')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
+
+                        loadSpecialMovies(data, 'upcomingResult', 'listUpcoming');
+                    })
+                })
+        }
+
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}
+document.getElementById("btnUpdateHomePage").addEventListener("click", updateHomePageInFirebase);
+async function updateHomePageInFirebase() {
+    let trending = document.getElementById('trendingMovie').checked;
+    let nowplaying = document.getElementById('nowPlayingMovie').checked;
+    let toprated = document.getElementById('topRatedMovie').checked;
+    let upcoming = document.getElementById('upcomingMovie').checked;
+
+    let uid = document.getElementById('userSetting').attributes[1].value;
+
+    await updateDoc(doc(db, "users", uid), {
+        homepage: {
+            trending: trending,
+            nowplaying: nowplaying,
+            toprated: toprated,
+            upcoming: upcoming,
+        }
+    });
+
+    showRightHomePage(uid);
+}
