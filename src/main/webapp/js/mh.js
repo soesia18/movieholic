@@ -97,17 +97,19 @@ function loadMovies() {
             }
             let card;
             if (movie.original_title.length > 20) {
-
                 card = '<div class="card" style="width:200px">\n' +
                     '  <div style="height: 300px">\n' +
                     '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
                     '  </div>\n' +
                     '  <div class="card-body">\n' +
                     '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
+                    '   <div id="' + movie.id + '"><svg onclick="addToFavorite('+ movie.id +')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart heart" viewBox="0 0 16 16">\n' +
+                    '  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>\n' +
+                    '</svg></div>\n' +
                     '<hr>' +
                     '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
                     '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
-                    '  </div>\n' +
+                    '   </div>\n' +
                     '</div>';
             } else {
                 card = '<div class="card" style="width:200px">\n' +
@@ -116,6 +118,9 @@ function loadMovies() {
                     '  </div>\n' +
                     '  <div class="card-body">\n' +
                     '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
+                    '   <div id="' + movie.id + '"><svg onclick="addToFavorite('+ movie.id +')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart heart" viewBox="0 0 16 16">\n' +
+                    '  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>\n' +
+                    '</svg></div>\n' +
                     '<hr>' +
                     '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
                     '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
@@ -630,14 +635,6 @@ function clearLoginModal() {
     document.getElementById("tfLoginPassword").value = "";
 }
 
-function addToFavorite() {
-
-}
-
-function removeFromFavorite() {
-
-}
-
 function openSettings() {
     $("#userSettingModal").modal('show');
 }
@@ -658,3 +655,33 @@ function openSettings() {
             })
         })
 }*/
+
+function addToFavorite(movieid) {
+    let div = document.getElementById(movieid);
+
+    div.innerHTML = '<svg onclick="removeFromFavorite(' + movieid + ')" http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill heart" viewBox="0 0 16 16">\n' +
+        '  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>\n' +
+        '</svg>';
+
+    let userSetting = document.getElementById('userSetting');
+    let uid = '';
+    if (userSetting != null) {
+        uid = userSetting.attributes[1].value;
+    }
+    console.log(movieid);
+    console.log(uid);
+}
+
+function removeFromFavorite(movieid){
+    let div = document.getElementById(movieid);
+
+    div.innerHTML = '<svg onclick="addToFavorite('+ movieid +')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart heart" viewBox="0 0 16 16">\n' +
+        '  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>\n' +
+        '</svg>';
+
+    let userSetting = document.getElementById('userSetting');
+    let uid = '';
+    if (userSetting != null) {
+        uid = userSetting.attributes[1].value;
+    }
+}

@@ -101,3 +101,8 @@ iframe {
 #trendingResult, #nowPlayingResult, #topRatedResult {
     margin-bottom: 25px;
 }
+
+.heart {
+    font-size: 20px;
+    color:red;
+}

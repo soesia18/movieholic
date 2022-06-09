@@ -125,7 +125,7 @@ onAuthStateChanged(auth, async (user) => {
             user.email + '\n' +
             '  </button>\n' +
             '  <ul class="dropdown-menu">\n' +
-            '    <li><a class="dropdown-item" href="#">Account</a></li>\n' +
+            '    <li><a class="dropdown-item" href="profile.html">Profile</a></li>\n' +
             '    <li id="userSetting" value="' + uid + '" <a class="dropdown-item" onclick="openSettings();" href="#">Settings</a></li>\n' +
             '    <li id="logout"><a class="dropdown-item" href="#">Logout</a></li>\n' +
             '  </ul>\n' +
