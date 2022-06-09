@@ -32,10 +32,10 @@
                                                                                         id="logo"></a>
             </li>
             <li class="nav-item"><a class="nav-link" href="#searchResult">Search</a></li>
-            <li class="nav-item"><a class="nav-link" href="#trendingResult">Trending</a></li>
-            <li class="nav-item"><a class="nav-link" href="#nowPlayingResult">Now Playing</a></li>
-            <li class="nav-item"><a class="nav-link" href="#topRatedResult">Top Rated</a></li>
-            <li class="nav-item"><a class="nav-link" href="#upcomingResult">Upcoming</a></li>
+            <li id="liTrending" class="nav-item"><a class="nav-link" href="#trendingResult">Trending</a></li>
+            <li id="liNowPlaying" class="nav-item"><a class="nav-link" href="#nowPlayingResult">Now Playing</a></li>
+            <li id="liToprated" class="nav-item"><a class="nav-link" href="#topRatedResult">Top Rated</a></li>
+            <li id="liUpcoming" class="nav-item"><a class="nav-link" href="#upcomingResult">Upcoming</a></li>
         </ul>
         <form class="d-flex">
             <input id="searchInput" onkeyup="searchMovie(searchInput.value, 1)" class="form-control me-2"
@@ -75,7 +75,7 @@
 </div>
 
 
-<div class="row">
+<div id="hrTrending" class="row">
     <div class="col">
         <hr class="bg-danger border-2 border-top border-danger">
     </div>
@@ -99,7 +99,7 @@
 
 </div>
 
-<div class="row">
+<div id="hrNowplaying" class="row">
     <div class="col">
         <hr class="bg-danger border-2 border-top border-danger">
     </div>
@@ -123,7 +123,7 @@
 
 </div>
 
-<div class="row">
+<div id="hrToprated" class="row">
     <div class="col">
         <hr class="bg-danger border-2 border-top border-danger">
     </div>
@@ -147,7 +147,7 @@
 
 </div>
 
-<div class="row">
+<div id="hrUpcoming" class="row">
     <div class="col">
         <hr class="bg-danger border-2 border-top border-danger">
     </div>

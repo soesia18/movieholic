@@ -165,8 +165,13 @@ async function showRightHomePage(uid) {
         if (!docSnap.data().homepage.nowplaying) {
             document.getElementById('nowPlayingMovie').checked = false;
             document.getElementById('nowPlayingResult').innerHTML = '';
+            document.getElementById('hrNowplaying').innerHTML = '';
+            document.getElementById('liNowPlaying').innerHTML = '';
+
         } else {
-            document.getElementById('nowPlayingMovie').checked = false;
+            document.getElementById('nowPlayingMovie').checked = true;
+            document.getElementById('hrNowplaying').innerHTML = getHrText('Now Playing Movies');
+            document.getElementById('liNowPlaying').innerHTML = '<a class="nav-link" href="#nowPlayingResult">Now Playing</a>';
             document.getElementById('nowPlayingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
                 '  <div class="spinner-border" role="status">\n' +
                 '    <span class="visually-hidden">Loading...</span>\n' +
@@ -185,8 +190,12 @@ async function showRightHomePage(uid) {
         if (!docSnap.data().homepage.toprated) {
             document.getElementById('topRatedMovie').checked = false;
             document.getElementById('topRatedResult').innerHTML = '';
+            document.getElementById('hrToprated').innerHTML = '';
+            document.getElementById('liToprated').innerHTML = '';
         } else {
             document.getElementById('topRatedMovie').checked = true;
+            document.getElementById('hrToprated').innerHTML = getHrText('Top Rated Movies');
+            document.getElementById('liToprated').innerHTML = '<a class="nav-link" href="#topRatedResult">Top Rated</a>';
             document.getElementById('topRatedResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
                 '  <div class="spinner-border" role="status">\n' +
                 '    <span class="visually-hidden">Loading...</span>\n' +
@@ -205,8 +214,12 @@ async function showRightHomePage(uid) {
         if (!docSnap.data().homepage.trending) {
             document.getElementById('trendingMovie').checked = false;
             document.getElementById('trendingResult').innerHTML = '';
+            document.getElementById('hrTrending').innerHTML = '';
+            document.getElementById('liTrending').innerHTML = '';
         } else {
             document.getElementById('trendingMovie').checked = true;
+            document.getElementById('hrTrending').innerHTML = getHrText('Movie-Trends of the Week');
+            document.getElementById('liTrending').innerHTML = '<a class="nav-link" href="#trendingResult">Trending</a>';
             document.getElementById('trendingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
                 '  <div class="spinner-border" role="status">\n' +
                 '    <span class="visually-hidden">Loading...</span>\n' +
@@ -225,8 +238,12 @@ async function showRightHomePage(uid) {
         if (!docSnap.data().homepage.upcoming) {
             document.getElementById('upcomingMovie').checked = false;
             document.getElementById('upcomingResult').innerHTML = '';
+            document.getElementById('hrUpcoming').innerHTML = '';
+            document.getElementById('liUpcoming').innerHTML = '';
         } else {
             document.getElementById('upcomingMovie').checked = true;
+            document.getElementById('hrUpcoming').innerHTML = getHrText('Upcoming Movies');
+            document.getElementById('liUpcoming').innerHTML = '<a class="nav-link" href="#upcomingResult">Upcoming</a>';
             document.getElementById('upcomingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
                 '  <div class="spinner-border" role="status">\n' +
                 '    <span class="visually-hidden">Loading...</span>\n' +
@@ -266,4 +283,23 @@ async function updateHomePageInFirebase() {
     });
 
     showRightHomePage(uid);
+}
+
+function getHrText (name) {
+    return '<div class="col">\n' +
+        '        <hr class="bg-danger border-2 border-top border-danger">\n' +
+        '    </div>\n' +
+        '    <div class="col-auto">\n' +
+        '        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"\n' +
+        '             class="bi bi-lightning-charge" viewBox="0 0 16 16">\n' +
+        '            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z"/>\n' +
+        '        </svg>\n' + name +
+        '        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"\n' +
+        '             class="bi bi-lightning-charge" viewBox="0 0 16 16">\n' +
+        '            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z"/>\n' +
+        '        </svg>\n' +
+        '    </div>\n' +
+        '    <div class="col">\n' +
+        '        <hr class="bg-danger border-2 border-top border-danger">\n' +
+        '    </div>';
 }
