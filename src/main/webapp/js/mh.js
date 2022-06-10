@@ -11,12 +11,12 @@ function addToSeenList(imdbID) {
     console.log(uid);
 }
 
-function addToWatchList(imdbID) {
+function addToWatchList(movieID) {
     let uid = document.getElementById('userSetting').attributes[1].value;
 
     let data = {
         uid: uid,
-        imdbID: imdbID
+        movieID: movieID
     }
 
     fetch('./api/watchlist/add', {
@@ -28,7 +28,6 @@ function addToWatchList(imdbID) {
     }).then(res => {
         console.log(res.statusText);
     })
-    console.log(uid);
 }
 
 function removeFromWatchList(imdbID) {
@@ -43,7 +42,7 @@ function getCard(img, title, overview, imdbID){
         let d = {
             uid: userSetting.attributes[1].value,
             imdbID: imdbID
-        }
+        };
 
         let contains_in_watchlist = false;
 

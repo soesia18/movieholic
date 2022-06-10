@@ -65,6 +65,7 @@
           <element id="library" level="project" name="Maven: com.google.api:gax:1.66.0" />
           <element id="library" level="project" name="Maven: io.grpc:grpc-context:1.39.0" />
           <element id="library" level="project" name="Maven: com.google.api.grpc:proto-google-iam-v1:1.0.14" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.17.3" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java-util:3.17.3" />
           <element id="library" level="project" name="Maven: org.threeten:threetenbp:1.5.1" />
           <element id="library" level="project" name="Maven: com.google.cloud:google-cloud-firestore:2.6.1" />
@@ -98,8 +99,6 @@
           <element id="library" level="project" name="Maven: org.json:json:20190722" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.36" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.36" />
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.29" />
-          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.19.4" />
         </element>
       </element>
       <element id="directory" name="META-INF">

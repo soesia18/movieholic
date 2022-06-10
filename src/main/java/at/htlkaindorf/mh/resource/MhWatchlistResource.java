@@ -16,7 +16,6 @@ public class MhWatchlistResource {
     @Path("/add")
     @Consumes("application/json")
     public Response addToWatchlist(UserMovie userMovie) {
-        System.out.println(userMovie.getMovieID());
         try{
             DatabaseAccess.getInstance().addToWatchlist(userMovie.getUid(), userMovie.getMovieID());
         }catch(Exception e){
@@ -30,7 +29,6 @@ public class MhWatchlistResource {
     @Path("/remove")
     @Consumes("application/json")
     public Response removeFromWatchlist(UserMovie userMovie){
-        System.out.println(userMovie.getMovieID());
         try{
             DatabaseAccess.getInstance().removeFromWatchlist(userMovie.getUid(), userMovie.getMovieID());
         }catch(Exception e){
@@ -44,7 +42,6 @@ public class MhWatchlistResource {
     @Path("/check")
     @Consumes("application/json")
     public boolean checkIfUserContains(UserMovie userMovie){
-        System.out.println(userMovie.getMovieID());
         try{
             List<Integer> movieIDs = DatabaseAccess.getInstance().getWatchlistFromUser(userMovie.getUid());
             for(Integer movieID : movieIDs){
