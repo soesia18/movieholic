@@ -1,4 +1,5 @@
 package at.htlkaindorf.mh.database;
+
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 
@@ -24,7 +25,7 @@ public class DBAccess {
     }
 
     public synchronized static DBAccess getInstance() throws Exception {
-        if (instance == null){
+        if (instance == null) {
             instance = new DBAccess();
         }
         return instance;
@@ -42,7 +43,7 @@ public class DBAccess {
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
-    public void createUserHomePageItems (String uid) throws ExecutionException, InterruptedException {
+    public void createUserHomePageItems(String uid) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homepage = new HashMap<>();
         homepage.put(TRENDING, true);
         homepage.put(NOW_PLAYING, true);
@@ -53,8 +54,9 @@ public class DBAccess {
         ApiFuture<WriteResult> future = db.collection("users").document(uid).update("homepage", homepage);
         System.out.println("Update time : " + future.get().getUpdateTime());
     }
-    public void updateUserHomePageItems (String uid, boolean trending, boolean nowplaying,
-                                         boolean toprated, boolean upcoming) throws ExecutionException, InterruptedException {
+
+    public void updateUserHomePageItems(String uid, boolean trending, boolean nowplaying,
+                                        boolean toprated, boolean upcoming) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homepage = new HashMap<>();
         homepage.put(TRENDING, trending);
         homepage.put(NOW_PLAYING, nowplaying);
@@ -65,7 +67,7 @@ public class DBAccess {
         System.out.println("Update time : " + future.get().getUpdateTime());
     }
 
-    public Map<String, Boolean> getUserHomePageItems (String uid) throws ExecutionException, InterruptedException {
+    public Map<String, Boolean> getUserHomePageItems(String uid) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homePageItems = new HashMap<>();
         DocumentReference docRef = userRef.document(uid);
         ApiFuture<DocumentSnapshot> future = docRef.get();
@@ -74,7 +76,7 @@ public class DBAccess {
         String homepageItemsStr = o.toString().substring(1, o.toString().length() - 1);
         String[] items = homepageItemsStr.split(",");
 
-        for (String item:items) {
+        for (String item : items) {
             String[] split = item.split("=");
             homePageItems.put(split[0].trim(), Boolean.valueOf(split[1].trim()));
         }
@@ -83,13 +85,30 @@ public class DBAccess {
         return homePageItems;
     }
 
-    public static void main(String[] args) throws Exception {
-        System.setProperty("log4j.configurationFile","./path_to_the_log4j2_config_file/log4j2.xml");
-
-        DBAccess.getInstance().getUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
-        DBAccess.getInstance().updateUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1", true, true, true, false);
-
-        /*DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453394);
-        DBAccess.getInstance().removeFavoriteFromUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);*/
+    public void addToWatchlist(String uid, int movieID) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = userRef.document(uid);
+        ApiFuture<WriteResult> arrayUnion = docRef.update("watchlist", FieldValue.arrayUnion(movieID));
+        System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
+
+    public void removeFromWatchlist(String uid, int movieID) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = userRef.document(uid);
+        ApiFuture<WriteResult> arrayUnion = docRef.update("watchlist", FieldValue.arrayRemove(movieID));
+        System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        System.setProperty("log4j.configurationFile", "./path_to_the_log4j2_config_file/log4j2.xml");
+
+        //DBAccess.getInstance().getUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
+        //DBAccess.getInstance().updateUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1", true, true, true, false);
+
+        DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453394);
+        DBAccess.getInstance().removeFavoriteFromUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);
+
+
+    }
+
+
 }

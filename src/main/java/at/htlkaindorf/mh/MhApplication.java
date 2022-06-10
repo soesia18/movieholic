@@ -22,5 +22,6 @@ public class MhApplication extends Application implements ServletContextListener
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
     }
 }

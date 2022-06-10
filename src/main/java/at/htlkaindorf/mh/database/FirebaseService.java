@@ -23,7 +23,7 @@ public class FirebaseService {
         InputStream is = getClass().getClassLoader().getResourceAsStream("serviceWorkerKey.json");
 
         assert is != null;
-        FirebaseOptions options = FirebaseOptions.builder()
+        FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(is))
                 .setDatabaseUrl("http://movieholic-72a5e-default-rtdb.europe-west1.firebasedatabase.app/")
                 .build();

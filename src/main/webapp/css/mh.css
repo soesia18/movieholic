@@ -150,3 +150,7 @@ iframe {
 .dropdown-item-text {
     font-weight: bold;
 }
+
+.dropdown-item {
+    cursor: pointer;
+}

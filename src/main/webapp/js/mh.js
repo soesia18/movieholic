@@ -5,17 +5,28 @@ let _endMax;
 
 let _movies;
 
+function addToSeenList(imdbID) {
+    let uid = document.getElementById('userSetting').attributes[1].value;
+
+    console.log(uid);
+}
+
+function addToWatchList(imdbID) {
+    let uid = document.getElementById('userSetting').attributes[1].value;
+
+    console.log(uid);
+}
+
 function getCard(img, title, overview, imdbID){
     let dropdown_menu;
 
     let userSetting = document.getElementById('userSetting');
-    let uid = '';
     if (userSetting != null) {
-        uid = userSetting.getAttribute('uid');
-
         dropdown_menu = `<ul class="dropdown-menu options-dropdown">
-                            <li class="dropdown-item" onclick="getIMDBInformation('${imdbID}')"></li>
-                            <li class="dropdown-item" onclick="getIMDBInformation('${imdbID}')">IMDB</li>
+                            <li class="dropdown-item-text">Schon gesehen?</li>
+                            <li class="dropdown-item"><a onclick="addToSeenList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
+                            <li class="dropdown-item-text">Noch zu schauen?</li>
+                            <li class="dropdown-item"><a onclick="addToWatchList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
                         </ul>`;
     }else{
         dropdown_menu = `<ul class="dropdown-menu options-dropdown">
@@ -40,7 +51,6 @@ function getCard(img, title, overview, imdbID){
                             </a>
                             ${dropdown_menu}
                         </div>
-
                     </div>
                 </div>
                 <div class="card-body">
@@ -57,12 +67,13 @@ function getCard(img, title, overview, imdbID){
                         <a class="image_container" onclick="getIMDBInformation(${imdbID})">
                             <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
                         </a>
-                        <div class="options">
-                            <a class="options_content">
+                        <div class="options dropdown">
+                            <a class="options_content" data-bs-toggle="dropdown">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
                                     <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                 </svg>
                             </a>
+                            ${dropdown_menu}
                         </div>
                     </div>
                 </div>
@@ -648,53 +659,4 @@ function clearLoginModal() {
     document.getElementById("tfLoginPassword").value = "";
 }
 
-function openSettings() {
-    $("#userSettingModal").modal('show');
-}
 
-
-/*function updateHomePage(trending, nowplaying, toprated, upcoming) {
-
-    let uid = document.getElementById('userSetting').attributes[1].value;
-
-
-    fetch('./api/data/homepage?uid=' + uid + '&trending=' + trending + '&nowplaying=' + nowplaying + '&toprated=' +
-        toprated + '&upcoming=' + upcoming, {
-        method: 'PUT'
-    })
-        .then(updateSearchResults => {
-            updateSearchResults.json().then(data => {
-                console.log(data);
-            })
-        })
-}*/
-
-function addToFavorite(movieid) {
-    let div = document.getElementById(movieid);
-
-    div.innerHTML = '<svg onclick="removeFromFavorite(' + movieid + ')" http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill heart" viewBox="0 0 16 16">\n' +
-        '  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>\n' +
-        '</svg>';
-
-    let userSetting = document.getElementById('userSetting');
-    let uid = '';
-    if (userSetting != null) {
-        uid = userSetting.attributes[1].value;
-    }
-    console.log(movieid);
-    console.log(uid);
-}
-
-function removeFromFavorite(movieid){
-    let div = document.getElementById(movieid);
-
-    div.innerHTML = '<svg onclick="addToFavorite('+ movieid +')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart heart" viewBox="0 0 16 16">\n' +
-        '  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>\n' +
-        '</svg>';
-
-    let userSetting = document.getElementById('userSetting');
-    let uid = '';
-    if (userSetting != null) {
-        uid = userSetting.attributes[1].value;
-    }
-}
