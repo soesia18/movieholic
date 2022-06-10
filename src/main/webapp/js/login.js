@@ -133,7 +133,7 @@ onAuthStateChanged(auth, async (user) => {
         let log = document.getElementById("logout");
         log.addEventListener("click", (() => {
             signOut(auth).then(() => {
-                console.log("logout");
+                location.reload();
             }).catch((error) => {
                 console.log(error);
             });

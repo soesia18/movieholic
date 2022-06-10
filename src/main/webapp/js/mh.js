@@ -1,10 +1,80 @@
-let _jwt;
 let _startCounter;
 let _endCounter;
 
 let _endMax;
 
 let _movies;
+
+function getCard(img, title, overview, imdbID){
+    let dropdown_menu;
+
+    let userSetting = document.getElementById('userSetting');
+    let uid = '';
+    if (userSetting != null) {
+        uid = userSetting.getAttribute('uid');
+
+        dropdown_menu = `<ul class="dropdown-menu options-dropdown">
+                            <li class="dropdown-item" onclick="getIMDBInformation('${imdbID}')"></li>
+                            <li class="dropdown-item" onclick="getIMDBInformation('${imdbID}')">IMDB</li>
+                        </ul>`;
+    }else{
+        dropdown_menu = `<ul class="dropdown-menu options-dropdown">
+                            <li><span class="dropdown-item-text">Du möchstes diesen Film zu deiner Liste hinzufügen?</span></li>
+                            <li data-bs-toggle="modal" data-bs-target="#loginModal"><a class="dropdown-item">Login?</a></li>
+                        </ul>`;
+    }
+
+
+    if (title.length > 20) {
+        return `<div class="card" style="width:200px">
+                <div style="height: 300px" class="image">
+                    <div class="wrapper">
+                        <a class="image" onclick="getIMDBInformation(${imdbID})">
+                            <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
+                        </a>
+                        <div class="options dropdown">
+                            <a class="options_content" data-bs-toggle="dropdown">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                            </a>
+                            ${dropdown_menu}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <marquee><h4 style="height: 60px" class="card-title">${title}</h4></marquee>
+                    <hr>
+                        <p style="height: 125px" class="card-text">${overview.substring(0, 100) + '...'}</p>
+                        <a href="#" onclick="getTMDBInformation(${imdbID})" class="btn btn-info">See More</a>
+                </div>
+            </div>`
+    }else{
+        return `<div class="card" style="width:200px">
+                <div style="height: 300px" class="image">
+                    <div class="wrapper">
+                        <a class="image_container" onclick="getIMDBInformation(${imdbID})">
+                            <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
+                        </a>
+                        <div class="options">
+                            <a class="options_content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 style="height: 60px" class="card-title">${title}</h4>
+                    <hr>
+                        <p style="height: 125px" class="card-text">${overview.substring(0, 100) + '...'}</p>
+                        <a href="#" onclick="getTMDBInformation(${imdbID})" class="btn btn-info">See More</a>
+                </div>
+            </div>`
+    }
+}
 
 
 async function searchMovie(searchString, page) {
@@ -95,38 +165,7 @@ function loadMovies() {
             } else {
                 img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
             }
-            let card;
-            if (movie.original_title.length > 20) {
-                card = '<div class="card" style="width:200px">\n' +
-                    '  <div style="height: 300px">\n' +
-                    '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                    '  </div>\n' +
-                    '  <div class="card-body">\n' +
-                    '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
-                    '   <div id="' + movie.id + '"><svg onclick="addToFavorite('+ movie.id +')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart heart" viewBox="0 0 16 16">\n' +
-                    '  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>\n' +
-                    '</svg></div>\n' +
-                    '<hr>' +
-                    '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
-                    '   </div>\n' +
-                    '</div>';
-            } else {
-                card = '<div class="card" style="width:200px">\n' +
-                    '  <div style="height: 300px">\n' +
-                    '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                    '  </div>\n' +
-                    '  <div class="card-body">\n' +
-                    '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
-                    '   <div id="' + movie.id + '"><svg onclick="addToFavorite('+ movie.id +')" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart heart" viewBox="0 0 16 16">\n' +
-                    '  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>\n' +
-                    '</svg></div>\n' +
-                    '<hr>' +
-                    '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
-                    '  </div>\n' +
-                    '</div>';
-            }
+            let card = getCard(img, movie.original_title, movie.overview, movie.id);;
             let item = '<li class="list-group-item">' + card + '</li>';
             document.getElementById('list').innerHTML += item;
         }
@@ -531,33 +570,7 @@ function loadSpecialMovies(data, result, list) {
                 img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
             }
 
-            let card = '';
-            if (movie.original_title.length > 20) {
-
-                card = '<div class="card" style="width:200px">\n' +
-                    '  <div style="height: 300px">\n' +
-                    '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                    '  </div>\n' +
-                    '  <div class="card-body">\n' +
-                    '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
-                    '<hr>' +
-                    '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
-                    '  </div>\n' +
-                    '</div>';
-            } else {
-                card = '<div class="card" style="width:200px">\n' +
-                    '  <div style="height: 300px">\n' +
-                    '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                    '  </div>\n' +
-                    '  <div class="card-body">\n' +
-                    '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
-                    '<hr>' +
-                    '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                    '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
-                    '  </div>\n' +
-                    '</div>';
-            }
+            let card = getCard(img, movie.original_title, movie.overview, movie.id);
             let item = '<li class="list-group-item">' + card + '</li>';
             document.getElementById(list).innerHTML += item;
         }
