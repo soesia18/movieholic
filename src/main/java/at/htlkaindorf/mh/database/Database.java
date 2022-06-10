@@ -58,7 +58,7 @@ public class Database {
         Properties props = new Properties();
 
 
-        props.load(new FileInputStream(new File(getClass().getResource("/database.properties").getFile())));
+        props.load(new FileInputStream(new File(getClass().getResource("/database.properties").getFile().replace("%20", " "))));
         DB_URL = props.getProperty("DB_URL");
         DB_USERNAME = props.getProperty("DB_USERNAME");
         DB_PASSWORD = props.getProperty("DB_PASSWORD");
