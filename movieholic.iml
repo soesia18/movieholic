@@ -94,7 +94,6 @@
     <orderEntry type="library" name="Maven: com.google.api:gax:1.66.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-context:1.39.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.api.grpc:proto-google-iam-v1:1.0.14" level="project" />
-    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.17.3" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java-util:3.17.3" level="project" />
     <orderEntry type="library" name="Maven: org.threeten:threetenbp:1.5.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.cloud:google-cloud-firestore:2.6.1" level="project" />
@@ -128,5 +127,7 @@
     <orderEntry type="library" name="Maven: org.json:json:20190722" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.36" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.36" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.29" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.19.4" level="project" />
   </component>
 </module>
