@@ -34,14 +34,14 @@ function removeFromWatchList(imdbID) {
 
 }
 
-function getCard(img, title, overview, imdbID){
+function getCard(img, title, overview, movieid){
     let dropdown_menu;
 
     let userSetting = document.getElementById('userSetting');
     if (userSetting != null) {
         let d = {
             uid: userSetting.attributes[1].value,
-            imdbID: imdbID
+            movieID: movieid
         };
 
         let contains_in_watchlist = false;
@@ -54,25 +54,24 @@ function getCard(img, title, overview, imdbID){
             body: JSON.stringify(d)
         }).then(res => {
             res.json().then(data => {
-                if (data === true){
-                    contains_in_watchlist = true;
-                }
+
             });
         });
 
+        console.log(contains_in_watchlist);
         if (contains_in_watchlist) {
             dropdown_menu = `<ul class="dropdown-menu options-dropdown">
                             <li class="dropdown-item-text">Schon gesehen?</li>
-                            <li class="dropdown-item"><a onclick="addToSeenList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
+                            <li class="dropdown-item"><a onclick="addToSeenList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
                             <li class="dropdown-item-text">Doch nicht?</li>
-                            <li class="dropdown-item"><a onclick="removeFromWatchList(${imdbID})">Aus Watchlist entfernen</a></li>
+                            <li class="dropdown-item"><a onclick="removeFromWatchList(${movieid})">Aus Watchlist entfernen</a></li>
                         </ul>`;
         }else{
             dropdown_menu = `<ul class="dropdown-menu options-dropdown">
                             <li class="dropdown-item-text">Schon gesehen?</li>
-                            <li class="dropdown-item"><a onclick="addToSeenList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
+                            <li class="dropdown-item"><a onclick="addToSeenList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
                             <li class="dropdown-item-text">Noch zu schauen?</li>
-                            <li class="dropdown-item"><a onclick="addToWatchList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
+                            <li class="dropdown-item"><a onclick="addToWatchList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
                         </ul>`;
         }
     }else{
@@ -87,7 +86,7 @@ function getCard(img, title, overview, imdbID){
         return `<div class="card" style="width:200px">
                 <div style="height: 300px" class="image">
                     <div class="wrapper">
-                        <a class="image" onclick="getIMDBInformation(${imdbID})">
+                        <a class="image" onclick="getIMDBInformation(${movieid})">
                             <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
                         </a>
                         <div class="options dropdown">
@@ -104,14 +103,14 @@ function getCard(img, title, overview, imdbID){
                     <marquee><h4 style="height: 60px" class="card-title">${title}</h4></marquee>
                     <hr>
                         <p style="height: 125px" class="card-text">${overview.substring(0, 100) + '...'}</p>
-                        <a href="#" onclick="getTMDBInformation(${imdbID})" class="btn btn-info">See More</a>
+                        <a href="#" onclick="getTMDBInformation(${movieid})" class="btn btn-info">See More</a>
                 </div>
             </div>`
     }else{
         return `<div class="card" style="width:200px">
                 <div style="height: 300px" class="image">
                     <div class="wrapper">
-                        <a class="image_container" onclick="getIMDBInformation(${imdbID})">
+                        <a class="image_container" onclick="getIMDBInformation(${movieid})">
                             <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
                         </a>
                         <div class="options dropdown">
@@ -128,7 +127,7 @@ function getCard(img, title, overview, imdbID){
                     <h4 style="height: 60px" class="card-title">${title}</h4>
                     <hr>
                         <p style="height: 125px" class="card-text">${overview.substring(0, 100) + '...'}</p>
-                        <a href="#" onclick="getTMDBInformation(${imdbID})" class="btn btn-info">See More</a>
+                        <a href="#" onclick="getTMDBInformation(${movieid})" class="btn btn-info">See More</a>
                 </div>
             </div>`
     }

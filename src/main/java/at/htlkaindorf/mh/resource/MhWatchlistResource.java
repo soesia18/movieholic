@@ -8,6 +8,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/watchlist")
@@ -41,17 +42,13 @@ public class MhWatchlistResource {
     @POST
     @Path("/check")
     @Consumes("application/json")
-    public boolean checkIfUserContains(UserMovie userMovie){
+    public List<Integer> checkIfUserContains(UserMovie userMovie){
+        List<Integer> movieIDs = new ArrayList<>();
         try{
-            List<Integer> movieIDs = DatabaseAccess.getInstance().getWatchlistFromUser(userMovie.getUid());
-            for(Integer movieID : movieIDs){
-                if(movieID == userMovie.getMovieID()){
-                    return true;
-                }
-            }
+            movieIDs = DatabaseAccess.getInstance().getWatchlistFromUser(userMovie.getUid());
         }catch(Exception e){
             e.printStackTrace();
         }
-        return false;
+        return movieIDs;
     }
 }
