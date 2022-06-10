@@ -659,4 +659,24 @@ function clearLoginModal() {
     document.getElementById("tfLoginPassword").value = "";
 }
 
+function openSettings() {
+    $("#userSettingModal").modal('show');
+}
+
+
+/*function updateHomePage(trending, nowplaying, toprated, upcoming) {
+
+    let uid = document.getElementById('userSetting').attributes[1].value;
+
+
+    fetch('./api/data/homepage?uid=' + uid + '&trending=' + trending + '&nowplaying=' + nowplaying + '&toprated=' +
+        toprated + '&upcoming=' + upcoming, {
+        method: 'PUT'
+    })
+        .then(updateSearchResults => {
+            updateSearchResults.json().then(data => {
+                console.log(data);
+            })
+        })
+}*/
 

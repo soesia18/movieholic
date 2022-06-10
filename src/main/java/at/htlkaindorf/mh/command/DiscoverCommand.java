@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.net.URI;
 
+/**
+ *
+ */
 @Getter
 @ToString
 @AllArgsConstructor
