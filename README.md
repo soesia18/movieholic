@@ -8,7 +8,7 @@ and executed on a GlassFish 6.2.5 Server (JDK 17)
 Copy the .jar in your Folder: glassfish6>glassfish>lib <br>
 > 
 
->Go to you your glassfish6>bin and dopple click on asadmin.bat <br>
+>Go to you your glassfish6>bin and double-click on asadmin.bat <br>
 start your domain1 with the command "start-domain domain1" <br>
 > 
 
