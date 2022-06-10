@@ -34,7 +34,8 @@ function removeFromWatchList(imdbID) {
 
 }
 
-function getCard(img, title, overview, movieid){
+
+function getCard(img, title, overview, movieid) {
     let dropdown_menu;
 
     let userSetting = document.getElementById('userSetting');
@@ -44,8 +45,6 @@ function getCard(img, title, overview, movieid){
             movieID: movieid
         };
 
-        let contains_in_watchlist = false;
-
         fetch('./api/watchlist/check', {
             method: 'POST',
             headers: {
@@ -54,27 +53,19 @@ function getCard(img, title, overview, movieid){
             body: JSON.stringify(d)
         }).then(res => {
             res.json().then(data => {
+                console.log(data);
+                    if (data) {
 
+                    }
             });
         });
-
-        console.log(contains_in_watchlist);
-        if (contains_in_watchlist) {
-            dropdown_menu = `<ul class="dropdown-menu options-dropdown">
-                            <li class="dropdown-item-text">Schon gesehen?</li>
-                            <li class="dropdown-item"><a onclick="addToSeenList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
-                            <li class="dropdown-item-text">Doch nicht?</li>
-                            <li class="dropdown-item"><a onclick="removeFromWatchList(${movieid})">Aus Watchlist entfernen</a></li>
-                        </ul>`;
-        }else{
-            dropdown_menu = `<ul class="dropdown-menu options-dropdown">
+        dropdown_menu = `<ul class="dropdown-menu options-dropdown">
                             <li class="dropdown-item-text">Schon gesehen?</li>
                             <li class="dropdown-item"><a onclick="addToSeenList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
                             <li class="dropdown-item-text">Noch zu schauen?</li>
                             <li class="dropdown-item"><a onclick="addToWatchList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
                         </ul>`;
-        }
-    }else{
+    } else {
         dropdown_menu = `<ul class="dropdown-menu options-dropdown">
                             <li><span class="dropdown-item-text">Du möchstes diesen Film zu deiner Liste hinzufügen?</span></li>
                             <li data-bs-toggle="modal" data-bs-target="#loginModal"><a class="dropdown-item">Login?</a></li>
@@ -106,7 +97,7 @@ function getCard(img, title, overview, movieid){
                         <a href="#" onclick="getTMDBInformation(${movieid})" class="btn btn-info">See More</a>
                 </div>
             </div>`
-    }else{
+    } else {
         return `<div class="card" style="width:200px">
                 <div style="height: 300px" class="image">
                     <div class="wrapper">

@@ -42,13 +42,12 @@ public class MhWatchlistResource {
     @POST
     @Path("/check")
     @Consumes("application/json")
-    public List<Integer> checkIfUserContains(UserMovie userMovie){
-        List<Integer> movieIDs = new ArrayList<>();
+    public boolean checkIfUserContains(UserMovie userMovie){
         try{
-            movieIDs = DatabaseAccess.getInstance().getWatchlistFromUser(userMovie.getUid());
+            return DatabaseAccess.getInstance().getWatchlistFromUser(userMovie.getUid()).contains(userMovie.getMovieID());
         }catch(Exception e){
             e.printStackTrace();
         }
-        return movieIDs;
+        return false;
     }
 }

@@ -303,3 +303,19 @@ function getHrText (name) {
         '        <hr class="bg-danger border-2 border-top border-danger">\n' +
         '    </div>';
 }
+
+export async function addToWatch(movieId) {
+    let uid = user.uid;
+    let doc = db.collection("users").doc(uid);
+    doc.get().then(docSnap => {
+        let watchList = docSnap.data().watchList;
+        if (watchList.includes(movieId)) {
+            alert("This movie is already in your watch list");
+        } else {
+            watchList.push(movieId);
+            updateDoc(doc, {
+                watchList: watchList
+            });
+        }
+    });
+}
