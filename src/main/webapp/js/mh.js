@@ -14,7 +14,25 @@ function addToSeenList(imdbID) {
 function addToWatchList(imdbID) {
     let uid = document.getElementById('userSetting').attributes[1].value;
 
+    let data = {
+        uid: uid,
+        imdbID: imdbID
+    }
+
+    fetch('./api/watchlist/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log(res.statusText);
+    })
     console.log(uid);
+}
+
+function removeFromWatchList(imdbID) {
+
 }
 
 function getCard(img, title, overview, imdbID){
@@ -22,12 +40,42 @@ function getCard(img, title, overview, imdbID){
 
     let userSetting = document.getElementById('userSetting');
     if (userSetting != null) {
-        dropdown_menu = `<ul class="dropdown-menu options-dropdown">
+        let d = {
+            uid: userSetting.attributes[1].value,
+            imdbID: imdbID
+        }
+
+        let contains_in_watchlist = false;
+
+        fetch('./api/watchlist/check', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(d)
+        }).then(res => {
+            res.json().then(data => {
+                if (data === true){
+                    contains_in_watchlist = true;
+                }
+            });
+        });
+
+        if (contains_in_watchlist) {
+            dropdown_menu = `<ul class="dropdown-menu options-dropdown">
+                            <li class="dropdown-item-text">Schon gesehen?</li>
+                            <li class="dropdown-item"><a onclick="addToSeenList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
+                            <li class="dropdown-item-text">Doch nicht?</li>
+                            <li class="dropdown-item"><a onclick="removeFromWatchList(${imdbID})">Aus Watchlist entfernen</a></li>
+                        </ul>`;
+        }else{
+            dropdown_menu = `<ul class="dropdown-menu options-dropdown">
                             <li class="dropdown-item-text">Schon gesehen?</li>
                             <li class="dropdown-item"><a onclick="addToSeenList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
                             <li class="dropdown-item-text">Noch zu schauen?</li>
                             <li class="dropdown-item"><a onclick="addToWatchList(${imdbID})">Zu meiner Liste hinzufügen?</a></li>
                         </ul>`;
+        }
     }else{
         dropdown_menu = `<ul class="dropdown-menu options-dropdown">
                             <li><span class="dropdown-item-text">Du möchstes diesen Film zu deiner Liste hinzufügen?</span></li>
