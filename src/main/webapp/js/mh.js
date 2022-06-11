@@ -626,33 +626,7 @@ function getTMDBInformation(tmdbID) {
                                             img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
                                         }
 
-                                        let card = '';
-                                        if (movie.original_title.length > 20) {
-
-                                            card = '<div class="card" style="width:200px">\n' +
-                                                '  <div style="height: 300px">\n' +
-                                                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                                                '  </div>\n' +
-                                                '  <div class="card-body">\n' +
-                                                '    <marquee><h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></marquee>\n' +
-                                                '<hr>' +
-                                                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
-                                                '  </div>\n' +
-                                                '</div>';
-                                        } else {
-                                            card = '<div class="card" style="width:200px">\n' +
-                                                '  <div style="height: 300px">\n' +
-                                                '  <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="' + img + '" alt="Card image">\n' +
-                                                '  </div>\n' +
-                                                '  <div class="card-body">\n' +
-                                                '    <h4 style="height: 60px" class="card-title">' + movie.original_title + '</h4></>\n' +
-                                                '<hr>' +
-                                                '    <p style="height: 125px" class="card-text">' + movie.overview.substring(0, 100) + '...' + '</p>\n' +
-                                                '    <a href="#" onclick="getTMDBInformation(' + movie.id + ')" class="btn btn-info">See More</a>\n' +
-                                                '  </div>\n' +
-                                                '</div>';
-                                        }
+                                        let card = getCard(img, movie.title, movie.overview, movie.id);
                                         let item = '<li class="list-group-item">' + card + '</li>';
                                         document.getElementById('listSimilar').innerHTML += item;
                                     }
