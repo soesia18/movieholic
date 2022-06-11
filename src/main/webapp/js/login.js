@@ -84,7 +84,7 @@ signIn.addEventListener("click", (e) => {
             const user = userCredential.user;
             const dt = new Date();
 
-            await setDoc(doc(db, "users", user.uid), {
+            await updateDoc(doc(db, "users", user.uid), {
                 lastLogin: dt.toString()
             });
 
