@@ -12,6 +12,7 @@ function addToSeenList(imdbID) {
 }
 
 function addToWatchList(movieID) {
+    document.getElementById(movieID + "watchlist").innerHTML = '<a onclick="removeFromWatchList(${movieid})">Von meiner Liste entfernen?</a>';
     let uid = document.getElementById('userSetting').attributes[1].value;
 
     let data = {
@@ -28,6 +29,7 @@ function addToWatchList(movieID) {
     }).then(res => {
         console.log(res.statusText);
     })
+    console.log(uid);
 }
 
 function removeFromWatchList(imdbID) {
@@ -55,7 +57,7 @@ function getCard(img, title, overview, movieid) {
             res.json().then(data => {
                 console.log(data);
                     if (data) {
-
+                        document.getElementById(movieid + "watchlist").innerHTML = '<a onclick="removeFromWatchList(${movieid})">Von meiner Liste entfernen?</a>';
                     }
             });
         });
@@ -63,7 +65,7 @@ function getCard(img, title, overview, movieid) {
                             <li class="dropdown-item-text">Schon gesehen?</li>
                             <li class="dropdown-item"><a onclick="addToSeenList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
                             <li class="dropdown-item-text">Noch zu schauen?</li>
-                            <li class="dropdown-item"><a onclick="addToWatchList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
+                            <li id="${movieid}watchlist" class="dropdown-item"><a onclick="addToWatchList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
                         </ul>`;
     } else {
         dropdown_menu = `<ul class="dropdown-menu options-dropdown">
@@ -474,7 +476,6 @@ function getTMDBInformation(tmdbID) {
 
 
                                 }
-
                             })
 
 

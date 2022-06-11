@@ -85,6 +85,7 @@ public class DatabaseAccess {
         try {
             DatabaseAccess db = DatabaseAccess.getInstance();
             db.addToWatchlist("test2", 13);
+            db.addToWatchlist("test2", 14);
         } catch (Exception e) {
             e.printStackTrace();
         }
