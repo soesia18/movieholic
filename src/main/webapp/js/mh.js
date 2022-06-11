@@ -5,14 +5,63 @@ let _endMax;
 
 let _movies;
 
-function addToSeenList(imdbID) {
+function removeFromSeenList(movieID) {
+    document.getElementById(movieID + "seenlist").innerHTML = `<a onclick="addToSeenList(${movieID})">
+                                <svg style="color: black" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                </svg>
+                                <span>Already watched list</span>
+                            </a>`;
     let uid = document.getElementById('userSetting').attributes[1].value;
 
-    console.log(uid);
+    let data = {
+        uid: uid,
+        movieID: movieID
+    }
+
+    fetch('./api/seenlist/remove', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log(res.statusText);
+    });
+}
+
+function addToSeenList(movieID) {
+    document.getElementById(movieID + "seenlist").innerHTML = `<a onclick="removeFromSeenList(${movieID})">
+                                <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                </svg>
+                                <span>Already watched list</span>
+                            </a>`;
+    let uid = document.getElementById('userSetting').attributes[1].value;
+
+    let data = {
+        uid: uid,
+        movieID: movieID
+    }
+
+    fetch('./api/seenlist/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log(res.statusText);
+    })
 }
 
 function addToWatchList(movieID) {
-    document.getElementById(movieID + "watchlist").innerHTML = '<a onclick="removeFromWatchList(${movieID})">Von meiner Liste entfernen?</a>';
+    document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="removeFromWatchList(${movieID})">
+                                <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                </svg>
+                                <span>Watchlist</span>
+                            </a>`;
     let uid = document.getElementById('userSetting').attributes[1].value;
 
     let data = {
@@ -29,22 +78,43 @@ function addToWatchList(movieID) {
     }).then(res => {
         console.log(res.statusText);
     })
-    console.log(uid);
-}
-
-function removeFromWatchList(imdbID) {
 
 }
 
+function removeFromWatchList(movieID) {
+    document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="addToWatchList(${movieID})">
+                                <svg style="color: black" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                </svg>
+                                <span>Watchlist</span>
+                            </a>`;
+    let uid = document.getElementById('userSetting').attributes[1].value;
 
-function getCard(img, title, overview, movieid) {
+    let data = {
+        uid: uid,
+        movieID: movieID
+    }
+
+    fetch('./api/watchlist/remove', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log(res.statusText);
+    });
+}
+
+
+function getCard(img, title, overview, movieID) {
     let dropdown_menu;
 
     let userSetting = document.getElementById('userSetting');
     if (userSetting != null) {
         let d = {
             uid: userSetting.attributes[1].value,
-            movieID: movieid
+            movieID: movieID
         };
 
         fetch('./api/watchlist/check', {
@@ -55,21 +125,54 @@ function getCard(img, title, overview, movieid) {
             body: JSON.stringify(d)
         }).then(res => {
             res.json().then(data => {
-                console.log(data);
                     if (data) {
-                        document.getElementById(movieid + "watchlist").innerHTML = '<a onclick="removeFromWatchList(${movieid})">Von meiner Liste entfernen?</a>';
+                        document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="removeFromWatchList(${movieID})">
+                                <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                </svg>
+                                <span>Watchlist</span>
+                            </a>`;
                     }
             });
         });
-        dropdown_menu = `<ul class="dropdown-menu options-dropdown">
-                            <li class="dropdown-item-text">Schon gesehen?</li>
-                            <li class="dropdown-item"><a onclick="addToSeenList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
-                            <li class="dropdown-item-text">Noch zu schauen?</li>
-                            <li id="${movieid}watchlist" class="dropdown-item"><a onclick="addToWatchList(${movieid})">Zu meiner Liste hinzufügen?</a></li>
+
+        fetch('./api/seenlist/check', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(d)
+        }).then(res => {
+            res.json().then(data => {
+                if (data) {
+                    document.getElementById(movieID + "seenlist").innerHTML = `<a onclick="removeFromSeenList(${movieID})">
+                                <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                </svg>
+                                <span>Already watched list</span>
+                            </a>`;
+                }
+            });
+        });
+
+
+        dropdown_menu = `<ul class="dropdown-menu options-dropdown" id="${movieID}dropdown">
+                            <li id="${movieID}seenlist" class="dropdown-item"><a onclick="addToSeenList(${movieID})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                </svg>
+                                <span>Already watched list</span>
+                            </a></li>
+                            <li id="${movieID}watchlist" class="dropdown-item"><a onclick="addToWatchList(${movieID})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                </svg>
+                                <span>Watchlist</span>
+                            </a></li>
                         </ul>`;
     } else {
         dropdown_menu = `<ul class="dropdown-menu options-dropdown">
-                            <li><span class="dropdown-item-text">Du möchstes diesen Film zu deiner Liste hinzufügen?</span></li>
+                            <li><span class="dropdown-item-text">Du möchstes diesen Film zu deinen Listen hinzufügen?</span></li>
                             <li data-bs-toggle="modal" data-bs-target="#loginModal"><a class="dropdown-item">Login?</a></li>
                         </ul>`;
     }
@@ -79,7 +182,7 @@ function getCard(img, title, overview, movieid) {
         return `<div class="card" style="width:200px">
                 <div style="height: 300px" class="image">
                     <div class="wrapper">
-                        <a class="image" onclick="getIMDBInformation(${movieid})">
+                        <a class="image">
                             <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
                         </a>
                         <div class="options dropdown">
@@ -96,14 +199,14 @@ function getCard(img, title, overview, movieid) {
                     <marquee><h4 style="height: 60px" class="card-title">${title}</h4></marquee>
                     <hr>
                         <p style="height: 125px" class="card-text">${overview.substring(0, 100) + '...'}</p>
-                        <a href="#" onclick="getTMDBInformation(${movieid})" class="btn btn-info">See More</a>
+                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info">See More</a>
                 </div>
             </div>`
     } else {
         return `<div class="card" style="width:200px">
                 <div style="height: 300px" class="image">
                     <div class="wrapper">
-                        <a class="image_container" onclick="getIMDBInformation(${movieid})">
+                        <a class="image_container">
                             <img style="border-radius: 15px;" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
                         </a>
                         <div class="options dropdown">
@@ -120,7 +223,7 @@ function getCard(img, title, overview, movieid) {
                     <h4 style="height: 60px" class="card-title">${title}</h4>
                     <hr>
                         <p style="height: 125px" class="card-text">${overview.substring(0, 100) + '...'}</p>
-                        <a href="#" onclick="getTMDBInformation(${movieid})" class="btn btn-info">See More</a>
+                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info">See More</a>
                 </div>
             </div>`
     }
