@@ -12,7 +12,7 @@ function addToSeenList(imdbID) {
 }
 
 function addToWatchList(movieID) {
-    document.getElementById(movieID + "watchlist").innerHTML = '<a onclick="removeFromWatchList(${movieid})">Von meiner Liste entfernen?</a>';
+    document.getElementById(movieID + "watchlist").innerHTML = '<a onclick="removeFromWatchList(${movieID})">Von meiner Liste entfernen?</a>';
     let uid = document.getElementById('userSetting').attributes[1].value;
 
     let data = {
