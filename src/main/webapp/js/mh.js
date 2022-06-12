@@ -5,6 +5,34 @@ let _endMax;
 
 let _movies;
 
+function displayProfile(){
+    $("#profileModal").modal('show');
+    let uid = document.getElementById('userSetting').attributes[1].value;
+    /* Fetch Stats */
+
+    document.getElementById("profileDiv").innerHTML = `<div class="row">
+          <div class="col-sm-4">
+            <h1>Profil</h1>
+            <p>Filme in der Watchlist</p>
+            <p>Filme schon gesehen</p>
+            <h3 class="mt-4">Lieblingsgenres</h3>
+            <canvas id="genreChart" width="200" height="200"></canvas>
+            <hr class="d-sm-none">
+          </div>
+          <div class="col-sm-8">
+            <h2>Watchlist</h2>
+            <h5>Filme die Sie noch schauen wollen</h5>
+            <hr>
+            <h5>Ähnliche Filme</h5>
+      
+            <h2 class="mt-5">Schon gesehen</h2>
+            <h5>Filme die sie schon gesehen haben</h5>
+            <hr>
+            <h5>Ähnliche Filme</h5>
+          </div>
+        </div>`
+}
+
 function removeFromSeenList(movieID) {
     document.getElementById(movieID + "seenlist").innerHTML = `<a onclick="addToSeenList(${movieID})">
                                 <svg style="color: black" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
@@ -359,7 +387,6 @@ function discover(year, monetization, language, region, sort, adult, genres) {
 
         })
 }
-
 
 function getTMDBInformation(tmdbID) {
     document.getElementById('searchResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
