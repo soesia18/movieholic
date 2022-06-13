@@ -20,6 +20,8 @@
             crossorigin="anonymous"></script>
 
     <script src="https://kit.fontawesome.com/18543a7aac.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
     <link rel="stylesheet" href="css/mh.css">
     <script src="js/mh.js"></script>
@@ -75,7 +77,6 @@
 <div id="singleMovieDiv">
 
 </div>
-
 
 <div id="hrTrending" class="row">
     <div class="col">
@@ -172,7 +173,6 @@
 <div class="d-flex justify-content-center d-flex align-items-center" id="upcomingResult">
 
 </div>
-
 
 <div class="modal fade" id="discoverModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -313,6 +313,8 @@
     </div>
 </div>
 
+
+
 <!-- Modal -->
 <div class="modal fade" id="userSettingModal" tabindex="-1" aria-labelledby="modalUserSetting" aria-hidden="true">
     <div class="modal-dialog">
@@ -350,6 +352,23 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lblProfile">Profil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="profileDiv" class="container mt-5">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 <footer style="margin-top: 100px" class="bg-dark text-center text-white">
 

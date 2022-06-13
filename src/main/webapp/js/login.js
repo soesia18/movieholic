@@ -121,11 +121,11 @@ onAuthStateChanged(auth, async (user) => {
         let child = document.getElementById("loginSector");
         navbarContent.removeChild(child);
         navbarContent.innerHTML += '<div class="dropdown loginDropdown" id="loginSector">\n' +
-            '  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">\n' +
+            '  <a type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">\n' +
             user.email + '\n' +
-            '  </button>\n' +
+            '  </a>\n' +
             '  <ul class="dropdown-menu">\n' +
-            '    <li><a class="dropdown-item" href="profile.html">Profile</a></li>\n' +
+            '    <li><a class="dropdown-item" onclick="displayProfile()">Profile</a></li>\n' +
             '    <li id="userSetting" value="' + uid + '" <a class="dropdown-item" onclick="openSettings();" href="#">Settings</a></li>\n' +
             '    <li id="logout"><a class="dropdown-item" href="#">Logout</a></li>\n' +
             '  </ul>\n' +
