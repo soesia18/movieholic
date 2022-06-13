@@ -10,8 +10,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private String email;
-    private String password;
-    private char rights;
-    //private List<Movie> userMovies;
+    private String uid;
 }

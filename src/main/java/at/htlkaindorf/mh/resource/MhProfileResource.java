@@ -20,19 +20,19 @@ public class MhProfileResource {
 
     @POST
     @Produces("application/json")
-    public Response getStats(String uid) {
+    public Response getStats(User user) {
         List<Integer> watchlist;
         List<Integer> seenlist;
 
         try{
-            watchlist = DatabaseAccess.getInstance().getWatchlistFromUser(uid);
-            seenlist = DatabaseAccess.getInstance().getWatchlistFromUser(uid);
+            watchlist = DatabaseAccess.getInstance().getWatchlistFromUser(user.getUid());
+            seenlist = DatabaseAccess.getInstance().getSeenlistFromUser(user.getUid());
         }catch(Exception e){
             e.printStackTrace();
             return Response.status(Response.Status.CONFLICT).build();
         }
 
-        Profile profile = new Profile(uid, watchlist, seenlist);
+        Profile profile = new Profile(user.getUid(), watchlist, seenlist);
         return Response.ok(profile).build();
     }
 

@@ -5,32 +5,105 @@ let _endMax;
 
 let _movies;
 
-function displayProfile(){
+function displayProfile() {
     $("#profileModal").modal('show');
     let uid = document.getElementById('userSetting').attributes[1].value;
     /* Fetch Stats */
 
-    document.getElementById("profileDiv").innerHTML = `<div class="row">
-          <div class="col-sm-4">
-            <h1>Profil</h1>
-            <p>Filme in der Watchlist</p>
-            <p>Filme schon gesehen</p>
-            <h3 class="mt-4">Lieblingsgenres</h3>
-            <canvas id="genreChart" width="200" height="200"></canvas>
-            <hr class="d-sm-none">
-          </div>
-          <div class="col-sm-8">
-            <h2>Watchlist</h2>
-            <h5>Filme die Sie noch schauen wollen</h5>
-            <hr>
-            <h5>Ähnliche Filme</h5>
+    let d = {
+        uid: uid
+    }
+    fetch('./api/profile', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(d)
+    }).then(res => {
+        res.json().then(data => {
+            console.log(data);
+            document.getElementById("profileDiv").innerHTML = `<div class="row">
+                    <div class="col-sm-4">
+                        <h1>Profil</h1>
+                        <p>${data.watchlistSize} Filme in der Watchlist</p>
+                        <p>${data.seenlistSize} Filme schon gesehen</p>
+                        <h3 class="mt-4">Lieblingsgenres</h3>
+                        <canvas id="genreChart" width="400" height="400"></canvas>
+                        <hr class="d-sm-none">
+                    </div>
+                    <div class="col-sm-8">
+                        <h2>Watchlist</h2>
+                        <h5>Filme die Sie noch schauen wollen</h5>
+                        <hr>
+                        <h5>Ähnliche Filme</h5>
       
-            <h2 class="mt-5">Schon gesehen</h2>
-            <h5>Filme die sie schon gesehen haben</h5>
-            <hr>
-            <h5>Ähnliche Filme</h5>
-          </div>
-        </div>`
+                        <h2 class="mt-5">Schon gesehen</h2>
+                        <h5>Filme die sie schon gesehen haben</h5>
+                        <hr>
+                        <h5>Ähnliche Filme</h5>
+                </div>
+            </div>`;
+            let chart = document.getElementById("genreChart");
+            let map = new Map();
+            let colors = [];
+            let others = 0;
+            let total = 0;
+            for (let i = 0; i < Object.keys(data.seenlistGenres).length; i++){
+                let genre = Object.keys(data.seenlistGenres)[i];
+                let amount = data.seenlistGenres[genre];
+
+                total += amount;
+            }
+            for (let i = 0; i < Object.keys(data.seenlistGenres).length; i++){
+                let genre = Object.keys(data.seenlistGenres)[i];
+                let amount = data.seenlistGenres[genre];
+
+                if (amount <= (total * 0.05)){
+                    others += amount;
+                }else{
+                    map.set(genre, ((amount / total) * 100).toFixed());
+                }
+                map.set('andere', ((others / total) * 100).toFixed());
+                colors[i] = generateRandomColorRgb();
+            }
+            const sorted_map = new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
+            let labels = Array.from(sorted_map.keys());
+            let chartdata = Array.from(sorted_map.values());
+            let options = {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: chartdata,
+                        backgroundColor: colors,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            formatter: function (value, ctx) {
+                                return ctx.chart.data.labels[ctx.dataIndex] + '\n' + value + '%';
+                            },
+                            color: '#fff',
+                        }
+                    }
+                }
+            }
+            let myChart = new Chart(chart, options);
+        });
+    });
+}
+
+function generateRandomColorRgb() {
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    return "rgb(" + red + ", " + green + ", " + blue + ")";
 }
 
 function removeFromSeenList(movieID) {
@@ -153,14 +226,14 @@ function getCard(img, title, overview, movieID) {
             body: JSON.stringify(d)
         }).then(res => {
             res.json().then(data => {
-                    if (data) {
-                        document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="removeFromWatchList(${movieID})">
+                if (data) {
+                    document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="removeFromWatchList(${movieID})">
                                 <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
                                     <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
                                 </svg>
                                 <span>Watchlist</span>
                             </a>`;
-                    }
+                }
             });
         });
 
@@ -346,7 +419,8 @@ function loadMovies() {
             } else {
                 img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
             }
-            let card = getCard(img, movie.original_title, movie.overview, movie.id);;
+            let card = getCard(img, movie.original_title, movie.overview, movie.id);
+            ;
             let item = '<li class="list-group-item">' + card + '</li>';
             document.getElementById('list').innerHTML += item;
         }

@@ -131,4 +131,8 @@ public class DatabaseAccess {
 
         return movieIDs;
     }
+
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
+        System.out.println(DatabaseAccess.getInstance().getSeenlistFromUser("OFVn4vGhY2UxGkS4BsLJjBP4UGt1"));
+    }
 }
