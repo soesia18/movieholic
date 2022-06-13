@@ -5,6 +5,84 @@ let _endMax;
 
 let _movies;
 
+let _watchlistMovies = [];
+let _watchlistStartCounter = 0;
+let _watchlistEndCounter = 5;
+let _watchlistEndMax;
+
+function loadWatchlistMovies() {
+    document.getElementById("watchlistContent").innerHTML = '';
+    console.log(_watchlistStartCounter);
+    console.log(_watchlistEndCounter);
+    for (let i = 0; i < _watchlistEndMax; i++){
+        if (i >= _watchlistStartCounter && i < _watchlistEndCounter) {
+            let img = '';
+            if (_watchlistMovies[i].poster_path == null) {
+                img = 'images/notAvailable.jpg'
+            } else {
+                img = 'https://image.tmdb.org/t/p/original' + _watchlistMovies[i].poster_path;
+            }
+            let card = getSmallCard(img, _watchlistMovies[i].original_title, _watchlistMovies[i].id);
+            let item = `<li class="list-group-item">${card}</li>`;
+            document.getElementById("watchlistContent").innerHTML += item;
+        }
+    }
+}
+
+
+function displayWatchlist(d) {
+    let counter = _watchlistStartCounter;
+
+    document.getElementById("watchlist").innerHTML =
+        `<button class="btn bg-transparent" id="leftSlide" onclick="previousWatchlistMovie()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                        <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+                    </svg>
+              </button>
+              <ul style="text-align: center; margin-top: 25px" id="watchlistContent" class="list-group list-group-horizontal"></ul>
+              <button class="btn bg-transparent" id="leftSlide" onclick="nextWatchlistMovie()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+                </svg>
+              </button>`;
+    document.getElementById('watchlistContent').innerHTML = '';
+
+    _watchlistEndMax = d.watchlist.length;
+    for (let i = 0; i < _watchlistEndMax; i++){
+            fetch('./api/search/' + d.watchlist[i]).then(res => {
+                res.json().then(data => {
+                    console.log(data);
+                    _watchlistMovies[i] = data;
+                    if (i === (_watchlistEndMax - 1)) {
+                        loadWatchlistMovies();
+                    }
+                });
+            });
+    }
+}
+
+function displaySimilarToWatchlist(data) {
+    document.getElementById("similarToWatchlist").innerHTML =
+              `<ul style="text-align: center; margin-top: 25px" id="similarToWatchlist" class="list-group list-group-horizontal"></ul>`;
+    document.getElementById('similarToWatchlist').innerHTML = '';
+
+    for (let i = 0; i < 5; i++){
+            fetch('./api/search/' + data.similarMoviesToWatchlist[i]).then(res => {
+                res.json().then(data => {
+                    let img = '';
+                    if (data.poster_path == null) {
+                        img = 'images/notAvailable.jpg'
+                    } else {
+                        img = 'https://image.tmdb.org/t/p/original' + data.poster_path;
+                    }
+                    let card = getSmallCard(img, data.original_title, data.id);
+                    let item = `<li class="list-group-item">${card}</li>`;
+                    document.getElementById("similarToWatchlist").innerHTML += item;
+                });
+            });
+    }
+}
+
 function displayProfile() {
     $("#profileModal").modal('show');
     let uid = document.getElementById('userSetting').attributes[1].value;
@@ -13,6 +91,11 @@ function displayProfile() {
     let d = {
         uid: uid
     }
+    document.getElementById("profileDiv").innerHTML = '<div class="d-flex justify-content-center">\n' +
+        '  <div class="spinner-border" role="status">\n' +
+        '    <span class="visually-hidden">Loading...</span>\n' +
+        '  </div>\n' +
+        '</div>';
     fetch('./api/profile', {
         method: 'POST',
         headers: {
@@ -34,15 +117,23 @@ function displayProfile() {
                     <div class="col-sm-8">
                         <h2>Watchlist</h2>
                         <h5>Filme die Sie noch schauen wollen</h5>
+                        <div id="watchlist" class="d-flex justify-content-center d-flex align-items-center"></div>
                         <hr>
                         <h5>Ähnliche Filme</h5>
-      
+                        <div id="similarToWatchlist" class="d-flex justify-content-center d-flex align-items-center"></div>
+                        
                         <h2 class="mt-5">Schon gesehen</h2>
                         <h5>Filme die sie schon gesehen haben</h5>
+                        <div id="seenlist"></div>
                         <hr>
                         <h5>Ähnliche Filme</h5>
                 </div>
             </div>`;
+
+            _watchlistEndMax = data.watchlist.length;
+            displayWatchlist(data);
+            displaySimilarToWatchlist(data);
+
             let chart = document.getElementById("genreChart");
             let map = new Map();
             let colors = [];
@@ -97,6 +188,58 @@ function displayProfile() {
             let myChart = new Chart(chart, options);
         });
     });
+}
+
+function nextWatchlistMovie() {
+    if (_watchlistEndCounter < _watchlistEndMax - 1) {
+        _watchlistStartCounter++;
+        _watchlistEndCounter++;
+
+        loadWatchlistMovies();
+    }
+}
+
+function previousWatchlistMovie() {
+    if (_watchlistStartCounter > 0) {
+        _watchlistStartCounter--;
+        _watchlistEndCounter--;
+
+        loadWatchlistMovies();
+    }
+}
+
+function getSmallCard(img, title, movieID){
+    if (title.length > 10) {
+        return `<div class="card" style="width: 100px">
+                <div style="height: 50%" class="image">
+                    <div class="wrapper">
+                        <a class="image">
+                            <img style="border-radius: 15px" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 5px">
+                    <marquee><h4 style="font-size: 15px" class="card-title">${title}</h4></marquee>
+                    <hr>
+                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info"><span style="font-size: 15px">See more</span></a>
+                </div>
+            </div>`
+    } else {
+        return `<div class="card" style="width: 100px">
+                <div class="image" style="height: 30%">
+                    <div class="wrapper">
+                        <a class="image_container">
+                            <img style="border-radius: 15px"" class="card-img mx-auto d-block border-0" src="${img}" alt="Card image">
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body justify-content-center" style="padding: 5px">
+                    <h4 style="font-size: 15px" class="card-title">${title}</h4>
+                    <hr>
+                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info"><span style="font-size: 15px">See more</span></a>
+                </div>
+            </div>`;
+    }
 }
 
 function generateRandomColorRgb() {
@@ -326,7 +469,7 @@ function getCard(img, title, overview, movieID) {
                         <p style="height: 125px" class="card-text">${overview.substring(0, 100) + '...'}</p>
                         <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info">See More</a>
                 </div>
-            </div>`
+            </div>`;
     }
 }
 
@@ -420,12 +563,12 @@ function loadMovies() {
                 img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
             }
             let card = getCard(img, movie.original_title, movie.overview, movie.id);
-            ;
+
             let item = '<li class="list-group-item">' + card + '</li>';
             document.getElementById('list').innerHTML += item;
         }
         counter++;
-    })
+    });
 
 }
 
@@ -463,6 +606,7 @@ function discover(year, monetization, language, region, sort, adult, genres) {
 }
 
 function getTMDBInformation(tmdbID) {
+    $('#profileModal').modal('hide');
     document.getElementById('searchResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
         '  <div class="spinner-border" role="status">\n' +
         '    <span class="visually-hidden">Loading...</span>\n' +
