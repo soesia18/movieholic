@@ -1,6 +1,7 @@
 package at.htlkaindorf.mh.command;
 
 import jakarta.ws.rs.core.Response;
+import lombok.NoArgsConstructor;
 
 /**
  * Controller class for the Command Pattern to execute the commands
@@ -8,13 +9,11 @@ import jakarta.ws.rs.core.Response;
  * @version 1.0
  * @since last update: 09.05.2022
  */
+@NoArgsConstructor
 public class CommandController {
 
     private static CommandController instance;
 
-    private CommandController () {
-
-    }
 
     /**
      * Create a new instance if there is no instance yet.

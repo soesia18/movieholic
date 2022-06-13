@@ -34,7 +34,8 @@ public class DiscoverCommand extends ApiCommand {
                 URI.create("http://api.themoviedb.org/3/discover/movie?api_key=e2b8d803a857305a89319b778145cfa0" +
                         "&language=" + language + "&region="+ region +"&sort_by=" + sort_by +
                         "&include_adult=" + (includeAdult ? "true" : "false") +
-                        "&year=" +  year + "&with_genres=" + with_genres + "&with_watch_monetization_types=" + with_watch_monetization_types);
+                        "&year=" +  year + "&with_genres=" + with_genres + "&with_watch_monetization_types=" +
+                        with_watch_monetization_types);
         return IO_Response.getResponse(super.command);
     }
 

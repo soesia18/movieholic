@@ -125,14 +125,14 @@ function getCard(img, title, overview, movieID) {
             body: JSON.stringify(d)
         }).then(res => {
             res.json().then(data => {
-                    if (data) {
-                        document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="removeFromWatchList(${movieID})">
+                if (data) {
+                    document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="removeFromWatchList(${movieID})">
                                 <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
                                     <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
                                 </svg>
                                 <span>Watchlist</span>
                             </a>`;
-                    }
+                }
             });
         });
 
@@ -318,7 +318,8 @@ function loadMovies() {
             } else {
                 img = 'https://image.tmdb.org/t/p/original' + movie.poster_path;
             }
-            let card = getCard(img, movie.original_title, movie.overview, movie.id);;
+            let card = getCard(img, movie.original_title, movie.overview, movie.id);
+
             let item = '<li class="list-group-item">' + card + '</li>';
             document.getElementById('list').innerHTML += item;
         }
@@ -391,6 +392,25 @@ function getTMDBInformation(tmdbID) {
                 let video = '';
                 let card = '';
                 let table = '';
+                let productionCompanies = '<div id="productionHeader" class="row">\n' +
+                    '    <div class="col">\n' +
+                    '        <hr class="bg-danger border-2 border-top border-info">\n' +
+                    '    </div>\n' +
+                    '    <div class="col-auto">\n' +
+                    '        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">\n' +
+                    '  <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>\n' +
+                    '</svg>\n' +
+                    'Production Companies\n' +
+                    '    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">\n' +
+                    '  <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>\n' +
+                    '</svg>\n' +
+                    '</div>\n' +
+                    '    <div class="col">\n' +
+                    '        <hr class="bg-danger border-2 border-top border-info">\n' +
+                    '    </div>\n' +
+                    '    </div>\n' +
+                    '<div id="productionCompanies" class="d-flex justify-content-around"></div>';
+                let productionCards = '';
 
 
                 await fetch('./api/search/video/' + data.id)
@@ -572,7 +592,7 @@ function getTMDBInformation(tmdbID) {
                                         '        style="background-image: url(\'' + imgbg + '\');width: 100%">\n' +
                                         '<div class="d-flex justify-content-center d-flex align-items-center" id="singleMovie">\n' +
                                         '    </div>\n' +
-                                        '</div>\n' +
+                                        '</div>\n' + productionCompanies +
                                         trailerProvider + '<div id="similarVideos"></div>';
 
                                     document.getElementById('singleMovie').innerHTML = card;
@@ -636,7 +656,31 @@ function getTMDBInformation(tmdbID) {
                             })
                         }
                     })
+                let lastCompany = data.production_companies[data.production_companies.length - 1].id;
+                for (const company of data.production_companies) {
+                    console.log(company.name);
 
+                    await fetch('./api/searchCompany/' + company.id)
+                        .then(result => {
+                            result.json().then(data => {
+                                let productionImg = '';
+                                if (data.logo_path == null) {
+                                    productionImg = 'images/notAvailable.jpg'
+                                } else {
+                                    productionImg = 'https://image.tmdb.org/t/p/original' + data.logo_path;
+                                    productionCards += `<div class="card mb-3" style="width:200px; alignment: center">
+                                      <img style="margin: auto" src="${productionImg}" class="img-fluid rounded-start" alt="...">
+                                        </div>`;
+                                }
+
+                                if (company.id === lastCompany && productionCards === '') {
+                                    document.getElementById('productionHeader').innerHTML = '';
+                                }
+
+                                document.getElementById('productionCompanies').innerHTML = productionCards;
+                            })
+                        })
+                }
                 console.log("Ende");
 
             })

@@ -19,7 +19,7 @@ public class IO_Response {
     /**
      * Create a {@link HttpRequest} from the {@link URI} and execute it.
      * @param uri the {@link URI} with the right api call
-     * @return a {@link Response} from the executed {@link HttpRequest}
+     * @return a {@link Response} from the executed {@link HttpRequest} body
      */
     public static Response getResponse(URI uri) {
         HttpRequest request = HttpRequest.newBuilder()
