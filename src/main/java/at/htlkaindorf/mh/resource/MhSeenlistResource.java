@@ -18,6 +18,7 @@ public class MhSeenlistResource {
     public Response addToSeenlist(UserMovie userMovie) {
         try{
             DatabaseAccess.getInstance().addToSeenlist(userMovie.getUid(), userMovie.getMovieID());
+            DatabaseAccess.getInstance().removeFromWatchlist(userMovie.getUid(), userMovie.getMovieID());
         }catch(Exception e){
             e.printStackTrace();
             return Response.status(Response.Status.CONFLICT).build();

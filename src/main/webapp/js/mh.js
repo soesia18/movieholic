@@ -7,32 +7,30 @@ let _movies;
 
 let _watchlistMovies = [];
 let _watchlistStartCounter = 0;
-let _watchlistEndCounter = 5;
+let _watchlistEndCounter = 4;
 let _watchlistEndMax;
 
-function loadWatchlistMovies() {
-    document.getElementById("watchlistContent").innerHTML = '';
-    console.log(_watchlistStartCounter);
-    console.log(_watchlistEndCounter);
-    for (let i = 0; i < _watchlistEndMax; i++){
-        if (i >= _watchlistStartCounter && i < _watchlistEndCounter) {
-            let img = '';
-            if (_watchlistMovies[i].poster_path == null) {
-                img = 'images/notAvailable.jpg'
-            } else {
-                img = 'https://image.tmdb.org/t/p/original' + _watchlistMovies[i].poster_path;
-            }
-            let card = getSmallCard(img, _watchlistMovies[i].original_title, _watchlistMovies[i].id);
-            let item = `<li class="list-group-item">${card}</li>`;
-            document.getElementById("watchlistContent").innerHTML += item;
+let _seenlistMovies = [];
+let _seenlistStartCounter = 0;
+let _seenlistEndCounter = 4;
+let _seenlistEndMax;
+
+function loadProfileMovies(id, list, start, end){
+    document.getElementById(id).innerHTML = '';
+    for (let i = start; i <= end; i++){
+        let img = '';
+        if (list[i].poster_path == null) {
+            img = 'images/notAvailable.jpg'
+        } else {
+            img = 'https://image.tmdb.org/t/p/original' + list[i].poster_path;
         }
+        let card = getSmallCard(img, list[i].original_title, list[i].id);
+        let item = `<li class="list-group-item">${card}</li>`;
+        document.getElementById(id).innerHTML += item;
     }
 }
 
-
 function displayWatchlist(d) {
-    let counter = _watchlistStartCounter;
-
     document.getElementById("watchlist").innerHTML =
         `<button class="btn bg-transparent" id="leftSlide" onclick="previousWatchlistMovie()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
@@ -47,24 +45,55 @@ function displayWatchlist(d) {
               </button>`;
     document.getElementById('watchlistContent').innerHTML = '';
 
+    _watchlistStartCounter = 0;
+    _watchlistEndCounter = 4;
     _watchlistEndMax = d.watchlist.length;
     for (let i = 0; i < _watchlistEndMax; i++){
             fetch('./api/search/' + d.watchlist[i]).then(res => {
                 res.json().then(data => {
-                    console.log(data);
-                    _watchlistMovies[i] = data;
+                    _watchlistMovies.push(data);
                     if (i === (_watchlistEndMax - 1)) {
-                        loadWatchlistMovies();
+                        loadProfileMovies('watchlistContent', _watchlistMovies, _watchlistStartCounter, _watchlistEndCounter);
                     }
                 });
             });
     }
 }
 
+function displaySeenlist(d){
+    document.getElementById('seenlist').innerHTML =
+        `<button class="btn bg-transparent" id="leftSlide" onclick="previousSeenlistMovie()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                        <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+                    </svg>
+              </button>
+              <ul style="text-align: center; margin-top: 25px" id="seenlistContent" class="list-group list-group-horizontal"></ul>
+              <button class="btn bg-transparent" id="leftSlide" onclick="nextSeenlistMovie()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+                </svg>
+              </button>`;
+    document.getElementById('seenlistContent').innerHTML = '';
+
+    _seenlistStartCounter = 0;
+    _seenlistEndCounter = 4;
+    _seenlistEndMax = d.seenlist.length;
+    for (let i = 0; i < _seenlistEndMax; i++){
+        fetch('./api/search/' + d.seenlist[i]).then(res => {
+            res.json().then(data => {
+                _seenlistMovies.push(data);
+                if (i === (_seenlistEndMax - 1)) {
+                    loadProfileMovies('seenlistContent', _seenlistMovies, _seenlistStartCounter, _seenlistEndCounter);
+                }
+            });
+        });
+    }
+}
+
 function displaySimilarToWatchlist(data) {
     document.getElementById("similarToWatchlist").innerHTML =
-              `<ul style="text-align: center; margin-top: 25px" id="similarToWatchlist" class="list-group list-group-horizontal"></ul>`;
-    document.getElementById('similarToWatchlist').innerHTML = '';
+              `<ul style="text-align: center; margin-top: 25px" id="similarToWatchlistContent" class="list-group list-group-horizontal"></ul>`;
+    document.getElementById('similarToWatchlistContent').innerHTML = '';
 
     for (let i = 0; i < 5; i++){
             fetch('./api/search/' + data.similarMoviesToWatchlist[i]).then(res => {
@@ -77,13 +106,46 @@ function displaySimilarToWatchlist(data) {
                     }
                     let card = getSmallCard(img, data.original_title, data.id);
                     let item = `<li class="list-group-item">${card}</li>`;
-                    document.getElementById("similarToWatchlist").innerHTML += item;
+                    document.getElementById("similarToWatchlistContent").innerHTML += item;
                 });
             });
     }
 }
 
+function timeConvert(n) {
+    var num = n;
+    var hours = (num / 60);
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + "h" + rminutes + "min";
+}
+
+function displaySimilarToSeenlist(data){
+    document.getElementById("similarToSeenlist").innerHTML =
+        `<ul style="text-align: center; margin-top: 25px" id="similarToSeenlistContent" class="list-group list-group-horizontal"></ul>`;
+    document.getElementById('similarToSeenlistContent').innerHTML = '';
+
+    for (let i = 0; i < 5; i++){
+        fetch('./api/search/' + data.similarMoviesToSeenlist[i]).then(res => {
+            res.json().then(d => {
+                let img = '';
+                if (d.poster_path == null) {
+                    img = 'images/notAvailable.jpg'
+                } else {
+                    img = 'https://image.tmdb.org/t/p/original' + d.poster_path;
+                }
+                let card = getSmallCard(img, d.original_title, d.id);
+                let item = `<li class="list-group-item">${card}</li>`;
+                document.getElementById("similarToSeenlistContent").innerHTML += item;
+            });
+        });
+    }
+}
+
 function displayProfile() {
+    _watchlistStartCounter = 0;
+    _watchlistStartCounter = 4;
     $("#profileModal").modal('show');
     let uid = document.getElementById('userSetting').attributes[1].value;
     /* Fetch Stats */
@@ -104,35 +166,34 @@ function displayProfile() {
         body: JSON.stringify(d)
     }).then(res => {
         res.json().then(data => {
-            console.log(data);
             document.getElementById("profileDiv").innerHTML = `<div class="row">
                     <div class="col-sm-4">
-                        <h1>Profil</h1>
-                        <p>${data.watchlistSize} Filme in der Watchlist</p>
-                        <p>${data.seenlistSize} Filme schon gesehen</p>
                         <h3 class="mt-4">Lieblingsgenres</h3>
                         <canvas id="genreChart" width="400" height="400"></canvas>
-                        <hr class="d-sm-none">
+                        <hr>
+                        <p>${data.watchlistSize} Filme in der Watchlist</p>
+                        <p>${data.seenlistSize} Filme schon gesehen</p>
                     </div>
                     <div class="col-sm-8">
-                        <h2>Watchlist</h2>
+                        <h2>Watchlist (voraussichtliche Watchtime: ${timeConvert(data.estimatedWatchlistWatchtime)})</h2>
                         <h5>Filme die Sie noch schauen wollen</h5>
                         <div id="watchlist" class="d-flex justify-content-center d-flex align-items-center"></div>
                         <hr>
                         <h5>Ähnliche Filme</h5>
                         <div id="similarToWatchlist" class="d-flex justify-content-center d-flex align-items-center"></div>
-                        
-                        <h2 class="mt-5">Schon gesehen</h2>
-                        <h5>Filme die sie schon gesehen haben</h5>
-                        <div id="seenlist"></div>
+                        <h2 class="mt-5">Schon gesehen (Watchtime: ${timeConvert(data.seenlistWatchtime)})</h2>
+                        <h5>Filme die Sie schon gesehen haben</h5>
+                        <div id="seenlist" class="d-flex justify-content-center d-flex align-items-center"></div>
                         <hr>
                         <h5>Ähnliche Filme</h5>
+                        <div id="similarToSeenlist" class="d-flex justify-content-center d-flex align-items-center"></div>
                 </div>
             </div>`;
 
-            _watchlistEndMax = data.watchlist.length;
             displayWatchlist(data);
             displaySimilarToWatchlist(data);
+            displaySeenlist(data);
+            displaySimilarToSeenlist(data);
 
             let chart = document.getElementById("genreChart");
             let map = new Map();
@@ -195,7 +256,7 @@ function nextWatchlistMovie() {
         _watchlistStartCounter++;
         _watchlistEndCounter++;
 
-        loadWatchlistMovies();
+        loadProfileMovies('watchlistContent', _watchlistMovies, _watchlistStartCounter, _watchlistEndCounter);
     }
 }
 
@@ -204,7 +265,25 @@ function previousWatchlistMovie() {
         _watchlistStartCounter--;
         _watchlistEndCounter--;
 
-        loadWatchlistMovies();
+        loadProfileMovies('watchlistContent', _watchlistMovies, _watchlistStartCounter, _watchlistEndCounter);
+    }
+}
+
+function nextSeenlistMovie() {
+    if (_seenlistEndCounter < _seenlistEndMax - 1) {
+        _seenlistStartCounter++;
+        _seenlistEndCounter++;
+
+        loadProfileMovies('seenlistContent', _seenlistMovies, _seenlistStartCounter, _seenlistEndCounter);
+    }
+}
+
+function previousSeenlistMovie() {
+    if (_seenlistStartCounter > 0) {
+        _seenlistStartCounter--;
+        _seenlistEndCounter--;
+
+        loadProfileMovies('seenlistContent', _seenlistMovies, _seenlistStartCounter, _seenlistEndCounter);
     }
 }
 
@@ -221,7 +300,7 @@ function getSmallCard(img, title, movieID){
                 <div class="card-body" style="padding: 5px">
                     <marquee><h4 style="font-size: 15px" class="card-title">${title}</h4></marquee>
                     <hr>
-                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info"><span style="font-size: 15px">See more</span></a>
+                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info"><span style="font-size: 12px">See more</span></a>
                 </div>
             </div>`
     } else {
@@ -236,7 +315,7 @@ function getSmallCard(img, title, movieID){
                 <div class="card-body justify-content-center" style="padding: 5px">
                     <h4 style="font-size: 15px" class="card-title">${title}</h4>
                     <hr>
-                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info"><span style="font-size: 15px">See more</span></a>
+                        <a href="#" onclick="getTMDBInformation(${movieID})" class="btn btn-info"><span style="font-size: 12px">See more</span></a>
                 </div>
             </div>`;
     }
@@ -280,6 +359,12 @@ function addToSeenList(movieID) {
                                     <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                                 </svg>
                                 <span>Already watched list</span>
+                            </a>`;
+    document.getElementById(movieID + "watchlist").innerHTML = `<a onclick="addToWatchList(${movieID})">
+                                <svg style="color: black" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                </svg>
+                                <span>Watchlist</span>
                             </a>`;
     let uid = document.getElementById('userSetting').attributes[1].value;
 
@@ -495,11 +580,9 @@ async function searchMovie(searchString, page) {
             '</div>'
         await fetch('./api/search/' + searchString + '/' + page)
             .then(value => {
-                console.log(value);
                 value.json().then(data => {
                     _movies = data;
                     _endMax = data.total_results > 20 ? 20 : data.total_results;
-                    console.log(data);
                     loadMovies();
                 })
             })
@@ -594,10 +677,8 @@ function discover(year, monetization, language, region, sort, adult, genres) {
                 _endCounter = 5;
 
                 result.json().then(data => {
-                    console.log(data);
                     _movies = data;
                     _endMax = data.total_results > 20 ? 20 : data.total_results;
-                    console.log(data);
                     loadMovies();
                 })
             }
@@ -616,10 +697,7 @@ function getTMDBInformation(tmdbID) {
     fetch('./api/search/' + tmdbID)
         .then(result => {
             result.json().then(async data => {
-                console.log(data);
-
                 document.getElementById('searchResult').innerHTML = '';
-
                 let img = '';
                 if (data.poster_path == null) {
                     img = 'images/notAvailable.jpg'
@@ -657,12 +735,9 @@ function getTMDBInformation(tmdbID) {
                     '<div id="productionCompanies" class="d-flex justify-content-around"></div>';
                 let productionCards = '';
 
-
                 await fetch('./api/search/video/' + data.id)
                     .then(async videoResult => {
-                        console.log("Start");
                         await videoResult.json().then(videoData => {
-                            console.log(videoData);
 
                             if (videoData.results.length > 0) {
 
@@ -705,10 +780,8 @@ function getTMDBInformation(tmdbID) {
                     .then(async providerResult => {
                         if (providerResult.status === 200) {
                             await providerResult.json().then(providerData => {
-                                console.log(providerData);
                                 if (providerData.results.length !== null) {
                                     let us = providerData.results.US;
-                                    console.log(us);
 
                                     let buyArr = [];
                                     if (typeof us !== 'undefined') {
@@ -858,7 +931,6 @@ function getTMDBInformation(tmdbID) {
                     .then(resultSimilarMovie => {
                         if (resultSimilarMovie.status === 200) {
                             resultSimilarMovie.json().then(dataSimilarMovie => {
-                                console.log(dataSimilarMovie);
                                 document.getElementById('similarVideos').innerHTML = '<div class="row">\n' +
                                     '    <div class="col">\n' +
                                     '        <hr class="bg-danger border-2 border-top border-info">\n' +
