@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 /**
+ * <b>Movieholic</b><br><br>
  * IMDBInformationCommand class extends {@link ApiCommand} which is here to get all detailed information from IMDB.
  * @author Simon
  * @version 1.0

@@ -4,6 +4,9 @@ import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
 
+/**
+ * <b>Movieholic</b><br><br>
+ */
 public class UpcomingCommand extends ApiCommand {
     @Override
     protected Response execute() {

@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 /**
+ * <b>Movieholic</b><br><br>
  * Command Pattern abstract Class
  * contains a protected instance variable for a {@link URI} and a method to Execute the command
  * @author Simon

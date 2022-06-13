@@ -4,6 +4,9 @@ import at.htlkaindorf.mh.database.DBAccess;
 import jakarta.ws.rs.core.Response;
 import lombok.Data;
 
+/**
+ * <b>Movieholic</b><br><br>
+ */
 @Data
 public class UpdateHomePageItems extends UIDCommand {
 

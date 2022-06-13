@@ -5,7 +5,8 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 /**
-* GenreCommand class extends {@link ApiCommand} which is here to get all Genres from TheMovieDB.
+ * <b>Movieholic</b><br><br>
+ * GenreCommand class extends {@link ApiCommand} which is here to get all Genres from TheMovieDB.
  * @author Simon
  * @version 1.0
  * @since last update: 23.05.2022

@@ -12,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 /**
+ * <b>Movieholic</b><br><br>
  * <b>API Resource Class</b>  <br>
  * [GET] /api/search/{searchString}/{page} - Search a Movie via String <br>
  * [GET] /api/search/{id} - Can get tmdbMovie Information <br>
@@ -20,6 +21,9 @@ import java.net.http.HttpResponse;
  * [GET] /api/search/provider/{id} - Can get Provider Information <br>
  * [GET] /api/search/discover - Can get discover Information <br>
  * [GET] /api/search/similar/{id}
+ * @author Simon
+ * @version 1.0
+ * @since last update: 23.05.2022
  */
 
 @Path("/search")

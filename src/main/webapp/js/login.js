@@ -266,6 +266,7 @@ async function showRightHomePage(uid) {
 }
 document.getElementById("btnUpdateHomePage").addEventListener("click", updateHomePageInFirebase);
 async function updateHomePageInFirebase() {
+    $("#userSettingModal").modal('hide');
     let trending = document.getElementById('trendingMovie').checked;
     let nowplaying = document.getElementById('nowPlayingMovie').checked;
     let toprated = document.getElementById('topRatedMovie').checked;
