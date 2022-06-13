@@ -8,7 +8,11 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
 
 /**
- *
+ * API Resource class for the search classes<br>
+ * [GET] /api/searchCompany/{id} - Search a Company via id <br>
+ * @author Simon
+ * @version 1.0
+ * @since last update: 13.06.2022
  */
 @Path("/searchCompany")
 public class MhSearchCompany {
@@ -16,9 +20,9 @@ public class MhSearchCompany {
     private SearchCompanyCommand searchCompanyCommand = new SearchCompanyCommand();
 
     /**
-     *
-     * @param id
-     * @return
+     * Execute the API command and return a {@link Response}
+     * @param id the id of the company
+     * @return {@link Response} from the executed command
      */
     @GET
     @Path("/{id}")

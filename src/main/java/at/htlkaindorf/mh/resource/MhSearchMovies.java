@@ -20,6 +20,9 @@ import java.net.http.HttpResponse;
  * [GET] /api/search/provider/{id} - Can get Provider Information <br>
  * [GET] /api/search/discover - Can get discover Information <br>
  * [GET] /api/search/similar/{id}
+ * @author Simon
+ * @version 1.0
+ * @since last update: 23.05.2022
  */
 
 @Path("/search")
