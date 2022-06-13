@@ -13,6 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 /**
+ * <b>Movieholic</b><br><br>
  * <b>API Resource Class</b>  <br>
  * [GET] /api/data/genres - Return a List of all genres <br>
  * [PUT] /api/data/homepage - set the HomePage item for an account <br>

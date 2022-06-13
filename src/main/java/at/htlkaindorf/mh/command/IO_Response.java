@@ -9,6 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 /**
+ * <b>Movieholic</b><br><br>
  * IO_Response is here to create a {@link Response} from a {@link URI} and execute it. <br>
  * The {@link HttpRequest} is build with the {@link URI} and copy the body in the {@link Response}.
  * @author Simon

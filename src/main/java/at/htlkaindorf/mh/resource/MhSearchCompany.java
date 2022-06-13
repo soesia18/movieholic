@@ -8,6 +8,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
 
 /**
+ * <b>Movieholic</b><br><br>
  * API Resource class for the search classes<br>
  * [GET] /api/searchCompany/{id} - Search a Company via id <br>
  * @author Simon

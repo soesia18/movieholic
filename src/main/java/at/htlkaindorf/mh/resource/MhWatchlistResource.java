@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <b>Movieholic</b><br><br>
  * <b>API Resource Class</b>  <br>
  * [POST] /api/watchlist/add - add a movie to the watchlist <br>
  * [DELETE] /api/watchlist/remove - remove a movie from the watchlist <br>

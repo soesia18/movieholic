@@ -6,6 +6,7 @@ import lombok.*;
 import java.net.URI;
 
 /**
+ * <b>Movieholic</b><br><br>
  * DiscoverCommand class extends {@link ApiCommand} which can be used to discover movies with the given parameters.
  * @author Simon
  * @version 1.0

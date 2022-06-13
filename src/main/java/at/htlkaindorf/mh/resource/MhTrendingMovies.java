@@ -13,7 +13,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 /**
+ * <b>Movieholic</b><br><br>
  * MhTrendingMovies is here to get all Trending Movies from TheMovieDB.
+ * @author Simon
+ * @version 1.0
+ * @since last update: 13.06.2022
  */
 @Path("/trending")
 public class MhTrendingMovies {

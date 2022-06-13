@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 /**
+ * <b>Movieholic</b><br><br>
  * TopRatedCommand class extends {@link ApiCommand} which is here to get all Top Rated Movies from TheMovieDB.
  * @author Simon
  * @version 1.0

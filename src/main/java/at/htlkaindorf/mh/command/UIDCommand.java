@@ -1,6 +1,7 @@
 package at.htlkaindorf.mh.command;
 
 /**
+ * <b>Movieholic</b><br><br>
  * Abstract class for all API commands with uid
  * @author David
  * @version 1.0

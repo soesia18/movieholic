@@ -5,24 +5,48 @@ import lombok.NoArgsConstructor;
 
 import java.net.URI;
 
+/**
+ * <b>Movieholic</b><br><br>
+ * SearchMovieCommand class extends {@link MovieIDCommand} which is here to search a movie with the given searchString
+ * @author Simon
+ * @version 1.0
+ * @since last update: 02.05.2022
+ */
 @NoArgsConstructor
 public class SearchMovieCommand extends ApiCommand {
     private String searchString;
     private int page;
 
+    /**
+     * Constructor for the SearchMovieCommand
+     * @param searchString the searchString that is used to search for a movie
+     * @param page the page that is used to get the right page for the results
+     */
     public SearchMovieCommand (String searchString, int page) {
         this.searchString = searchString;
         this.page = page;
     }
 
+    /**
+     * Setter for the searchString
+     * @param searchString the searchString that is used to search for a movie
+     */
     public void setSearchString(String searchString) {
         this.searchString = searchString;
     }
 
+    /**
+     * Setter for the page
+     * @param page the page that is used to get the right page for the results
+     */
     public void setPage(int page) {
         this.page = page;
     }
 
+    /**
+     * Execute the API command and return a {@link Response}
+     * @return {@link Response} from the executed command
+     */
     @Override
     protected Response execute() {
         searchString = searchString.replace(" ", "%20");

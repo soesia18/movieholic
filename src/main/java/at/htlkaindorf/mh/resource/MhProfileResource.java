@@ -15,6 +15,9 @@ import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <b>Movieholic</b><br><br>
+ */
 @Path("/profile")
 public class MhProfileResource {
 

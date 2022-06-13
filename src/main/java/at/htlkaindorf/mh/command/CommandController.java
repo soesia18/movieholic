@@ -4,6 +4,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.NoArgsConstructor;
 
 /**
+ * <b>Movieholic</b><br><br>
  * Controller class for the Command Pattern to execute the commands
  * @author Simon
  * @version 1.0

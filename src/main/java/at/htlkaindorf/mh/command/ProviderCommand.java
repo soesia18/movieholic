@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 /**
+ * <b>Movieholic</b><br><br>
  * ProviderCommand class extends {@link MovieIDCommand} which is here to get all Providers from TheMovieDB.
  * @author Simon
  * @version 1.0
