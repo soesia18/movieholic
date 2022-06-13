@@ -14,9 +14,9 @@ import java.util.List;
 /**
  * <b>Movieholic</b><br><br>
  * <b>API Resource Class</b>  <br>
- * [POST] /api/watchlist/add - add a movie to the watchlist <br>
- * [DELETE] /api/watchlist/remove - remove a movie from the watchlist <br>
- * [GET] /api/watchlist/get - checks if specific movie contains in watchlist of given user <br>
+ * [POST] /api/watchlist/add - add a movie to the watchlist of given user <br>
+ * [POST] /api/watchlist/remove - remove a movie from the watchlist of given user<br>
+ * [POST] /api/watchlist/get - checks if specific movie is present in watchlist of given user <br><br>
  * @author David
  * @version 1.0
  * @since last update: 2022-06-11
@@ -26,7 +26,7 @@ public class MhWatchlistResource {
     /**
      * Adds a movie to the watchlist of a given user
      * @param {@link UserMovie}
-     * @return {@link Response}
+     * @return {@link Response} which contains status code
      */
     @POST
     @Path("/add")
@@ -44,7 +44,7 @@ public class MhWatchlistResource {
     /**
      * Removes a movie from the watchlist of a given user
      * @param {@link UserMovie}
-     * @return {@link Response}
+     * @return {@link Response} which contains status code
      */
     @POST
     @Path("/remove")
@@ -62,7 +62,7 @@ public class MhWatchlistResource {
     /**
      * Checks if the watchlist from a specific user contains the given movie
      * @param {@link UserMovie}
-     * @return {@link Response}
+     * @return {@link boolean} which indicates if the watchlist contains the movie
      */
     @POST
     @Path("/check")

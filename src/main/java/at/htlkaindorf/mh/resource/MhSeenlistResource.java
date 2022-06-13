@@ -9,9 +9,27 @@ import jakarta.ws.rs.core.Response;
 
 /**
  * <b>Movieholic</b><br><br>
+ * <b>API Resource Class</b>  <br>
+ * [POST] /api/seenlist/add - add a movie to the seenlist of given user<br>
+ * [POST] /api/seenlist/remove - remove a movie from the seenlist of given user<br>
+ * [POST] /api/seenlist/get - checks if specific movie is present in seenlist of given user <br><br>
+ *
+ * @author David
+ * @version 1.0
+ * @since last update: 2022-06-11
  */
 @Path("/seenlist")
 public class MhSeenlistResource {
+    /**
+     * Adds a movie to the seenlist of a given user
+     * @param @{@link UserMovie}
+     * @return {@link Response}
+     */
+    /**
+     * Adds a movie to the seenlist of a given user
+     * @param {@link UserMovie}
+     * @return {@link Response} which contains status code
+     */
     @POST
     @Path("/add")
     @Consumes("application/json")
@@ -26,6 +44,11 @@ public class MhSeenlistResource {
         return Response.ok().build();
     }
 
+    /**
+     * Removes a movie from the seenlist of a given user
+     * @param {@link UserMovie}
+     * @return {@link Response} which contains status code
+     */
     @POST
     @Path("/remove")
     @Consumes("application/json")
@@ -39,6 +62,11 @@ public class MhSeenlistResource {
         return Response.ok().build();
     }
 
+    /**
+     * Checks if the seenlist from a specific user contains the given movie
+     * @param {@link UserMovie}
+     * @return {@link boolean} which indicates if the seenlist contains the movie
+     */
     @POST
     @Path("/check")
     @Consumes("application/json")

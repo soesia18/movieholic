@@ -1,10 +1,21 @@
 package at.htlkaindorf.mh.database;
 
+import jakarta.ws.rs.core.Response;
+
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <b>Movieholic</b><br><br>
+ * DatabaseAccess class to get data from the MySQL database.
+ * @author David
+ * @version 1.0
+ * @since last update: 13-06-2022
+ */
 public class DatabaseAccess {
 
     private static DatabaseAccess instance;
@@ -24,6 +35,13 @@ public class DatabaseAccess {
     private final String SQL_REMOVE_USERSEENLIST = "DELETE FROM userseenlist WHERE uid = ? AND movieid = ?";
     private final String SQL_GET_USERSEENLIST = "SELECT * FROM userseenlist WHERE uid = ?";
 
+    /**
+     * Returns the instance of the DatabaseAccess class, if it doesn't exist, it will be created.
+     * @return {@link DatabaseAccess}
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public static DatabaseAccess getInstance() throws SQLException, IOException, ClassNotFoundException {
         if (instance == null) {
             instance = new DatabaseAccess();

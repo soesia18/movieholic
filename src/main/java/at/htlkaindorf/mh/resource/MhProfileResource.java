@@ -17,10 +17,20 @@ import java.util.List;
 
 /**
  * <b>Movieholic</b><br><br>
+ * <b>API Resource Class</b>  <br>
+ * [POST] /api/profile - gets stats of specific user. <br><br>
+ * @author David
+ * @version 1.0
+ * @since last update: 2022-06-11
  */
 @Path("/profile")
 public class MhProfileResource {
 
+    /**
+     * Gets stats of specific user.
+     * @param {@link User}
+     * @return {@link Response} which contains the profile
+     */
     @POST
     @Produces("application/json")
     public Response getStats(User user) {
