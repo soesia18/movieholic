@@ -2,7 +2,6 @@ package at.htlkaindorf.mh.beans;
 
 import at.htlkaindorf.mh.command.TMDBMovieInformationCommand;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.LinkedListMultimap;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.json.JSONArray;
@@ -13,9 +12,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * <b>Movieholic</b><br><br>
+ * <b>Bean Class for Profile</b> <br>
+ * @author David
+ * @version 1.0
+ * @since last update: 13.06.2022
+ */
 @Data
 @NoArgsConstructor
 public class Profile {
@@ -31,6 +36,12 @@ public class Profile {
 
     private int estimatedWatchlistWatchtime;
 
+    /**
+     * Constructor for Profile
+     * @param {@link String} uid
+     * @param {@link List}<{@link Integer}> watchlist
+     * @param {@link List}<{@link Integer}> seenlist
+     */
     public Profile(String uid, List<Integer> watchlist, List<Integer> seenlist) {
         this.uid = uid;
         this.watchlist = watchlist;
@@ -45,6 +56,9 @@ public class Profile {
         calcStatsWatchlist();
     }
 
+    /**
+     * Calculates the stats of the seenlist
+     */
     private void calcStatsSeenlist() {
         TMDBMovieInformationCommand imdbInformationCommand = new TMDBMovieInformationCommand();
 
@@ -111,6 +125,9 @@ public class Profile {
         }
     }
 
+    /**
+     * Calculates the stats of the watchlist
+     */
     public void calcStatsWatchlist(){
         TMDBMovieInformationCommand imdbInformationCommand = new TMDBMovieInformationCommand();
 
@@ -165,18 +182,5 @@ public class Profile {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        List<Integer> watchlist = Arrays.asList(54738, 18395, 54738);
-        List<Integer> seenlist = Arrays.asList(54738, 56738, 54738);
-        Profile profile = new Profile("187", watchlist, seenlist);
-
-        System.out.println("Seenlist genres: " + profile.getSeenlistGenres());
-        System.out.println("Seenlist watchtime: " + profile.getSeenlistWatchtime());
-        System.out.println("Similar movies to seenlist: " + profile.getSimilarMoviesToSeenlist());
-
-        System.out.println("Estimated watchlist watchtime: " + profile.getEstimatedWatchlistWatchtime());
-        System.out.println("Similar movies to watchlist: " + profile.getSimilarMoviesToWatchlist());
     }
 }

@@ -11,10 +11,10 @@ import java.util.List;
 
 /**
  * <b>Movieholic</b><br><br>
- * DatabaseAccess class to get data from the MySQL database.
+ * DatabaseAccess class to get data from the MySQL database. <br>
  * @author David
  * @version 1.0
- * @since last update: 13-06-2022
+ * @since last update: 13.06.2022
  */
 public class DatabaseAccess {
 
@@ -49,11 +49,23 @@ public class DatabaseAccess {
         return instance;
     }
 
+    /**
+     * Private constructor to create a new DatabaseAccess object.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     */
     private DatabaseAccess() throws ClassNotFoundException, SQLException, IOException {
         db = Database.getInstance();
         con = db.getConnection();
     }
 
+    /**
+     * Adds movie to the watchlist of given user.
+     * @param {@link String} uid
+     * @param {@link Integer} movieID
+     * @throws Exception
+     */
     public void addToWatchlist(String uid, int movieID) throws Exception {
         PreparedStatement ps = con.prepareStatement(SQL_GET_USER);
         ps.setString(1, uid);
@@ -81,6 +93,12 @@ public class DatabaseAccess {
         ps.execute();
     }
 
+    /**
+     * Removes a movie from the watchlist of a user.
+     * @param {@link String} uid
+     * @param {@link Integer} movieID
+     * @throws Exception
+     */
     public void removeFromWatchlist(String uid, int movieID) throws Exception {
         PreparedStatement ps = con.prepareStatement(SQL_REMOVE_USERWATCHLIST);
         ps.setString(1, uid);
@@ -88,6 +106,12 @@ public class DatabaseAccess {
         ps.execute();
     }
 
+    /**
+     * Returns the watchlist of a user.
+     * @param {@link String} uid
+     * @return {@link List} of {@link Integer} containing the movie IDs
+     * @throws Exception
+     */
     public List<Integer> getWatchlistFromUser(String uid) throws SQLException {
         List<Integer> movieIDs = new ArrayList<>();
 
@@ -102,6 +126,12 @@ public class DatabaseAccess {
         return movieIDs;
     }
 
+    /**
+     * Adds movie to the seenlist of given user.
+     * @param {@link String} uid
+     * @param {@link Integer} movieID
+     * @throws Exception
+     */
     public void addToSeenlist(String uid, int movieID) throws Exception {
         PreparedStatement ps = con.prepareStatement(SQL_GET_USER);
         ps.setString(1, uid);
@@ -129,6 +159,12 @@ public class DatabaseAccess {
         ps.execute();
     }
 
+    /**
+     * Removes a movie from the seenlist of a user.
+     * @param {@link String} uid
+     * @param {@link Integer} movieID
+     * @throws Exception
+     */
     public void removeFromSeenlist(String uid, int movieID) throws Exception {
         PreparedStatement ps = con.prepareStatement(SQL_REMOVE_USERSEENLIST);
         ps.setString(1, uid);
@@ -136,6 +172,12 @@ public class DatabaseAccess {
         ps.execute();
     }
 
+    /**
+     * Returns the seenlist of a user.
+     * @param {@link String} uid
+     * @return {@link List} of {@link Integer} containing the movie IDs
+     * @throws SQLException
+     */
     public List<Integer> getSeenlistFromUser(String uid) throws SQLException {
         List<Integer> movieIDs = new ArrayList<>();
 
@@ -148,9 +190,5 @@ public class DatabaseAccess {
         }
 
         return movieIDs;
-    }
-
-    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        System.out.println(DatabaseAccess.getInstance().getSeenlistFromUser("OFVn4vGhY2UxGkS4BsLJjBP4UGt1"));
     }
 }

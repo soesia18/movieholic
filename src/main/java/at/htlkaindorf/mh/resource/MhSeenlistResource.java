@@ -12,11 +12,11 @@ import jakarta.ws.rs.core.Response;
  * <b>API Resource Class</b>  <br>
  * [POST] /api/seenlist/add - add a movie to the seenlist of given user<br>
  * [POST] /api/seenlist/remove - remove a movie from the seenlist of given user<br>
- * [POST] /api/seenlist/get - checks if specific movie is present in seenlist of given user <br><br>
+ * [POST] /api/seenlist/get - checks if specific movie is present in seenlist of given user <br>
  *
  * @author David
  * @version 1.0
- * @since last update: 2022-06-11
+ * @since last update: 11.06.2022
  */
 @Path("/seenlist")
 public class MhSeenlistResource {

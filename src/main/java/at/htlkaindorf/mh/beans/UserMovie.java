@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
  * <b> Bean Class for {@link UserMovie} </b> <br>
  * @author David
  * @version 1.0
- * @since last update: 2022-06-10
+ * @since last update: 10.06.2022
  */
 @Data
 @AllArgsConstructor

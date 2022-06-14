@@ -18,10 +18,10 @@ import java.util.List;
 /**
  * <b>Movieholic</b><br><br>
  * <b>API Resource Class</b>  <br>
- * [POST] /api/profile - gets stats of specific user. <br><br>
+ * [POST] /api/profile - gets stats of specific user. <br>
  * @author David
  * @version 1.0
- * @since last update: 2022-06-11
+ * @since last update: 11.06.2022
  */
 @Path("/profile")
 public class MhProfileResource {

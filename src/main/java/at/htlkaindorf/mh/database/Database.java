@@ -15,8 +15,11 @@ import java.sql.Statement;
 import java.util.Properties;
 
 /**
- *
+ * <b>Movieholic</b><br><br>
+ * Database class to cconnect to the MySQL database. <br>
  * @author David
+ * @version 1.0
+ * @since last update: 10.06.2022
  */
 public class Database {
     private static Database instance;
