@@ -12,8 +12,8 @@ Copy the .jar in your Folder: glassfish6>glassfish>lib <br>
 start your domain1 with the command "start-domain domain1" <br>
 > 
 
->Open any browser and go to the Link http://localhost:4848/ this should be an admin console <br>
-On the left side under Resources there is the point JDBC go now to the JDBC Connection Pools <br>
+>Open any browser and go to the link http://localhost:4848/ this should be an admin console <br>
+On the left side under Resources there is the section JDBC click now on JDBC Connection Pools <br>
 Press the new button:<br>
 >
 
