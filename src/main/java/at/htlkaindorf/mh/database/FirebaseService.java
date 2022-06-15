@@ -9,9 +9,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.*;
 
+/**
+ * <b>Movieholic</b><br><br>
+ * Creates a Firebase (Firestore) Database connection.<br>
+ * @author David
+ * @version 1.0
+ * @since last update: 23.05.2022
+ */
 public class FirebaseService {
     private static Firestore db;
 
+    /**
+     * Returns Firestore Database Connection, if it doesn't exist yet, it will be created.
+     * @return {@link Firestore}
+     * @throws IOException
+     */
     public static Firestore getFireBaseDatabase() throws IOException {
         if (db == null) {
             new FirebaseService();
@@ -19,7 +31,11 @@ public class FirebaseService {
         return db;
     }
 
-    public FirebaseService() throws IOException {
+    /**
+     * Creates a Firestore Database connection.
+     * @throws IOException
+     */
+    private FirebaseService() throws IOException {
         InputStream is = getClass().getClassLoader().getResourceAsStream("serviceWorkerKey.json");
 
         assert is != null;

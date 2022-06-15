@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Application;
 /**
  * <b>Movieholic</b><br><br>
  * API Application class for the REST API
- * @author Simon Schöggler, David Brannan
+ * @author Simon, David
  * @version 1.0
  */
 
