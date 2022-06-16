@@ -16,8 +16,19 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+/**
+ * <b>Movieholic</b><br><br>
+ * ApiTest class to test the API. <br>
+ * @author Simon
+ * @version 1.0
+ * @since last update: 21.03.2022
+ */
 
 public class ApiTest {
+    /**
+     * Test the Api call
+     * @param args
+     */
     public static void main(String[] args) {
         /*HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://api.themoviedb.org/3/search/movie?api_key=e2b8d803a857305a89319b778145cfa0&language=en-US&query=Monkey&page=1&include_adult=false"))
