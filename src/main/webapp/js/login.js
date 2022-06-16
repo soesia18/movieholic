@@ -1,7 +1,19 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js";
-import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.8.0/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js";
+import {getDatabase, set, ref, update} from "https://www.gstatic.com/firebasejs/9.8.0/firebase-database.js";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/9.8.0/firebase-auth.js";
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/9.8.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -31,7 +43,7 @@ signUp.addEventListener("click", (e) => {
     let password1 = document.getElementById("tfRegisterPassword1").value;
     let password2 = document.getElementById("tfRegisterPassword2").value;
 
-    if (password1 === password2){
+    if (password1 === password2) {
         createUserWithEmailAndPassword(auth, email, password1)
             .then(async (userCredential) => {
 
@@ -58,11 +70,11 @@ signUp.addEventListener("click", (e) => {
 
                 console.log(errorCode);
 
-                if (errorCode === "auth/email-already-in-use"){
+                if (errorCode === "auth/email-already-in-use") {
                     registerEmailInfo.innerHTML = "Email already in use";
-                }else if(errorCode === "auth/invalid-email"){
+                } else if (errorCode === "auth/invalid-email") {
                     registerEmailInfo.innerHTML = "Invalid email";
-                }else if(errorCode === "auth/weak-password"){
+                } else if (errorCode === "auth/weak-password") {
                     registerPasswordInfo.innerHTML = "Password is too weak";
                 }
             });
@@ -96,13 +108,13 @@ signIn.addEventListener("click", (e) => {
             const errorMessage = error.message;
             console.log("Error: " + errorMessage);
 
-            if (errorCode === 'auth/invalid-email'){
+            if (errorCode === 'auth/invalid-email') {
                 loginEmailInfo.innerHTML = 'Invalid email';
-            } else if (errorCode === 'auth/user-not-found'){
+            } else if (errorCode === 'auth/user-not-found') {
                 loginEmailInfo.innerHTML = 'User not found';
-            }else if(errorCode === 'auth/wrong-password'){
+            } else if (errorCode === 'auth/wrong-password') {
                 loginPasswordInfo.innerHTML = 'Wrong password';
-            }else if(errorCode === 'auth/user-disabled'){
+            } else if (errorCode === 'auth/user-disabled') {
                 loginEmailInfo.innerHTML = 'User disabled';
             }
         });
@@ -172,19 +184,21 @@ async function showRightHomePage(uid) {
             document.getElementById('nowPlayingMovie').checked = true;
             document.getElementById('hrNowplaying').innerHTML = getHrText('Now Playing Movies');
             document.getElementById('liNowPlaying').innerHTML = '<a class="nav-link" href="#nowPlayingResult">Now Playing</a>';
-            document.getElementById('nowPlayingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                '  <div class="spinner-border" role="status">\n' +
-                '    <span class="visually-hidden">Loading...</span>\n' +
-                '  </div>\n' +
-                '</div>'
-            fetch('./api/search/nowplaying')
-                .then(result => {
-                    result.json().then(data => {
-                        console.log(data);
+            if (document.getElementById('nowPlayingResult').innerHTML === '') {
+                document.getElementById('nowPlayingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                    '  <div class="spinner-border" role="status">\n' +
+                    '    <span class="visually-hidden">Loading...</span>\n' +
+                    '  </div>\n' +
+                    '</div>'
+                fetch('./api/search/nowplaying')
+                    .then(result => {
+                        result.json().then(data => {
+                            console.log(data);
 
-                        loadSpecialMovies(data, 'nowPlayingResult', 'listNowPlaying');
+                            loadSpecialMovies(data, 'nowPlayingResult', 'listNowPlaying');
+                        })
                     })
-                })
+            }
         }
 
         if (!docSnap.data().homepage.toprated) {
@@ -196,19 +210,21 @@ async function showRightHomePage(uid) {
             document.getElementById('topRatedMovie').checked = true;
             document.getElementById('hrToprated').innerHTML = getHrText('Top Rated Movies');
             document.getElementById('liToprated').innerHTML = '<a class="nav-link" href="#topRatedResult">Top Rated</a>';
-            document.getElementById('topRatedResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                '  <div class="spinner-border" role="status">\n' +
-                '    <span class="visually-hidden">Loading...</span>\n' +
-                '  </div>\n' +
-                '</div>'
-            fetch('./api/search/toprated')
-                .then(result => {
-                    result.json().then(data => {
-                        console.log(data);
+            if (document.getElementById('topRatedResult').innerHTML === '') {
+                document.getElementById('topRatedResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                    '  <div class="spinner-border" role="status">\n' +
+                    '    <span class="visually-hidden">Loading...</span>\n' +
+                    '  </div>\n' +
+                    '</div>'
+                fetch('./api/search/toprated')
+                    .then(result => {
+                        result.json().then(data => {
+                            console.log(data);
 
-                        loadSpecialMovies(data, 'topRatedResult', 'listTopRated');
+                            loadSpecialMovies(data, 'topRatedResult', 'listTopRated');
+                        })
                     })
-                })
+            }
         }
 
         if (!docSnap.data().homepage.trending) {
@@ -220,19 +236,21 @@ async function showRightHomePage(uid) {
             document.getElementById('trendingMovie').checked = true;
             document.getElementById('hrTrending').innerHTML = getHrText('Movie-Trends of the Week');
             document.getElementById('liTrending').innerHTML = '<a class="nav-link" href="#trendingResult">Trending</a>';
-            document.getElementById('trendingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                '  <div class="spinner-border" role="status">\n' +
-                '    <span class="visually-hidden">Loading...</span>\n' +
-                '  </div>\n' +
-                '</div>'
-            fetch('./api/trending/movies')
-                .then(result => {
-                    result.json().then(data => {
-                        console.log(data);
+            if (document.getElementById('trendingResult').innerHTML === '') {
+                document.getElementById('trendingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                    '  <div class="spinner-border" role="status">\n' +
+                    '    <span class="visually-hidden">Loading...</span>\n' +
+                    '  </div>\n' +
+                    '</div>'
+                fetch('./api/trending/movies')
+                    .then(result => {
+                        result.json().then(data => {
+                            console.log(data);
 
-                        loadSpecialMovies(data, 'trendingResult', 'listTrending');
+                            loadSpecialMovies(data, 'trendingResult', 'listTrending');
+                        })
                     })
-                })
+            }
         }
 
         if (!docSnap.data().homepage.upcoming) {
@@ -244,19 +262,21 @@ async function showRightHomePage(uid) {
             document.getElementById('upcomingMovie').checked = true;
             document.getElementById('hrUpcoming').innerHTML = getHrText('Upcoming Movies');
             document.getElementById('liUpcoming').innerHTML = '<a class="nav-link" href="#upcomingResult">Upcoming</a>';
-            document.getElementById('upcomingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                '  <div class="spinner-border" role="status">\n' +
-                '    <span class="visually-hidden">Loading...</span>\n' +
-                '  </div>\n' +
-                '</div>'
-            fetch('./api/search/upcoming')
-                .then(result => {
-                    result.json().then(data => {
-                        console.log(data);
+            if (document.getElementById('upcomingResult').innerHTML === '') {
+                document.getElementById('upcomingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                    '  <div class="spinner-border" role="status">\n' +
+                    '    <span class="visually-hidden">Loading...</span>\n' +
+                    '  </div>\n' +
+                    '</div>'
+                fetch('./api/search/upcoming')
+                    .then(result => {
+                        result.json().then(data => {
+                            console.log(data);
 
-                        loadSpecialMovies(data, 'upcomingResult', 'listUpcoming');
+                            loadSpecialMovies(data, 'upcomingResult', 'listUpcoming');
+                        })
                     })
-                })
+            }
         }
 
     } else {
@@ -264,7 +284,9 @@ async function showRightHomePage(uid) {
         console.log("No such document!");
     }
 }
+
 document.getElementById("btnUpdateHomePage").addEventListener("click", updateHomePageInFirebase);
+
 async function updateHomePageInFirebase() {
     $("#userSettingModal").modal('hide');
     let trending = document.getElementById('trendingMovie').checked;
@@ -286,7 +308,7 @@ async function updateHomePageInFirebase() {
     showRightHomePage(uid);
 }
 
-function getHrText (name) {
+function getHrText(name) {
     return '<div class="col">\n' +
         '        <hr class="bg-danger border-2 border-top border-danger">\n' +
         '    </div>\n' +
