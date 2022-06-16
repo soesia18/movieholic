@@ -11,8 +11,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- *
+ * <b>Movieholic</b><br><br>
+ * Class to establish cached connections to the MySQL database. <br>
  * @author David
+ * @version 1.0
+ * @since last update: 10.06.2022
  */
 public class CachedConnection {
     private Queue<Statement> statQueue = new LinkedList<>();
