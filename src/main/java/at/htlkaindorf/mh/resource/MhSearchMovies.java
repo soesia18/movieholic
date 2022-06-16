@@ -117,7 +117,6 @@ public class MhSearchMovies {
                 .with_genres(genres);
 
         discoverCommand = builder.build();
-
         return CommandController.getInstance().execute(discoverCommand);
     }
 
