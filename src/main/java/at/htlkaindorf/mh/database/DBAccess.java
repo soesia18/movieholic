@@ -7,6 +7,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * <b>Movieholic</b><br><br>
+ * Firestore Database Access Class.<br>
+ * @author David, Simon
+ * @version 1.0
+ * @since last update: 10.06.2022
+ */
 public class DBAccess {
 
     private static DBAccess instance;
@@ -19,11 +26,21 @@ public class DBAccess {
     private static String TOP_RATED = "toprated";
     private static String UPCOMING = "upcoming";
 
+    /**
+     * Private Constructor, to prevent instantiation.
+     * @return {@link DBAccess}
+     * @throws IOException
+     */
     private DBAccess() throws IOException {
         db = FirebaseService.getFireBaseDatabase();
         userRef = db.collection("users");
     }
 
+    /**
+     * Returns the singleton instance of the DBAccess class.
+     * @return {@link DBAccess}
+     * @throws Exception
+     */
     public synchronized static DBAccess getInstance() throws Exception {
         if (instance == null) {
             instance = new DBAccess();
@@ -31,18 +48,38 @@ public class DBAccess {
         return instance;
     }
 
+    /**
+     * Adds a favorite movie to a specific user.
+     * @param uid
+     * @param movieId
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void addFavoriteToUser(String uid, int movieId) throws ExecutionException, InterruptedException {
         DocumentReference docRef = userRef.document(uid);
         ApiFuture<WriteResult> arrayUnion = docRef.update("favorites", FieldValue.arrayUnion(movieId));
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
+    /**
+     * Removes a favorite movie from a specific user.
+     * @param uid
+     * @param movieId
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void removeFavoriteFromUser(String uid, int movieId) throws ExecutionException, InterruptedException {
         DocumentReference docRef = userRef.document(uid);
         ApiFuture<WriteResult> arrayUnion = docRef.update("favorites", FieldValue.arrayRemove(movieId));
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
+    /**
+     * Creates homepage items of a specific user.
+     * @param uid
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void createUserHomePageItems(String uid) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homepage = new HashMap<>();
         homepage.put(TRENDING, true);
@@ -55,6 +92,16 @@ public class DBAccess {
         System.out.println("Update time : " + future.get().getUpdateTime());
     }
 
+    /**
+     * Updates the homepage items of a specific user.
+     * @param uid
+     * @param trending
+     * @param nowplaying
+     * @param toprated
+     * @param upcoming
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void updateUserHomePageItems(String uid, boolean trending, boolean nowplaying,
                                         boolean toprated, boolean upcoming) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homepage = new HashMap<>();
@@ -67,6 +114,13 @@ public class DBAccess {
         System.out.println("Update time : " + future.get().getUpdateTime());
     }
 
+    /**
+     * Returns the homepage items of a specific user.
+     * @param uid
+     * @return {@link Map<String, Boolean>}
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public Map<String, Boolean> getUserHomePageItems(String uid) throws ExecutionException, InterruptedException {
         Map<String, Boolean> homePageItems = new HashMap<>();
         DocumentReference docRef = userRef.document(uid);
@@ -85,30 +139,29 @@ public class DBAccess {
         return homePageItems;
     }
 
+    /**
+     * Adds a movie to the watchlist of a specific user.
+     * @param uid
+     * @param movieID
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void addToWatchlist(String uid, int movieID) throws ExecutionException, InterruptedException {
         DocumentReference docRef = userRef.document(uid);
         ApiFuture<WriteResult> arrayUnion = docRef.update("watchlist", FieldValue.arrayUnion(movieID));
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
 
+    /**
+     * Removes a movie from the watchlist of a specific user.
+     * @param uid
+     * @param movieID
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void removeFromWatchlist(String uid, int movieID) throws ExecutionException, InterruptedException {
         DocumentReference docRef = userRef.document(uid);
         ApiFuture<WriteResult> arrayUnion = docRef.update("watchlist", FieldValue.arrayRemove(movieID));
         System.out.println("Updated time: " + arrayUnion.get().getUpdateTime());
     }
-
-
-    public static void main(String[] args) throws Exception {
-        System.setProperty("log4j.configurationFile", "./path_to_the_log4j2_config_file/log4j2.xml");
-
-        //DBAccess.getInstance().getUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1");
-        //DBAccess.getInstance().updateUserHomePageItems("1Pum18WS6YYWZtZz1KZYrlZAVgl1", true, true, true, false);
-
-        DBAccess.getInstance().addFavoriteToUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453394);
-        DBAccess.getInstance().removeFavoriteFromUser("1Pum18WS6YYWZtZz1KZYrlZAVgl1", 453393);
-
-
-    }
-
-
 }
