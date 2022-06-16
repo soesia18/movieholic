@@ -7,6 +7,9 @@ import java.net.URI;
 /**
  * <b>Movieholic</b><br><br>
  * UpcomingCommand class extends {@link ApiCommand} which is here to get all Upcoming Movies from TheMovieDB.
+ * @author Simon
+ * @version 1.0
+ * @since last update: 23.05.2022
  */
 public class UpcomingCommand extends ApiCommand {
     /**

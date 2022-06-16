@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.Application;
 public class MhApplication extends Application implements ServletContextListener {
 
     /**
-     *
+     * Start method for the application
      * @param sce {@link ServletContextListener}
      */
     @Override

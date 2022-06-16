@@ -23,7 +23,7 @@ import java.net.http.HttpResponse;
  * [GET] /api/search/similar/{id}
  * @author Simon
  * @version 1.0
- * @since last update: 23.05.2022
+ * @since last update: 16.06.2022
  */
 
 @Path("/search")
@@ -76,14 +76,15 @@ public class MhSearchMovies {
     }
 
     /**
-     * @param year
-     * @param monetization
-     * @param language
-     * @param region
-     * @param sort
-     * @param adult
-     * @param genres
-     * @return
+     * Discover the IMDB for movies that containts the specified parameters
+     * @param year {@link Integer} for the year of the movie
+     * @param monetization {@link String} for the monetization of the movie
+     * @param language {@link String} for the language of the movie
+     * @param region {@link String} for the region of the movie
+     * @param sort {@link String} for the sort of the movie
+     * @param adult {@link String} for the adult of the movie
+     * @param genres {@link String} for the genres of the movie
+     * @return @{@link Response} with json data from Movies<br>
      */
     @GET
     @Path("/discover")
@@ -121,8 +122,9 @@ public class MhSearchMovies {
     }
 
     /**
-     * @param movieID
-     * @return
+     * Gets a Response for the Trailer Video
+     * @param movieID {@link Integer} for the id of the movie
+     * @return @{@link Response} with json data from a Movie<br>
      */
     @GET
     @Path("/video/{id}")
@@ -133,8 +135,9 @@ public class MhSearchMovies {
     }
 
     /**
-     * @param movieID
-     * @return
+     * Gets a Response for the Provider Information
+     * @param movieID {@link Integer} for the id of the movie
+     * @return @{@link Response} with json data from a Movie<br>
      */
     @GET
     @Path("/provider/{id}")
@@ -145,8 +148,9 @@ public class MhSearchMovies {
     }
 
     /**
+     * Gets a Response for the IMDB Information
      * @param imdbID imdb id from a movie
-     * @return
+     * @return @{@link Response} with json data from a Movie<br>
      */
     @GET
     @Path("/imdb/{id}")
@@ -158,6 +162,11 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute(imdbInformationCommand);
     }
 
+    /**
+     * Gets a Response for the Similar Movies
+     * @param movieID {@link Integer} for the id of the movie
+     * @return @{@link Response} with json data from Movies<br>
+     */
     @GET
     @Path("/similar/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -167,6 +176,10 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute(similarCommand);
     }
 
+    /**
+     * Gets a Response for the Now Playing Movies
+     * @return @{@link Response} with json data from Movies<br>
+     */
     @GET
     @Path("/nowplaying")
     @Produces(MediaType.APPLICATION_JSON)
@@ -174,6 +187,10 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute(nowPlayingCommand);
     }
 
+    /**
+     * Gets a Response for the Upcoming Movies
+     * @return @{@link Response} with json data from Movies<br>
+     */
     @GET
     @Path("/toprated")
     @Produces(MediaType.APPLICATION_JSON)
@@ -181,6 +198,10 @@ public class MhSearchMovies {
         return CommandController.getInstance().execute(topRatedCommand);
     }
 
+    /**
+     * Gets a Response for the Popular Movies
+     * @return @{@link Response} with json data from Movies<br>
+     */
     @GET
     @Path("/upcoming")
     @Produces(MediaType.APPLICATION_JSON)

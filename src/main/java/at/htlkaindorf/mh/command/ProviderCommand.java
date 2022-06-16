@@ -14,7 +14,7 @@ import java.net.URI;
 public class ProviderCommand extends MovieIDCommand {
     /**
      * set the movie id
-     * @param movieID
+     * @param movieID the movie id
      */
     @Override
     public void setMovieID(int movieID) {

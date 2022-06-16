@@ -37,6 +37,15 @@ public class MhDataResource {
         return CommandController.getInstance().execute(genreCommand);
     }
 
+    /**
+     * Set actual HomePage Items for an account in Firebase
+     * @param uid id of the account
+     * @param trending trending boolean
+     * @param nowplaying nowplaying boolean
+     * @param toprated toprated boolean
+     * @param upcoming upcoming boolean
+     * @return {@link Response} from the executed command
+     */
     @PUT
     @Path("/homepage")
     public Response setHomePage(
@@ -55,6 +64,11 @@ public class MhDataResource {
         return CommandController.getInstance().execute(updateHomePageItems);
     }
 
+    /**
+     * Get the HomePage Items for an account from Firebase
+     * @param uid id of the account
+     * @return {@link Response} from the executed command
+     */
     @GET
     @Path("/homepage")
     public Response getHomePageItems(@QueryParam("uid") String uid) {
