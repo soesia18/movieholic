@@ -1,5 +1,8 @@
 # movieholic
 
+>A web application for managing the movies you have watched or still want to watch, via a clear GUI, you can add movies to your watchlist or check them off as seen. Through a login system, the data remains stored on an associated account.  About certain API integrations it should be possible to get information about the films and actors. It should also be possible to see which platform is streaming the current movie / series (e.g. Netflix, Amazon Prime, Disney+, ...).
+> 
+
 This project was tested with IntelliJ IDEA 2022.1.2 (Ultimate Edition)<br>
 and executed on a GlassFish 6.2.5 Server (JDK 17)
 

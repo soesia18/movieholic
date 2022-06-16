@@ -7,7 +7,7 @@ import java.net.URI;
 
 /**
  *<b>Movieholic</b><br><br>
- * SearchComanyCommand class extends {@link ApiCommand} which is here to get a single Company from TheMovieDB.
+ * SearchCompanyCommand class extends {@link ApiCommand} which is here to get a single Company from TheMovieDB.
  * @author Simon
  * @version 1.0
  * @since last update: 13.06.2022

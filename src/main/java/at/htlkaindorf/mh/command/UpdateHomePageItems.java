@@ -6,6 +6,10 @@ import lombok.Data;
 
 /**
  * <b>Movieholic</b><br><br>
+ * UpdateHomePageItems class extends {@link ApiCommand} which is here to update the Home Page Items.
+ * @author Simon
+ * @version 1.0
+ * @since last update: 09.06.2022
  */
 @Data
 public class UpdateHomePageItems extends UIDCommand {
@@ -15,11 +19,19 @@ public class UpdateHomePageItems extends UIDCommand {
     private boolean toprated;
     private boolean upcoming;
 
+    /**
+     * Set the uid for the command
+     * @param uid the uid
+     */
     @Override
     public void setUid(String uid) {
         super.setUid(uid);
     }
 
+    /**
+     * Execute the command and return a {@link Response}
+     * @return {@link Response} from the executed command
+     */
     @Override
     protected Response execute() {
         try {
