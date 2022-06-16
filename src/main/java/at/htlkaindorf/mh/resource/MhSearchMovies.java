@@ -92,7 +92,9 @@ public class MhSearchMovies {
                                 @QueryParam("sort") String sort, @QueryParam("adult") boolean adult,
                                 @QueryParam("genres") String genres) {
 
-        discoverCommand =
+        DiscoverCommand.DiscoverCommandBuilder builder = DiscoverCommand.builder();
+
+        /*discoverCommand =
                 DiscoverCommand
                         .builder()
                         .year(year)
@@ -102,7 +104,19 @@ public class MhSearchMovies {
                         .region(region)
                         .with_genres(genres)
                         .includeAdult(adult)
-                        .build();
+                        .build();*/
+
+        if (!year.isBlank()) builder.year(year);
+        if (!monetization.isBlank()) builder.with_watch_monetization_types(monetization);
+        if (!language.isBlank()) builder.language(language);
+        if (!region.isBlank()) builder.region(region);
+        if (!sort.isBlank()) builder.sort_by(sort);
+
+        builder
+                .includeAdult(adult)
+                .with_genres(genres);
+
+        discoverCommand = builder.build();
 
         return CommandController.getInstance().execute(discoverCommand);
     }

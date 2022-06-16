@@ -33,10 +33,9 @@ public class DiscoverCommand extends ApiCommand {
     protected Response execute() {
         super.command =
                 URI.create("http://api.themoviedb.org/3/discover/movie?api_key=e2b8d803a857305a89319b778145cfa0" +
-                        "&language=" + language + "&region="+ region +"&sort_by=" + sort_by +
+                         language + region + sort_by +
                         "&include_adult=" + (includeAdult ? "true" : "false") +
-                        "&year=" +  year + "&with_genres=" + with_genres + "&with_watch_monetization_types=" +
-                        with_watch_monetization_types);
+                        year + with_genres + with_watch_monetization_types);
         return IO_Response.getResponse(super.command);
     }
 
@@ -64,6 +63,19 @@ public class DiscoverCommand extends ApiCommand {
         private String with_watch_monetization_types;
         private boolean includeAdult;
 
+        /**
+         * Constructor for the {@link DiscoverCommandBuilder}
+         */
+        public DiscoverCommandBuilder () {
+            this.language = "";
+            this.region = "";
+            this.sort_by = "";
+            this.year = "";
+            this.with_genres = "";
+            this.with_watch_monetization_types = "";
+        }
+
+
 
         /**
          * Set the language of the command
@@ -71,7 +83,7 @@ public class DiscoverCommand extends ApiCommand {
          * @return {@link DiscoverCommandBuilder} with the added language
          */
         public DiscoverCommandBuilder language(final String language) {
-            this.language = language;
+            this.language = "&language=" + language;
             return this;
         }
 
@@ -81,7 +93,7 @@ public class DiscoverCommand extends ApiCommand {
          * @return {@link DiscoverCommandBuilder} with the added region
          */
         public DiscoverCommandBuilder region(final String region) {
-            this.region = region;
+            this.region = "&region="+ region;
             return this;
         }
 
@@ -91,7 +103,7 @@ public class DiscoverCommand extends ApiCommand {
          * @return {@link DiscoverCommandBuilder} with the added sort_by
          */
         public DiscoverCommandBuilder sort_by(final String sort_by) {
-            this.sort_by = sort_by;
+            this.sort_by = "&sort_by=" + sort_by;
             return this;
         }
 
@@ -101,7 +113,7 @@ public class DiscoverCommand extends ApiCommand {
          * @return {@link DiscoverCommandBuilder} with the added year
          */
         public DiscoverCommandBuilder year(final String year) {
-            this.year = year;
+            this.year = "&year=" + year;
             return this;
         }
 
@@ -111,7 +123,7 @@ public class DiscoverCommand extends ApiCommand {
          * @return {@link DiscoverCommandBuilder} with the added with_genres
          */
         public DiscoverCommandBuilder with_genres(final String with_genres) {
-            this.with_genres = with_genres;
+            this.with_genres = "&with_genres=" + with_genres;
             return this;
         }
 
@@ -121,7 +133,7 @@ public class DiscoverCommand extends ApiCommand {
          * @return {@link DiscoverCommandBuilder} with the added with_watch_monetization_types
          */
         public DiscoverCommandBuilder with_watch_monetization_types(final String with_watch_monetization_types) {
-            this.with_watch_monetization_types = with_watch_monetization_types;
+            this.with_watch_monetization_types = "&with_watch_monetization_types=" + with_watch_monetization_types;
             return this;
         }
 
