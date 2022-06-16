@@ -16,7 +16,7 @@ import java.util.Properties;
 
 /**
  * <b>Movieholic</b><br><br>
- * Database class to cconnect to the MySQL database. <br>
+ * Database class to connect to the MySQL database. <br>
  * @author David
  * @version 1.0
  * @since last update: 10.06.2022
@@ -31,7 +31,14 @@ public class Database {
     
     private Connection con;
     private CachedConnection cc;
-    
+
+    /**
+     * Returns the instance of the Database class, if it doesn't exist yet, it will be created.
+     * @return {@link Database}
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     */
     public static Database getInstance() throws ClassNotFoundException, SQLException, IOException{
         if(instance == null){
             instance = new Database();
@@ -39,13 +46,23 @@ public class Database {
         
         return instance;
     }
-    
+
+    /**
+     * Constructor to create a new Database object.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     */
      public Database() throws ClassNotFoundException, SQLException, IOException{
         loadProperties();
         Class.forName(DB_DRIVER);
         connect();
     }
-    
+
+    /**
+     * Method to connect to the database.
+     * @throws SQLException
+     */
     private void connect() throws SQLException
     {
 
@@ -56,6 +73,10 @@ public class Database {
         cc = new CachedConnection(con);
     }
 
+    /**
+     * Method to load the properties from the properties file.
+     * @throws IOException
+     */
     private void loadProperties() throws IOException
     {
         Properties props = new Properties();
@@ -67,17 +88,31 @@ public class Database {
         DB_PASSWORD = props.getProperty("DB_PASSWORD");
         DB_DRIVER = props.getProperty("DB_DRIVER");
     }
-    
+
+    /**
+     * Method to get a statement from the database.
+     * @return {@link Statement}
+     * @throws Exception
+     */
     public Statement getStatement() throws Exception
     {
         return cc.getStatement();
     }
-    
+
+    /**
+     * Method to release a statement.
+     * @param {@link Statement}
+     * @throws Exception
+     */
     public void releaseStatement(Statement stat) throws Exception
     {
         cc.releaseStatement(stat);
     }
-    
+
+    /**
+     * Method to get the connection to the database.
+     * @return {@link Connection}
+     */
     public Connection getConnection() {
         return con;
     }

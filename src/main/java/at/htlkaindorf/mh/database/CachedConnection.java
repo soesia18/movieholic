@@ -20,11 +20,20 @@ import java.util.Queue;
 public class CachedConnection {
     private Queue<Statement> statQueue = new LinkedList<>();
     private Connection con;
-    
+
+    /**
+     * Constructor to create a new CachedConnection object.
+     * @param {@link Connection}
+     */
     public CachedConnection(Connection con) {
         this.con = con;
     }
-    
+
+    /**
+     * Method to get a new Statement object from the connection.
+     * @return {@link Statement}
+     * @throws Exception
+     */
     public Statement getStatement() throws Exception
     {
         if(con == null)
@@ -38,7 +47,12 @@ public class CachedConnection {
         }
         return con.createStatement();
     }
-    
+
+    /**
+     * Method to release a Statement object.
+     * @param {@link Statement}
+     * @throws Exception
+     */
     public void releaseStatement(Statement stat) throws Exception
     {
         if(con == null)
