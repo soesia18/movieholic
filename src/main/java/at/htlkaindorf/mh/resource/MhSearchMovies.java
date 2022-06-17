@@ -20,7 +20,10 @@ import java.net.http.HttpResponse;
  * [GET] /api/search/imdb/{id} - Can get IMDB Information <br>
  * [GET] /api/search/provider/{id} - Can get Provider Information <br>
  * [GET] /api/search/discover - Can get discover Information <br>
- * [GET] /api/search/similar/{id}
+ * [GET] /api/search/similar/{id} - Get all similar Movies from a movie id <br>
+ * [GET] /api/search/upcoming - Get all Upcoming Movie <br>
+ * [GET] /api/search/nowplaying - Get all Nowplaying Movie <br>
+ * [GET] /api/search/toprated - Get all Toprated Movie <br>
  * @author Simon
  * @version 1.0
  * @since last update: 16.06.2022
