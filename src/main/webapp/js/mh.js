@@ -48,15 +48,17 @@ function displayWatchlist(d) {
     _watchlistStartCounter = 0;
     _watchlistEndCounter = 4;
     _watchlistEndMax = d.watchlist.length;
+
+    _watchlistMovies = [];
     for (let i = 0; i < _watchlistEndMax; i++){
-            fetch('./api/search/' + d.watchlist[i]).then(res => {
-                res.json().then(data => {
-                    _watchlistMovies.push(data);
-                    if (i === (_watchlistEndMax - 1)) {
-                        loadProfileMovies('watchlistContent', _watchlistMovies, _watchlistStartCounter, _watchlistEndCounter);
-                    }
-                });
+        fetch('./api/search/' + d.watchlist[i]).then(res => {
+            res.json().then(data => {
+                _watchlistMovies.push(data);
+                if (_watchlistMovies.length === _watchlistEndMax) {
+                    loadProfileMovies('watchlistContent', _watchlistMovies, _watchlistStartCounter, _watchlistEndMax <= 4 ? _watchlistEndMax : 4);
+                }
             });
+        });
     }
 }
 
@@ -78,12 +80,15 @@ function displaySeenlist(d){
     _seenlistStartCounter = 0;
     _seenlistEndCounter = 4;
     _seenlistEndMax = d.seenlist.length;
+
+    _seenlistMovies = [];
+
     for (let i = 0; i < _seenlistEndMax; i++){
         fetch('./api/search/' + d.seenlist[i]).then(res => {
             res.json().then(data => {
                 _seenlistMovies.push(data);
-                if (i === (_seenlistEndMax - 1)) {
-                    loadProfileMovies('seenlistContent', _seenlistMovies, _seenlistStartCounter, _seenlistEndCounter);
+                if (_seenlistMovies.length === _seenlistEndMax) {
+                    loadProfileMovies('seenlistContent', _seenlistMovies, _seenlistStartCounter, _seenlistEndMax <= 4 ? _seenlistEndMax : 4);
                 }
             });
         });
@@ -92,23 +97,23 @@ function displaySeenlist(d){
 
 function displaySimilarToWatchlist(data) {
     document.getElementById("similarToWatchlist").innerHTML =
-              `<ul style="text-align: center; margin-top: 25px" id="similarToWatchlistContent" class="list-group list-group-horizontal"></ul>`;
+        `<ul style="text-align: center; margin-top: 25px" id="similarToWatchlistContent" class="list-group list-group-horizontal"></ul>`;
     document.getElementById('similarToWatchlistContent').innerHTML = '';
 
     for (let i = 0; i < 5; i++){
-            fetch('./api/search/' + data.similarMoviesToWatchlist[i]).then(res => {
-                res.json().then(data => {
-                    let img = '';
-                    if (data.poster_path == null) {
-                        img = 'images/notAvailable.jpg'
-                    } else {
-                        img = 'https://image.tmdb.org/t/p/original' + data.poster_path;
-                    }
-                    let card = getSmallCard(img, data.original_title, data.id);
-                    let item = `<li class="list-group-item">${card}</li>`;
-                    document.getElementById("similarToWatchlistContent").innerHTML += item;
-                });
+        fetch('./api/search/' + data.similarMoviesToWatchlist[i]).then(res => {
+            res.json().then(data => {
+                let img = '';
+                if (data.poster_path == null) {
+                    img = 'images/notAvailable.jpg'
+                } else {
+                    img = 'https://image.tmdb.org/t/p/original' + data.poster_path;
+                }
+                let card = getSmallCard(img, data.original_title, data.id);
+                let item = `<li class="list-group-item">${card}</li>`;
+                document.getElementById("similarToWatchlistContent").innerHTML += item;
             });
+        });
     }
 }
 
@@ -440,6 +445,7 @@ function getCard(img, title, overview, movieID) {
     let dropdown_menu;
 
     let userSetting = document.getElementById('userSetting');
+    console.log("load Card");
     if (userSetting != null) {
         let d = {
             uid: userSetting.attributes[1].value,

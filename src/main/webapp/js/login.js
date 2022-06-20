@@ -132,6 +132,7 @@ onAuthStateChanged(auth, async (user) => {
         let navbarContent = document.getElementById("navbarContent");
         let child = document.getElementById("loginSector");
         navbarContent.removeChild(child);
+        console.log("User is signed in");
         navbarContent.innerHTML += '<div class="dropdown loginDropdown" id="loginSector">\n' +
             '  <a type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">\n' +
             user.email + '\n' +
@@ -184,21 +185,20 @@ async function showRightHomePage(uid) {
             document.getElementById('nowPlayingMovie').checked = true;
             document.getElementById('hrNowplaying').innerHTML = getHrText('Now Playing Movies');
             document.getElementById('liNowPlaying').innerHTML = '<a class="nav-link" href="#nowPlayingResult">Now Playing</a>';
-            if (document.getElementById('nowPlayingResult').innerHTML === '') {
-                document.getElementById('nowPlayingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                    '  <div class="spinner-border" role="status">\n' +
-                    '    <span class="visually-hidden">Loading...</span>\n' +
-                    '  </div>\n' +
-                    '</div>'
-                fetch('./api/search/nowplaying')
-                    .then(result => {
-                        result.json().then(data => {
-                            console.log(data);
+            document.getElementById('nowPlayingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/search/nowplaying')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
 
-                            loadSpecialMovies(data, 'nowPlayingResult', 'listNowPlaying');
-                        })
+                        loadSpecialMovies(data, 'nowPlayingResult', 'listNowPlaying');
                     })
-            }
+                })
+
         }
 
         if (!docSnap.data().homepage.toprated) {
@@ -210,21 +210,20 @@ async function showRightHomePage(uid) {
             document.getElementById('topRatedMovie').checked = true;
             document.getElementById('hrToprated').innerHTML = getHrText('Top Rated Movies');
             document.getElementById('liToprated').innerHTML = '<a class="nav-link" href="#topRatedResult">Top Rated</a>';
-            if (document.getElementById('topRatedResult').innerHTML === '') {
-                document.getElementById('topRatedResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                    '  <div class="spinner-border" role="status">\n' +
-                    '    <span class="visually-hidden">Loading...</span>\n' +
-                    '  </div>\n' +
-                    '</div>'
-                fetch('./api/search/toprated')
-                    .then(result => {
-                        result.json().then(data => {
-                            console.log(data);
+            document.getElementById('topRatedResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/search/toprated')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
 
-                            loadSpecialMovies(data, 'topRatedResult', 'listTopRated');
-                        })
+                        loadSpecialMovies(data, 'topRatedResult', 'listTopRated');
                     })
-            }
+                })
+
         }
 
         if (!docSnap.data().homepage.trending) {
@@ -236,21 +235,20 @@ async function showRightHomePage(uid) {
             document.getElementById('trendingMovie').checked = true;
             document.getElementById('hrTrending').innerHTML = getHrText('Movie-Trends of the Week');
             document.getElementById('liTrending').innerHTML = '<a class="nav-link" href="#trendingResult">Trending</a>';
-            if (document.getElementById('trendingResult').innerHTML === '') {
-                document.getElementById('trendingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                    '  <div class="spinner-border" role="status">\n' +
-                    '    <span class="visually-hidden">Loading...</span>\n' +
-                    '  </div>\n' +
-                    '</div>'
-                fetch('./api/trending/movies')
-                    .then(result => {
-                        result.json().then(data => {
-                            console.log(data);
+            document.getElementById('trendingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/trending/movies')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
 
-                            loadSpecialMovies(data, 'trendingResult', 'listTrending');
-                        })
+                        loadSpecialMovies(data, 'trendingResult', 'listTrending');
                     })
-            }
+                })
+
         }
 
         if (!docSnap.data().homepage.upcoming) {
@@ -262,21 +260,20 @@ async function showRightHomePage(uid) {
             document.getElementById('upcomingMovie').checked = true;
             document.getElementById('hrUpcoming').innerHTML = getHrText('Upcoming Movies');
             document.getElementById('liUpcoming').innerHTML = '<a class="nav-link" href="#upcomingResult">Upcoming</a>';
-            if (document.getElementById('upcomingResult').innerHTML === '') {
-                document.getElementById('upcomingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
-                    '  <div class="spinner-border" role="status">\n' +
-                    '    <span class="visually-hidden">Loading...</span>\n' +
-                    '  </div>\n' +
-                    '</div>'
-                fetch('./api/search/upcoming')
-                    .then(result => {
-                        result.json().then(data => {
-                            console.log(data);
+            document.getElementById('upcomingResult').innerHTML = '<div class="d-flex justify-content-center">\n' +
+                '  <div class="spinner-border" role="status">\n' +
+                '    <span class="visually-hidden">Loading...</span>\n' +
+                '  </div>\n' +
+                '</div>'
+            fetch('./api/search/upcoming')
+                .then(result => {
+                    result.json().then(data => {
+                        console.log(data);
 
-                            loadSpecialMovies(data, 'upcomingResult', 'listUpcoming');
-                        })
+                        loadSpecialMovies(data, 'upcomingResult', 'listUpcoming');
                     })
-            }
+                })
+
         }
 
     } else {
